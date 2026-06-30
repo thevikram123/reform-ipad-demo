@@ -1,0 +1,89 @@
+/* App shell + Home layout. Feature modules ship their own scoped css. */
+.app-root { display: flex; flex-direction: column; min-height: 100%; }
+
+.app-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 11px 26px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: sticky; top: 0; z-index: 50;
+}
+.app-header::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px;
+  background: linear-gradient(90deg, var(--reform-green) 0%, var(--reform-green-500) 38%, var(--reform-orange) 70%, var(--reform-red) 100%);
+}
+.app-logo { height: 44px; width: auto; }
+.app-header-meta { display: flex; flex-direction: column; line-height: 1.25; padding-left: 16px; border-left: 1px solid var(--border); }
+.app-title { font-weight: 700; color: var(--reform-green); font-size: 15px; }
+.app-subject { font-size: 12px; color: var(--text-muted); }
+.app-main { flex: 1; }
+
+.language-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: 11px;
+  background: var(--surface-2);
+}
+.language-toggle button {
+  min-width: 48px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 0;
+  color: var(--text-muted);
+  background: transparent;
+  box-shadow: none;
+  font-size: 12px;
+}
+.language-toggle button.is-active {
+  color: #fff;
+  background: var(--reform-green);
+}
+
+@media (max-width: 600px) {
+  .app-header { padding-inline: 14px; gap: 10px; }
+  .app-logo { height: 36px; }
+  .app-header-meta { display: none; }
+}
+
+/* ---- Home ---- */
+.home { max-width: 1060px; margin: 0 auto; padding: 34px 24px 64px; }
+.home-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 26px; gap: 24px; }
+.home-head .eyebrow { display: block; margin-bottom: 8px; }
+.home-head h1 { margin: 0; color: var(--reform-green); font-size: 34px; font-weight: 700; line-height: 1.05; }
+.muted { color: var(--text-muted); }
+.home-head .muted { margin: 8px 0 0; font-size: 13.5px; max-width: 52ch; }
+
+.intake-card { padding: 24px 26px; margin-bottom: 24px; }
+.form-section-title {
+  margin: 24px 0 16px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 500;
+  color: var(--reform-blue); border-bottom: 2px solid var(--reform-blue-050); padding-bottom: 9px;
+}
+.form-section-title:first-child { margin-top: 0; }
+.intake-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field-wide { grid-column: 1 / -1; }
+.intake-actions { margin-top: 18px; display: flex; justify-content: flex-end; }
+
+.form-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.geo-btn { font-size: 13px; padding: 6px 12px; text-transform: none; letter-spacing: normal; }
+.geo-status { font-size: 13px; margin: -6px 0 12px; padding: 8px 12px; border-radius: 8px; }
+.geo-ok { background: #e3f1e8; color: var(--reform-green-600); }
+.geo-err { background: #fdeaea; color: var(--danger); }
+.geo-busy { background: #eef4f8; color: var(--reform-blue); }
+
+.sessions-table { width: 100%; border-collapse: collapse; }
+.sessions-table th, .sessions-table td { text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--border); }
+.sessions-table thead th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); background: var(--surface-2); }
+.sessions-table tbody tr { transition: background .12s; }
+.sessions-table tbody tr:hover { background: var(--reform-green-050); }
+.sessions-table tr:last-child td { border-bottom: none; }
+.sessions-table .empty { text-align: center; color: var(--text-muted); padding: 36px; }
+
+@media (max-width: 720px) {
+  .intake-grid { grid-template-columns: 1fr 1fr; }
+}

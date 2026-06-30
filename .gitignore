@@ -1,0 +1,17 @@
+.agents/
+.claude/
+.codex/
+extracted_media/
+REFORM Tools.docx
+front end design skill.md
+parse_doc.py
+reclassify.py
+reclassify2.py
+/questionnaire.json
+/questionnaire_raw.json
+REFORM-iPad-Demo.zip
+
+reform-app/node_modules/
+reform-app/dist/
+reform-app/.vite/
+*.log

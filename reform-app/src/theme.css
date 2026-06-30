@@ -1,0 +1,161 @@
+/* REFORM design system — colors sampled from the REFORM logo & document headings */
+:root {
+  --reform-green: #0C3512;      /* primary deep green (logo text / doc body) */
+  --reform-green-600: #16633a;
+  --reform-green-500: #2e7d46;  /* leaf green */
+  --reform-green-050: #eef5f0;  /* tint */
+  --reform-blue: #0F4761;       /* section heading blue */
+  --reform-blue-500: #1f6f9c;
+  --reform-blue-050: #eaf2f7;
+  --reform-orange: #f29f05;     /* sunburst orange accent */
+  --reform-orange-050: #fdf3df;
+  --reform-red: #e0531f;        /* figure red accent */
+  --reform-yellow: #f6c544;
+
+  /* gradients */
+  --grad-green: linear-gradient(135deg, #134a23 0%, #0C3512 60%, #082610 100%);
+  --grad-header: linear-gradient(90deg, #0C3512 0%, #11421d 100%);
+
+  --bg: #edf2ee;
+  --bg-tint: radial-gradient(1000px 520px at 92% 0%, #dfece3 0%, transparent 64%), var(--bg);
+  --surface: #ffffff;
+  --surface-2: #f7faf7;
+  --border: #dde4de;
+  --border-strong: #c7d1c8;
+  --text: #18241d;
+  --text-muted: #5c6a61;
+  --danger: #c0392b;
+  --ok: #2e7d46;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-xs: 0 1px 2px rgba(12, 53, 18, 0.06);
+  --shadow-sm: 0 1px 3px rgba(12, 53, 18, 0.08), 0 2px 8px rgba(12, 53, 18, 0.05);
+  --shadow-md: 0 4px 14px rgba(12, 53, 18, 0.10), 0 1px 3px rgba(12, 53, 18, 0.07);
+  --shadow-lg: 0 12px 32px rgba(12, 53, 18, 0.16);
+  --ring: 0 0 0 3px rgba(31, 111, 156, .18);
+
+  /* Type system — IBM Plex trio: serif=dossier display, sans=UI, mono=data */
+  --font-display: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --font: var(--font-body);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-tint);
+  background-attachment: fixed;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+:lang(hi) body {
+  font-family: 'Nirmala UI', 'Mangal', var(--font-body);
+}
+:lang(hi) h1, :lang(hi) h2, :lang(hi) h3, :lang(hi) h4 {
+  font-family: 'Nirmala UI', 'Mangal', var(--font-display);
+}
+h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; font-weight: 600; }
+a { color: var(--reform-blue-500); }
+
+/* data voice: IDs, timestamps, scores, codes */
+.mono, .data { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--reform-blue-500);
+}
+
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 11px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .08s ease, box-shadow .15s ease, background .15s, filter .15s, border-color .15s;
+}
+.icon { flex-shrink: 0; vertical-align: middle; }
+
+button:active:not(:disabled) { transform: translateY(1px); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn-primary { background: var(--grad-green); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-primary:hover:not(:disabled) { filter: brightness(1.12); box-shadow: var(--shadow-md); }
+.btn-secondary { background: #fff; color: var(--reform-green); border-color: var(--border-strong); box-shadow: var(--shadow-xs); }
+.btn-secondary:hover:not(:disabled) { background: var(--reform-green-050); border-color: var(--reform-green-500); }
+.btn-accent { background: linear-gradient(135deg, #ffb52e, #f29f05); color: #3a2600; box-shadow: var(--shadow-sm); }
+.btn-accent:hover:not(:disabled) { filter: brightness(1.06); box-shadow: var(--shadow-md); }
+.btn-ghost { background: transparent; color: var(--text-muted); border-color: transparent; box-shadow: none; }
+.btn-ghost:hover:not(:disabled) { background: rgba(12,53,18,.06); color: var(--text); }
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--text);
+  width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+}
+input:hover:not(:disabled), select:hover:not(:disabled), textarea:hover { border-color: var(--reform-blue-500); }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--reform-blue-500);
+  box-shadow: var(--ring);
+}
+input:disabled, select:disabled { background: #f2f4f2; color: var(--text-muted); cursor: not-allowed; }
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235c6a61' stroke-width='2.5' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+}
+label { font-weight: 600; font-size: 12.5px; color: var(--text-muted); letter-spacing: .01em; }
+
+button:focus-visible, summary:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-pill {
+  background: var(--reform-blue);
+  color: #fff;
+  border-radius: 7px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 12px;
+  box-shadow: var(--shadow-xs);
+}
+.badge { font-family: var(--font-mono); font-size: 10.5px; padding: 3px 9px; border-radius: 6px; font-weight: 500; letter-spacing: .03em; text-transform: uppercase; }
+.badge-todo { background: #eceeec; color: var(--text-muted); }
+.badge-done { background: #dcefe3; color: var(--reform-green-600); }
+.badge-partial { background: var(--reform-orange-050); color: #8a5d00; }
+.badge-prefill { background: var(--reform-blue-050); color: var(--reform-blue); }
+.prefill-hint { font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 4px; display: block; }
+
+.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-thumb { background: #c2cdc4; border-radius: 8px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: #a9b6ab; background-clip: content-box; }

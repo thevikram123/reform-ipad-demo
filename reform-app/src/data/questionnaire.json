@@ -1,0 +1,2991 @@
+{
+ "sections": [
+  {
+   "id": "A",
+   "letter": "A",
+   "title": "Socio-Demographic & Historic Data",
+   "rawTitle": "A: Socio Demographic and Historic Data Collection Questionnaires",
+   "groups": [
+    {
+     "id": "basic_profile",
+     "title": "Basic Profile",
+     "questions": [
+      {
+       "id": "A_what_is_your_name_1",
+       "text": "What is your Name?",
+       "type": "text",
+       "prefill": "name"
+      },
+      {
+       "id": "A_what_is_your_age_2",
+       "text": "What is your Age?",
+       "type": "text",
+       "prefill": "age"
+      },
+      {
+       "id": "A_what_is_your_place_of_birth_ru_3",
+       "text": "What is your place of birth (rural or urban)?",
+       "type": "choice",
+       "options": [
+        "Rural",
+        "Urban"
+       ]
+      },
+      {
+       "id": "A_what_is_your_current_marital_s_4",
+       "text": "What is your current marital status?",
+       "type": "choice",
+       "options": [
+        "Married",
+        "Unmarried",
+        "Separated",
+        "Divorced",
+        "Widowed"
+       ]
+      },
+      {
+       "id": "A_do_you_have_any_dependents_suc_5",
+       "text": "Do you have any dependents (such as children or family members)?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "family_background",
+     "title": "Family Background",
+     "questions": [
+      {
+       "id": "A_what_type_of_family_did_you_gr_6",
+       "text": "What type of family did you grow up in?",
+       "type": "choice",
+       "options": [
+        "Joint",
+        "Nuclear",
+        "Single parent"
+       ]
+      },
+      {
+       "id": "A_how_would_you_describe_your_fa_7",
+       "text": "How would you describe your family environment growing up?",
+       "type": "choice",
+       "options": [
+        "Stable",
+        "Conflict prone"
+       ]
+      },
+      {
+       "id": "A_were_there_any_instances_of_vi_8",
+       "text": "Were there any instances of violence, abuse, or major conflict in your family?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_has_anyone_in_your_close_famil_9",
+       "text": "Has anyone in your close family been involved in criminal activities?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "childhood_and_early_behaviour",
+     "title": "Childhood and Early Behaviour",
+     "questions": [
+      {
+       "id": "A_did_you_have_behavioural_or_di_10",
+       "text": "Did you have behavioural or discipline problems during school age?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_were_you_ever_involved_with_po_11",
+       "text": "Were you ever involved with police or legal authorities as a minor?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_were_you_exposed_to_violence_o_12",
+       "text": "Were you exposed to violence or crime while growing up?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "education_and_skills",
+     "title": "Education and Skills",
+     "questions": [
+      {
+       "id": "A_what_is_the_highest_level_of_e_13",
+       "text": "What is the highest level of education you have completed?",
+       "type": "choice",
+       "options": [
+        "None",
+        "Primary",
+        "Middle school",
+        "Secondary",
+        "Higher secondary",
+        "Diploma / Vocational",
+        "Graduate",
+        "Postgraduate"
+       ]
+      },
+      {
+       "id": "A_did_you_drop_out_of_school_14",
+       "text": "Did you drop out of school? If yes, what was the reason?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_do_you_have_any_vocational_ski_15",
+       "text": "Do you have any vocational skills or training?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "employment_and_financial_situation",
+     "title": "Employment and Financial Situation",
+     "questions": [
+      {
+       "id": "A_were_you_working_before_your_c_16",
+       "text": "Were you working before your current incarceration?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_what_type_of_work_were_you_doi_17",
+       "text": "What type of work were you doing?",
+       "type": "choice",
+       "options": [
+        "Unemployed",
+        "Daily wage labour",
+        "Skilled labour",
+        "Self-employed",
+        "Agriculture",
+        "Private sector job",
+        "Government job",
+        "Business",
+        "Other"
+       ]
+      },
+      {
+       "id": "A_was_your_employment_stable_or__18",
+       "text": "Was your employment stable or unstable?",
+       "type": "choice",
+       "options": [
+        "Stable",
+        "Unstable"
+       ]
+      },
+      {
+       "id": "A_did_you_face_financial_difficu_19",
+       "text": "Did you face financial difficulties or debt?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "social_environment",
+     "title": "Social Environment",
+     "questions": [
+      {
+       "id": "A_who_were_your_main_associates__20",
+       "text": "Who were your main associates before incarceration?",
+       "type": "choice",
+       "options": [
+        "Family",
+        "Friends",
+        "Co-workers",
+        "Neighbours",
+        "Gang / criminal group",
+        "Mostly alone",
+        "Other"
+       ]
+      },
+      {
+       "id": "A_were_any_of_them_involved_in_c_21",
+       "text": "Were any of them involved in criminal activities?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_were_you_ever_part_of_a_gang_o_22",
+       "text": "Were you ever part of a gang or organized group?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "substance_use_history",
+     "title": "Substance Use History",
+     "questions": [
+      {
+       "id": "A_have_you_regularly_used_alcoho_23",
+       "text": "Have you regularly used alcohol or drugs in the past?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_did_substance_use_affect_your__24",
+       "text": "Did substance use affect your daily life or behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_were_any_of_your_offences_link_25",
+       "text": "Were any of your offences linked to substance use?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "living_conditions",
+     "title": "Living Conditions",
+     "questions": [
+      {
+       "id": "A_what_was_your_living_situation_26",
+       "text": "What was your living situation before incarceration?",
+       "type": "choice",
+       "options": [
+        "Own house",
+        "Rented house",
+        "With family / relatives",
+        "Temporary / shelter",
+        "Homeless",
+        "Other"
+       ]
+      },
+      {
+       "id": "A_was_your_housing_stable_or_fre_27",
+       "text": "Was your housing stable or unstable?",
+       "type": "choice",
+       "options": [
+        "Stable",
+        "Unstable"
+       ]
+      },
+      {
+       "id": "A_do_you_have_a_place_to_stay_af_28",
+       "text": "Do you have a place to stay after release?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "criminal_history_basic_reference",
+     "title": "Criminal History (Basic Reference)",
+     "questions": [
+      {
+       "id": "A_at_what_age_did_you_first_come_29",
+       "text": "At what age did you first come into conflict with the law?",
+       "type": "choice",
+       "options": [
+        "Under 12",
+        "12-15",
+        "16-17",
+        "18-21",
+        "22-30",
+        "Over 30"
+       ]
+      },
+      {
+       "id": "A_have_your_offences_been_repeat_30",
+       "text": "Have your offences been repeated over time?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_have_you_ever_violated_bail_pa_31",
+       "text": "Have you ever violated bail, parole, or supervision conditions?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "future_orientation_basic_information",
+     "title": "Future Orientation (Basic Information)",
+     "questions": [
+      {
+       "id": "A_do_you_have_any_plans_for_work_32",
+       "text": "Do you have any plans for work or livelihood after release?",
+       "type": "yesno"
+      },
+      {
+       "id": "A_do_you_expect_support_from_fam_33",
+       "text": "Do you expect support from family or community after release?",
+       "type": "yesno"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "B",
+   "letter": "B",
+   "title": "Offence Severity & Modality",
+   "rawTitle": "B: Offence Severity and Modality Data Collection Questionnaires",
+   "groups": [
+    {
+     "id": "a_offence_severity",
+     "title": "A. Offence Severity",
+     "questions": [
+      {
+       "id": "B_did_the_offence_result_in_any__34",
+       "text": "Did the offence result in any physical harm to another person?",
+       "type": "yesno"
+      },
+      {
+       "id": "B_was_there_any_threat_or_use_of_35",
+       "text": "Was there any threat or use of force during the offence?",
+       "type": "yesno"
+      },
+      {
+       "id": "B_was_a_weapon_used_or_possessed_36",
+       "text": "Was a weapon used or possessed during the offence?",
+       "type": "yesno"
+      },
+      {
+       "id": "B_what_type_of_offence_was_commi_37",
+       "text": "What type of offence was committed?",
+       "type": "choice",
+       "options": [
+        "Theft / property",
+        "Assault / violence",
+        "Sexual offence",
+        "Drug-related",
+        "Financial / fraud",
+        "Public order",
+        "Other"
+       ]
+      },
+      {
+       "id": "B_was_the_victim_considered_vuln_38",
+       "text": "Which vulnerable group best describes the victim?",
+       "type": "choice",
+       "options": [
+        "Not considered vulnerable",
+        "Child",
+        "Older person",
+        "Person with a disability",
+        "Woman",
+        "Transgender person",
+        "Other"
+       ]
+      },
+      {
+       "id": "B_did_the_offence_involve_any_fo_39",
+       "text": "Did the offence involve any form of sexual coercion or exploitation?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "b_offence_modality_context_of_offence",
+     "title": "B. Offence Modality (Context of Offence)",
+     "questions": [
+      {
+       "id": "B_was_the_offence_committed_alon_40",
+       "text": "Was the offence committed alone or with others?",
+       "type": "choice",
+       "options": [
+        "Alone",
+        "With others"
+       ]
+      },
+      {
+       "id": "B_if_with_others_was_it_part_of__41",
+       "text": "If with others, was it part of a group or gang activity?",
+       "type": "yesno"
+      },
+      {
+       "id": "B_was_the_offence_planned_in_adv_42",
+       "text": "Was the offence planned in advance or done impulsively?",
+       "type": "choice",
+       "options": [
+        "Planned in advance",
+        "Impulsive",
+        "Mixed / unclear"
+       ]
+      },
+      {
+       "id": "B_did_anyone_else_influence_or_p_43",
+       "text": "Did anyone else influence or pressure you to participate in the offence?",
+       "type": "yesno"
+      },
+      {
+       "id": "B_was_there_any_level_of_organiz_44",
+       "text": "Was there any level of organized or repeated group involvement?",
+       "type": "yesno"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "C",
+   "letter": "C",
+   "title": "Informed Consent",
+   "rawTitle": "C: Informed Consent Form",
+   "groups": [
+    {
+     "id": "c1_mental_health_assessment",
+     "title": "C1: Mental Health Assessment",
+     "questions": []
+    },
+    {
+     "id": "c2_informed_consent_form_reform_participation",
+     "title": "C2: Informed Consent Form — REFORM Participation",
+     "questions": []
+    }
+   ]
+  },
+  {
+   "id": "D",
+   "letter": "D",
+   "title": "Pre-Assessment Mental Health Screening",
+   "rawTitle": "D. Pre-Assessment Mental Health Screening Tool (Yes, No, Sometime, Don't know)",
+   "groups": [
+    {
+     "id": "a_mood_depression",
+     "title": "A. Mood / Depression",
+     "questions": [
+      {
+       "id": "D_i_feel_sad_low_or_emotionally__45",
+       "text": "I feel sad, low, or emotionally down most of the time.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_hopeless_about_my_futur_46",
+       "text": "I feel hopeless about my future.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_lost_interest_in_activi_47",
+       "text": "I have lost interest in activities I used to do.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_worthless_or_like_a_bur_48",
+       "text": "I feel worthless or like a burden to others.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_find_it_difficult_to_feel_ha_49",
+       "text": "I find it difficult to feel happiness or pleasure.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "b_anxiety_stress",
+     "title": "B. Anxiety / Stress",
+     "questions": [
+      {
+       "id": "D_i_feel_nervous_worried_or_on_e_50",
+       "text": "I feel nervous, worried, or on edge.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_worry_too_much_about_things_51",
+       "text": "I worry too much about things.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_restless_or_unable_to_r_52",
+       "text": "I feel restless or unable to relax.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_experience_sudden_fear_panic_53",
+       "text": "I experience sudden fear, panic, or intense anxiety.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_constantly_tense_alert__54",
+       "text": "I feel constantly tense, alert, or unsafe.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "c_somatic_symptoms",
+     "title": "C. Somatic Symptoms",
+     "questions": [
+      {
+       "id": "D_i_frequently_experience_body_p_55",
+       "text": "I frequently experience body pain, such as headache, stomach pain, or body aches.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_tired_or_exhausted_even_56",
+       "text": "I feel tired or exhausted even after rest.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_difficulty_sleeping_or__57",
+       "text": "I have difficulty sleeping or staying asleep.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_often_feel_dizzy_weak_or_phy_58",
+       "text": "I often feel dizzy, weak, or physically uneasy.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_noticed_significant_cha_59",
+       "text": "I have noticed significant changes in appetite.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "d_psychosis_severe_mental_health_symptoms",
+     "title": "D. Psychosis / Severe Mental Health Symptoms",
+     "questions": [
+      {
+       "id": "D_i_hear_voices_or_sounds_that_o_60",
+       "text": "I hear voices or sounds that others do not hear.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_see_things_that_others_do_no_61",
+       "text": "I see things that others do not see.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_that_people_are_trying__62",
+       "text": "I feel that people are trying to harm me.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_unusual_beliefs_that_ot_63",
+       "text": "I have unusual beliefs that others find difficult to understand.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_sometimes_feel_disconnected__64",
+       "text": "I sometimes feel disconnected from reality or from what is happening around me.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "e_impulse_aggression_control",
+     "title": "E. Impulse / Aggression Control",
+     "questions": [
+      {
+       "id": "D_i_get_angry_easily_65",
+       "text": "I get angry easily.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_act_without_thinking_about_t_66",
+       "text": "I act without thinking about the consequences.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_get_into_arguments_or_fights_67",
+       "text": "I get into arguments or fights.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_i_may_lose_control_of_m_68",
+       "text": "I feel I may lose control of my behaviour.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_later_regret_actions_i_took__69",
+       "text": "I later regret actions I took impulsively.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "f_suicide_and_self_harm_risk_critical_section",
+     "title": "F. Suicide and Self-Harm Risk — Critical Section",
+     "questions": [
+      {
+       "id": "D_i_have_wished_that_i_were_not__70",
+       "text": "I have wished that I were not alive.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_had_thoughts_of_harming_71",
+       "text": "I have had thoughts of harming myself.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_thought_about_acting_on_72",
+       "text": "I have thought about acting on self-harm thoughts.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_tried_to_harm_myself_in_73",
+       "text": "I have tried to harm myself in the past.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_i_may_harm_myself_soon_74",
+       "text": "I feel I may harm myself soon.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "g_trauma_safety",
+     "title": "G. Trauma / Safety",
+     "questions": [
+      {
+       "id": "D_i_have_experienced_serious_har_75",
+       "text": "I have experienced serious harm, abuse, or highly distressing events in the past.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_experience_disturbing_memori_76",
+       "text": "I experience disturbing memories, flashbacks, or nightmares.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_unsafe_in_my_current_en_77",
+       "text": "I feel unsafe in my current environment.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_constantly_alert_to_pos_78",
+       "text": "I feel constantly alert to possible danger.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_become_upset_or_disturbed_wh_79",
+       "text": "I become upset or disturbed when reminded of past events.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "h_substance_use",
+     "title": "H. Substance Use",
+     "questions": [
+      {
+       "id": "D_i_have_used_alcohol_or_drugs_r_80",
+       "text": "I have used alcohol or drugs regularly in the past.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_find_it_difficult_to_control_81",
+       "text": "I find it difficult to control or reduce substance use.",
+       "type": "yns"
+      },
+      {
+       "id": "D_substance_use_has_caused_probl_82",
+       "text": "Substance use has caused problems in my life.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_experience_strong_cravings_f_83",
+       "text": "I experience strong cravings for alcohol or drugs.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_experienced_withdrawal__84",
+       "text": "I have experienced withdrawal symptoms when not using substances.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "i_cognitive_function",
+     "title": "I. Cognitive Function",
+     "questions": [
+      {
+       "id": "D_i_have_difficulty_remembering__85",
+       "text": "I have difficulty remembering things.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_find_it_hard_to_concentrate_86",
+       "text": "I find it hard to concentrate.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_get_confused_easily_87",
+       "text": "I get confused easily.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_have_difficulty_understandin_88",
+       "text": "I have difficulty understanding conversations or instructions.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_struggle_to_make_decisions_89",
+       "text": "I struggle to make decisions.",
+       "type": "yns"
+      }
+     ]
+    },
+    {
+     "id": "j_social_functioning",
+     "title": "J. Social Functioning",
+     "questions": [
+      {
+       "id": "D_i_feel_isolated_from_others_90",
+       "text": "I feel isolated from others.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_find_it_difficult_to_trust_o_91",
+       "text": "I find it difficult to trust others.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_frequently_have_conflicts_wi_92",
+       "text": "I frequently have conflicts with others.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_unsupported_by_family_o_93",
+       "text": "I feel unsupported by family or close people.",
+       "type": "yns"
+      },
+      {
+       "id": "D_i_feel_lonely_most_of_the_time_94",
+       "text": "I feel lonely most of the time.",
+       "type": "yns"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "E",
+   "letter": "E",
+   "title": "Background Information",
+   "rawTitle": "E: Collection of Background information",
+   "groups": [
+    {
+     "id": "e1_inmate_interview_questionnaire",
+     "title": "E1: Inmate Interview Questionnaire",
+     "questions": []
+    },
+    {
+     "id": "1_criminal_history",
+     "title": "1. Criminal History",
+     "questions": [
+      {
+       "id": "E_at_what_age_did_you_first_enco_95",
+       "text": "At what age did you first encounter the police or legal system?",
+       "type": "choice",
+       "options": [
+        "Under 12",
+        "12-15",
+        "16-17",
+        "18-21",
+        "22-30",
+        "Over 30"
+       ]
+      },
+      {
+       "id": "E_how_many_times_have_you_been_a_96",
+       "text": "How many times have you been arrested or formally charged?",
+       "type": "choice",
+       "options": [
+        "0",
+        "1",
+        "2-3",
+        "4-5",
+        "6-10",
+        "More than 10"
+       ]
+      },
+      {
+       "id": "E_how_many_times_have_you_been_c_97",
+       "text": "How many times have you been convicted?",
+       "type": "choice",
+       "options": [
+        "0",
+        "1",
+        "2-3",
+        "4-5",
+        "6-10",
+        "More than 10"
+       ]
+      },
+      {
+       "id": "E_what_types_of_offences_have_yo_98",
+       "text": "What types of offences have you been involved in?",
+       "type": "choice",
+       "options": [
+        "Theft / property",
+        "Assault / violence",
+        "Sexual offence",
+        "Drug-related",
+        "Financial / fraud",
+        "Public order",
+        "Other"
+       ]
+      },
+      {
+       "id": "E_have_you_ever_been_involved_in_99",
+       "text": "Have you ever been involved in violent offences causing harm to others?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_you_ever_violated_bail_pa_100",
+       "text": "Have you ever violated bail, parole, or probation conditions?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_you_ever_absconded_or_att_101",
+       "text": "Have you ever absconded or attempted to escape from custody?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_did_you_engage_in_any_unlawful_102",
+       "text": "Did you engage in any unlawful behaviour during childhood or adolescence?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_your_offences_changed_or__103",
+       "text": "Have your offences changed or become more serious over time?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "2_education_and_employment",
+     "title": "2. Education and Employment",
+     "questions": [
+      {
+       "id": "E_what_is_the_highest_level_of_e_104",
+       "text": "What is the highest level of education you have completed?",
+       "type": "choice",
+       "options": [
+        "None",
+        "Primary",
+        "Middle school",
+        "Secondary",
+        "Higher secondary",
+        "Diploma / Vocational",
+        "Graduate",
+        "Postgraduate"
+       ]
+      },
+      {
+       "id": "E_did_you_face_any_major_behavio_105",
+       "text": "Did you face any major behavioural or disciplinary issues in school?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_do_you_have_any_vocational_tra_106",
+       "text": "Do you have any vocational training or work-related skills?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_were_you_employed_before_your__107",
+       "text": "Were you employed before your current incarceration?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_how_stable_was_your_employment_108",
+       "text": "How stable was your employment history?",
+       "type": "choice",
+       "options": [
+        "Stable",
+        "Mostly stable",
+        "Irregular",
+        "Unstable",
+        "Never employed"
+       ]
+      },
+      {
+       "id": "E_have_you_ever_lost_a_job_due_t_109",
+       "text": "Have you ever lost a job due to behavioural or disciplinary reasons?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "3_financial_situation",
+     "title": "3. Financial Situation",
+     "questions": [
+      {
+       "id": "E_what_was_your_primary_source_o_110",
+       "text": "What was your primary source of income before incarceration?",
+       "type": "choice",
+       "options": [
+        "Salaried job",
+        "Daily wage",
+        "Self-employment / business",
+        "Agriculture",
+        "Family support",
+        "Illegal activities",
+        "None",
+        "Other"
+       ]
+      },
+      {
+       "id": "E_did_you_experience_financial_d_111",
+       "text": "Did you experience financial difficulties or debt?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_were_you_financially_dependent_112",
+       "text": "Were you financially dependent on others?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_was_any_part_of_your_income_li_113",
+       "text": "Was any part of your income linked to illegal activities?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "4_family_and_relationships",
+     "title": "4. Family and Relationships",
+     "questions": [
+      {
+       "id": "E_what_is_your_current_marital_o_114",
+       "text": "What is your current marital or relationship status?",
+       "type": "choice",
+       "options": [
+        "Married",
+        "Separated",
+        "Single",
+        "Divorced",
+        "Widow/Widower"
+       ]
+      },
+      {
+       "id": "E_how_would_you_describe_your_re_115",
+       "text": "How would you describe your relationship with your family?",
+       "type": "choice",
+       "options": [
+        "Very supportive",
+        "Supportive",
+        "Neutral",
+        "Strained",
+        "Hostile",
+        "No contact"
+       ]
+      },
+      {
+       "id": "E_is_there_a_history_of_conflict_116",
+       "text": "Is there a history of conflict, violence, or instability in your family?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_any_close_family_members__117",
+       "text": "Have any close family members been involved in criminal activity?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_do_you_have_dependents_e_g_chi_118",
+       "text": "Do you have dependents (e.g., children)?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_does_your_family_currently_sup_119",
+       "text": "Does your family currently support you or your rehabilitation efforts?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "5_accommodation_housing",
+     "title": "5. Accommodation / Housing",
+     "questions": [
+      {
+       "id": "E_what_was_your_living_situation_120",
+       "text": "What was your living situation prior to incarceration?",
+       "type": "choice",
+       "options": [
+        "Own house",
+        "Rented house",
+        "With family / relatives",
+        "Temporary / shelter",
+        "Homeless",
+        "Other"
+       ]
+      },
+      {
+       "id": "E_how_stable_was_your_housing_ar_121",
+       "text": "How stable was your housing arrangement?",
+       "type": "choice",
+       "options": [
+        "Stable",
+        "Occasionally changing",
+        "Frequently changing",
+        "Homeless"
+       ]
+      },
+      {
+       "id": "E_do_you_have_a_place_to_stay_af_122",
+       "text": "Do you have a place to stay after release?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "6_social_network_companions",
+     "title": "6. Social Network (Companions)",
+     "questions": [
+      {
+       "id": "E_who_were_your_main_associates__123",
+       "text": "Who were your main associates or friends before incarceration?",
+       "type": "choice",
+       "options": [
+        "Family",
+        "Friends",
+        "Co-workers",
+        "Neighbours",
+        "Gang / criminal group",
+        "Mostly alone",
+        "Other"
+       ]
+      },
+      {
+       "id": "E_were_any_of_them_involved_in_c_124",
+       "text": "Were any of them involved in criminal activities?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_you_ever_been_involved_in_125",
+       "text": "Have you ever been involved in gang or organized group activities?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "7_substance_use_history",
+     "title": "7. Substance Use History",
+     "questions": [
+      {
+       "id": "E_have_you_regularly_used_alcoho_126",
+       "text": "Have you regularly used alcohol or drugs in the past?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_did_substance_use_affect_your__127",
+       "text": "Did substance use affect your daily life or responsibilities?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_you_committed_offences_wh_128",
+       "text": "Have you committed offences while under the influence?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_have_you_faced_difficulty_cont_129",
+       "text": "Have you faced difficulty controlling or stopping substance use?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "8_lifestyle_and_routine",
+     "title": "8. Lifestyle and Routine",
+     "questions": [
+      {
+       "id": "E_how_did_you_usually_spend_your_130",
+       "text": "How did you usually spend your free time before incarceration?",
+       "type": "choice",
+       "options": [
+        "Family time",
+        "Productive / structured activities",
+        "Socialising with friends",
+        "Idle / unstructured",
+        "Substance use",
+        "Risky activities",
+        "Other"
+       ]
+      },
+      {
+       "id": "E_were_you_involved_in_any_struc_131",
+       "text": "Were you involved in any structured or productive activities?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_did_you_frequently_spend_time__132",
+       "text": "Did you frequently spend time in risky or unstructured environments?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "9_future_orientation_basic_insight_only_non_psycho",
+     "title": "9. Future Orientation (Basic Insight Only, Non-Psychological)",
+     "questions": [
+      {
+       "id": "E_do_you_have_any_plans_for_empl_133",
+       "text": "Do you have any plans for employment or livelihood after release?",
+       "type": "yesno"
+      },
+      {
+       "id": "E_what_kind_of_support_do_you_ex_134",
+       "text": "What kind of support do you expect from family or community after release?",
+       "type": "choice",
+       "options": [
+        "Strong family support",
+        "Some family support",
+        "Community / NGO support",
+        "Minimal support",
+        "No support",
+        "Unsure"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "F",
+   "letter": "F",
+   "title": "Criminal Potential Score",
+   "rawTitle": "F: Criminal Potential Score Questionnaires",
+   "groups": [
+    {
+     "id": "f1_static_risk_factors_questionnaires",
+     "title": "F1: Static Risk Factors Questionnaires",
+     "questions": []
+    },
+    {
+     "id": "a_criminal_history_and_offending_patterns",
+     "title": "A. Criminal History and Offending Patterns",
+     "questions": [
+      {
+       "id": "F_at_what_age_did_you_first_have_135",
+       "text": "At what age did you first have formal contact with law enforcement?",
+       "type": "choice",
+       "options": [
+        "Under 12",
+        "12-15",
+        "16-17",
+        "18-21",
+        "22-30",
+        "Over 30"
+       ]
+      },
+      {
+       "id": "F_was_your_first_contact_a_polic_136",
+       "text": "What was the nature of your first formal contact?",
+       "type": "choice",
+       "options": [
+        "Police warning",
+        "Juvenile justice involvement",
+        "Adult conviction",
+        "Other / unclear"
+       ]
+      },
+      {
+       "id": "F_were_there_unreported_offences_137",
+       "text": "Were there unreported offences prior to this contact?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_what_was_the_nature_of_your_fi_138",
+       "text": "What was the nature of your first offence?",
+       "type": "choice",
+       "options": [
+        "Theft / property",
+        "Assault / violence",
+        "Sexual offence",
+        "Drug-related",
+        "Financial / fraud",
+        "Public order",
+        "Other"
+       ]
+      },
+      {
+       "id": "F_how_many_total_arrests_and_con_139",
+       "text": "How many total arrests and convictions do you have?",
+       "type": "choice",
+       "options": [
+        "0",
+        "1",
+        "2-3",
+        "4-5",
+        "6-10",
+        "More than 10"
+       ]
+      },
+      {
+       "id": "F_how_frequently_have_you_offend_140",
+       "text": "How frequently have you offended in the past 1–5 years?",
+       "type": "choice",
+       "options": [
+        "None",
+        "Rarely",
+        "Occasionally",
+        "Frequently",
+        "Continuously"
+       ]
+      },
+      {
+       "id": "F_do_offences_occur_sporadically_141",
+       "text": "How did offences occur over time?",
+       "type": "choice",
+       "options": [
+        "Sporadically",
+        "In clusters",
+        "Continuously",
+        "Insufficient history"
+       ]
+      },
+      {
+       "id": "F_is_there_an_increasing_trend_i_142",
+       "text": "Is there an increasing trend in offending behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_there_been_offence_free_g_143",
+       "text": "Have there been offence-free gaps of two years or more?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_been_on_probation_par_144",
+       "text": "Have you been on probation, parole, or supervision?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_violated_supervision__145",
+       "text": "Have you violated supervision conditions?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_committed_offences_du_146",
+       "text": "Have you committed offences during supervision?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_ever_absconded_or_fai_147",
+       "text": "Have you ever absconded or failed supervision?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_what_is_the_most_serious_offen_148",
+       "text": "What is the most serious offence committed?",
+       "type": "choice",
+       "options": [
+        "Theft / property",
+        "Assault / violence",
+        "Sexual offence",
+        "Drug-related",
+        "Financial / fraud",
+        "Public order",
+        "Other"
+       ]
+      },
+      {
+       "id": "F_have_you_used_threats_force_or_149",
+       "text": "Have you used threats, force, or weapons?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_has_the_severity_of_offending__150",
+       "text": "Has the severity of offending increased over time?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_who_were_the_victims_known_str_151",
+       "text": "Who were the victims (known, stranger, vulnerable groups)?",
+       "type": "choice",
+       "options": [
+        "Known person",
+        "Stranger",
+        "Vulnerable group",
+        "Multiple / various",
+        "No direct victim"
+       ]
+      },
+      {
+       "id": "F_do_you_specialize_in_one_offen_152",
+       "text": "Were offences concentrated in one type or across multiple types?",
+       "type": "choice",
+       "options": [
+        "One offence type",
+        "Multiple offence types",
+        "Insufficient history"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "b_developmental_and_demographic_baselines",
+     "title": "B. Developmental and Demographic Baselines",
+     "questions": [
+      {
+       "id": "F_what_is_your_current_age_and_g_153",
+       "text": "What is your current age and gender?",
+       "type": "text",
+       "prefill": "age_gender"
+      },
+      {
+       "id": "F_at_what_age_did_behavioural_pr_154",
+       "text": "At what age did behavioural problems begin?",
+       "type": "choice",
+       "options": [
+        "Under 12",
+        "12-15",
+        "16-17",
+        "18-21",
+        "22-30",
+        "Over 30"
+       ]
+      },
+      {
+       "id": "F_did_you_engage_in_aggressive_o_155",
+       "text": "Did you engage in aggressive or rule-breaking behaviour in childhood?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_were_you_involved_in_school_di_156",
+       "text": "Were you involved in school discipline or juvenile systems?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_did_behavioural_issues_escalat_157",
+       "text": "Did behavioural issues escalate over time?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_is_there_a_history_of_criminal_158",
+       "text": "Is there a history of criminal behaviour in your family?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_were_immediate_family_members__159",
+       "text": "Were immediate family members involved in crime?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_was_criminal_behaviour_normali_160",
+       "text": "Was criminal behaviour normalized in your household?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_did_family_members_influence_y_161",
+       "text": "Did family members influence your offending behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_did_you_experience_abuse_or_ne_162",
+       "text": "Did you experience abuse or neglect during childhood?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_were_there_adverse_childhood_e_163",
+       "text": "Were there adverse childhood experiences (violence, substance use, instability)?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_were_you_placed_in_foster_or_i_164",
+       "text": "Were you placed in foster or institutional care?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_did_early_trauma_affect_your_b_165",
+       "text": "Did early trauma affect your behaviour or emotional regulation?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "f2_stable_dynamic_risk_factors_questionnaire",
+     "title": "F2: Stable Dynamic Risk Factors Questionnaire",
+     "questions": []
+    },
+    {
+     "id": "1_personality_patterns_30_items",
+     "title": "1. Personality Patterns (30 items)",
+     "questions": []
+    },
+    {
+     "id": "a_antisocial_and_rule_breaking_pai_antisocial",
+     "title": "A. Antisocial and Rule-Breaking (PAI-Antisocial)",
+     "questions": [
+      {
+       "id": "F_have_you_broken_rules_or_laws__166",
+       "text": "Have you broken rules or laws without feeling guilty?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_tend_to_blame_others_wh_167",
+       "text": "Do you tend to blame others when things go wrong for you?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_repeat_the_same_behavio_168",
+       "text": "Do you repeat the same behaviour even after being punished or warned?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_used_to_lie_or_manipu_169",
+       "text": "Have you used to lie or manipulation to get what you want?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "b_emotional_instability_pai_borderline",
+     "title": "B. Emotional Instability (PAI-Borderline)",
+     "questions": [
+      {
+       "id": "F_do_your_emotions_change_quickl_170",
+       "text": "Do your emotions change quickly or unpredictably?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_react_strongly_when_you_171",
+       "text": "Do you react strongly when you feel rejected, criticised, or disrespected?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_struggle_to_control_you_172",
+       "text": "Do you struggle to control your anger during emotional situations?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_are_your_close_relationships_o_173",
+       "text": "Are your close relationships often intense, unstable, or difficult to maintain?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "c_impulsivity_and_self_control_bis_11_go_no_go",
+     "title": "C. Impulsivity and Self-Control (BIS-11 + Go/No-Go)",
+     "questions": [
+      {
+       "id": "F_do_you_often_act_without_think_174",
+       "text": "Do you often act without thinking about the consequences?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_find_it_hard_to_wait_be_175",
+       "text": "Do you find it hard to wait, be patient, or delay your response?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_make_quick_decisions_wi_176",
+       "text": "Do you make quick decisions without planning?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_struggle_to_stop_yourse_177",
+       "text": "Do you struggle to stop yourself once you have started doing something?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "d_empathy_bes",
+     "title": "D. Empathy (BES)",
+     "questions": [
+      {
+       "id": "F_do_you_feel_bad_when_you_see_s_178",
+       "text": "Do you feel bad when you see someone being hurt or suffering?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_can_you_understand_how_other_p_179",
+       "text": "Can you understand how other people feel in difficult situations?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_care_about_how_your_act_180",
+       "text": "Do you care about how your actions affect other people?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_find_it_difficult_to_fe_181",
+       "text": "Do you find it difficult to feel sympathy for others?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "e_emotion_recognition_rmet",
+     "title": "E. Emotion Recognition (RMET)",
+     "questions": [
+      {
+       "id": "F_can_you_usually_tell_how_someo_182",
+       "text": "Can you usually tell how someone is feeling by looking at their face or eyes?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_often_misunderstand_oth_183",
+       "text": "Do you often misunderstand other people’s emotions or intentions?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_can_you_notice_subtle_signs_th_184",
+       "text": "Can you notice subtle signs that someone is upset, afraid, angry, or uncomfortable?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "f_anger_and_emotional_reactivity_nas_pi_emotional_",
+     "title": "F. Anger and Emotional Reactivity (NAS-PI + Emotional Stroop)",
+     "questions": [
+      {
+       "id": "F_do_you_get_angry_easily_185",
+       "text": "Do you get angry easily?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_stay_angry_for_a_long_t_186",
+       "text": "Do you stay angry for a long time after something happens?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_can_small_issues_make_you_very_187",
+       "text": "Can small issues make you very angry?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_when_you_are_upset_do_your_emo_188",
+       "text": "When you are upset, do your emotions interfere with your thinking or concentration?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "g_aggression_tap",
+     "title": "G. Aggression (TAP)",
+     "questions": [
+      {
+       "id": "F_have_you_threatened_or_harmed__189",
+       "text": "Have you threatened or harmed others when angry?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_justified_in_hurti_190",
+       "text": "Do you feel justified in hurting someone if they provoke you?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_lose_control_during_arg_191",
+       "text": "Do you lose control during arguments or conflicts?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_sometimes_make_conflict_192",
+       "text": "Do you sometimes make conflicts worse instead of calming them down?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "h_problem_solving_and_decision_making_spsi_r_meps",
+     "title": "H. Problem-Solving and Decision-Making (SPSI-R + MEPS)",
+     "questions": [
+      {
+       "id": "F_do_you_think_through_problems__193",
+       "text": "Do you think through problems before acting?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_struggle_to_find_constr_194",
+       "text": "Do you struggle to find constructive solutions to difficult situations?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_consider_consequences_a_195",
+       "text": "Do you consider consequences and different options before making decisions?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "b_cognitive_and_social_risk_factors_questionnaire_",
+     "title": "B. Cognitive and Social Risk Factors Questionnaire (30 Items)",
+     "questions": []
+    },
+    {
+     "id": "1_antisocial_cognitions",
+     "title": "1. Antisocial Cognitions",
+     "questions": [
+      {
+       "id": "F_do_you_believe_that_rules_or_l_196",
+       "text": "Do you believe that rules or laws are unfair or do not apply equally to you?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_justify_actions_that_ma_197",
+       "text": "Do you justify actions that may harm others?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_blame_others_for_your_b_198",
+       "text": "Do you blame others for your behaviour or offences?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_minimize_the_consequenc_199",
+       "text": "Do you minimize the consequences of your actions?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_believe_that_some_peopl_200",
+       "text": "Do you believe that some people deserve to be harmed?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_that_society_has_t_201",
+       "text": "Do you feel that society has treated you unfairly?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "2_antisocial_associates",
+     "title": "2. Antisocial Associates",
+     "questions": [
+      {
+       "id": "F_do_you_have_friends_or_associa_202",
+       "text": "Do you have friends or associates who are involved in crime or rule-breaking?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_spend_time_with_people__203",
+       "text": "Do you spend time with people who encourage risky or illegal behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_accepted_by_peers__204",
+       "text": "Do you feel accepted by peers who are involved in offending?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_find_it_difficult_to_av_205",
+       "text": "Do you find it difficult to avoid such peers?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_does_your_social_group_negativ_206",
+       "text": "Does your social group negatively influence your decisions?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "3_substance_abuse",
+     "title": "3. Substance Abuse",
+     "questions": [
+      {
+       "id": "F_do_you_regularly_use_alcohol_d_207",
+       "text": "Do you regularly use alcohol, drugs, or other substances?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_does_substance_use_affect_your_208",
+       "text": "Does substance use affect your judgment or decision-making?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_take_risks_when_under_t_209",
+       "text": "Do you take risks when under the influence?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_use_substances_to_cope__210",
+       "text": "Do you use substances to cope with stress, emotions, or problems?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_has_substance_use_caused_probl_211",
+       "text": "Has substance use caused problems in your life, relationships, or behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_find_it_difficult_to_co_212",
+       "text": "Do you find it difficult to control or stop your substance use?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "4_family_marital",
+     "title": "4. Family / Marital",
+     "questions": [
+      {
+       "id": "F_do_you_often_experience_confli_213",
+       "text": "Do you often experience conflict with your family or partner?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_unsupported_by_you_214",
+       "text": "Do you feel unsupported by your family or partner?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_has_your_family_or_marital_lif_215",
+       "text": "Has your family or marital life been unstable?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_relationships_within_your_h_216",
+       "text": "Do relationships within your household cause you stress?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_have_difficulty_maintai_217",
+       "text": "Do you have difficulty maintaining close family or partner relationships?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "5_employment_education",
+     "title": "5. Employment / Education",
+     "questions": [
+      {
+       "id": "F_have_you_had_difficulty_mainta_218",
+       "text": "Have you had difficulty maintaining employment, education, or training?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_have_limited_education__219",
+       "text": "Do you have limited education, training, or work-related skills?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_have_a_negative_attitud_220",
+       "text": "Do you have a negative attitude toward work, study, or training?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_lack_motivation_to_work_221",
+       "text": "Do you lack motivation to work, study, or improve your skills?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "6_leisure_and_lifestyle",
+     "title": "6. Leisure and Lifestyle",
+     "questions": [
+      {
+       "id": "F_do_you_lack_structured_or_posi_222",
+       "text": "Do you lack structured or positive daily activities?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_often_spend_your_free_t_223",
+       "text": "Do you often spend your free time in unproductive or risky ways?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_have_few_or_no_positive_224",
+       "text": "Do you have few or no positive hobbies or interests?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_is_your_free_time_connected_to_225",
+       "text": "Is your free time connected to substance use, offending, or negative peer groups?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "f3_acute_dynamic_risk_factors_questionnaire",
+     "title": "F3: Acute Dynamic Risk Factors Questionnaire",
+     "questions": []
+    },
+    {
+     "id": "a_internal_psychological_and_physiological_spikes",
+     "title": "A. Internal Psychological and Physiological Spikes",
+     "questions": [
+      {
+       "id": "F_have_you_recently_felt_under_t_226",
+       "text": "Have you recently felt under the influence of alcohol or drugs affecting your thinking or behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_are_you_currently_experiencing_227",
+       "text": "Are you currently experiencing discomfort or distress due to substance withdrawal (e.g., restlessness, agitation)?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_recently_found_it_dif_228",
+       "text": "Have you recently found it difficult to control your impulses or actions?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_experienced_sudden_em_229",
+       "text": "Have you experienced sudden emotional outbursts such as intense anger, panic, or crying?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_overly_sensitive_t_230",
+       "text": "Do you feel overly sensitive to rejection, criticism, or perceived insults?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_your_emotions_been_changi_231",
+       "text": "Have your emotions been changing rapidly (e.g., calm to angry or upset quickly)?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_recently_felt_suspici_232",
+       "text": "Have you recently felt suspicious or believed others are against you?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_experienced_hearing_o_233",
+       "text": "Have you experienced hearing or seeing things others do not, or strong beliefs that others say are not true?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_felt_confused_or_had__234",
+       "text": "Have you felt confused or had difficulty organizing your thoughts?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_expressed_feelings_of_235",
+       "text": "Have you expressed feelings of hopelessness or thoughts of giving up?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_recently_felt_unwilli_236",
+       "text": "Have you recently felt unwilling to follow rules, routines, or rehabilitation plans?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_withdrawn_from_activi_237",
+       "text": "Have you withdrawn from activities or interactions that you usually participate in?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "b_situational_and_environmental_triggers",
+     "title": "B. Situational and Environmental Triggers",
+     "questions": [
+      {
+       "id": "F_do_you_currently_have_access_t_238",
+       "text": "Do you currently have access to or awareness of objects that could potentially be used to harm yourself or others?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_been_involved_in_or_a_239",
+       "text": "Have you been involved in or affected by a recent conflict or confrontation?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_experienced_a_recent__240",
+       "text": "Have you experienced a recent breakdown in relationships with family, friends, or others?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_recently_received_bad_241",
+       "text": "Have you recently received bad news (legal, personal, or financial)?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_isolated_or_feel_t_242",
+       "text": "Do you feel isolated or feel that you have recently lost important support?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_been_experiencing_inc_243",
+       "text": "Have you been experiencing increased tension or conflicts with other inmates?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_pressured_or_influ_244",
+       "text": "Do you feel pressured or influenced by others (e.g., gangs or peer groups) to act in a certain way?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_are_you_currently_involved_in__245",
+       "text": "Are you currently involved in any ongoing disputes or conflicts?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_unsafe_or_fear_har_246",
+       "text": "Do you feel unsafe or fear harm or retaliation from others?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_there_been_recent_changes_247",
+       "text": "Have there been recent changes in your housing or environment that are causing stress?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "c_institutional_behaviour_ibos_aligned",
+     "title": "C. Institutional Behaviour (IBOS-ALIGNED)",
+     "questions": [
+      {
+       "id": "F_have_you_recently_felt_angry_o_248",
+       "text": "Have you recently felt angry or hostile toward staff members?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_refused_to_follow_ins_249",
+       "text": "Have you refused to follow instructions or rules given by staff?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_been_unwilling_to_par_250",
+       "text": "Have you been unwilling to participate in assigned work or programs?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_made_verbal_threats_o_251",
+       "text": "Have you made verbal threats or spoken aggressively toward others?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_engaged_in_any_physic_252",
+       "text": "Have you engaged in any physical aggression or damaged property?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_your_behaviour_has_253",
+       "text": "Do you feel your behaviour has changed significantly compared to your usual self?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_do_you_feel_more_easily_irrita_254",
+       "text": "Do you feel more easily irritated or agitated during routine interactions?",
+       "type": "yesno"
+      },
+      {
+       "id": "F_have_you_been_avoiding_contact_255",
+       "text": "Have you been avoiding contact with staff or isolating yourself from supervision?",
+       "type": "yesno"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "G",
+   "letter": "G",
+   "title": "Response Reliability Index (RRI)",
+   "rawTitle": "G: Calculation of RRI",
+   "groups": [
+    {
+     "id": "g1_internal_consistency_indec_ici_questionnaire_15",
+     "title": "G1: Internal Consistency Indec (ICI) Questionnaire (15 Questions)",
+     "questions": [
+      {
+       "id": "G_earlier_you_mentioned_your_fir_256",
+       "text": "Earlier you mentioned your first contact with the police/legal system. Can you describe what happened during that first incident?",
+       "type": "text"
+      },
+      {
+       "id": "G_before_your_first_official_pol_257",
+       "text": "Before your first official police/legal contact, were there any incidents that did not get reported or did not lead to a case?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_can_you_list_the_major_cases_o_258",
+       "text": "Can you list the major cases or charges against you in the order they happened?",
+       "type": "text"
+      },
+      {
+       "id": "G_has_the_seriousness_of_your_of_259",
+       "text": "How has the seriousness of your offences changed over time?",
+       "type": "choice",
+       "options": [
+        "Increased",
+        "Decreased",
+        "Stayed about the same",
+        "Mixed pattern",
+        "Not sure"
+       ]
+      },
+      {
+       "id": "G_have_you_ever_committed_an_off_260",
+       "text": "Have you ever committed an offence while on bail, parole, probation, or any type of supervision?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_have_you_ever_failed_to_appear_261",
+       "text": "Have you ever failed to appear, absconded, or avoided supervision after being instructed to report?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_when_you_were_in_school_what_k_262",
+       "text": "When you were in school, what kind of complaints or disciplinary issues were raised against you, if any?",
+       "type": "text"
+      },
+      {
+       "id": "G_did_your_family_know_about_you_263",
+       "text": "Did your family know about your early behavioural or legal problems? How did they respond?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_you_mentioned_your_family_envi_264",
+       "text": "You mentioned your family environment earlier. Can you give an example of conflict, violence, or instability at home, if any?",
+       "type": "text"
+      },
+      {
+       "id": "G_has_anyone_in_your_close_famil_265",
+       "text": "Has anyone in your close family had police cases, legal problems, or repeated involvement in unlawful activities?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_before_incarceration_how_did_y_266",
+       "text": "Before incarceration, how did you usually earn money month to month?",
+       "type": "text"
+      },
+      {
+       "id": "G_were_there_periods_when_you_ha_267",
+       "text": "Were there periods when you had no work or unstable work? What did you do for income during those periods?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_have_you_ever_lost_a_job_or_wo_268",
+       "text": "Have you ever lost a job or work opportunity because of behaviour, conflict, absence, substance use, or legal issues?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_who_were_the_people_you_spent__269",
+       "text": "Who were the people you spent the most time with before incarceration, and what kind of activities did you do together?",
+       "type": "text"
+      },
+      {
+       "id": "G_were_any_of_your_close_friends_270",
+       "text": "Were any of your close friends or associates involved in crime, substance use, gangs, or repeated rule-breaking?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_were_any_of_your_offences_infl_271",
+       "text": "Were any of your offences influenced by friends, group pressure, gang involvement, or wanting acceptance from others?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_before_incarceration_how_often_272",
+       "text": "Before incarceration, how often did alcohol or drug use affect your decisions, arguments, work, or family responsibilities?",
+       "type": "choice",
+       "options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very often"
+       ]
+      },
+      {
+       "id": "G_have_any_of_your_offences_conf_273",
+       "text": "Have any of your offences, conflicts, or rule violations happened when you were under the influence or recovering from substance use?",
+       "type": "yesno"
+      },
+      {
+       "id": "G_where_exactly_were_you_living__274",
+       "text": "Where exactly were you living before incarceration, and how long had you stayed there?",
+       "type": "text"
+      },
+      {
+       "id": "G_after_release_where_do_you_pla_275",
+       "text": "After release, where do you plan to stay, who will support you, and what work or livelihood do you realistically expect to pursue?",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "id": "g2_contradiction_detection_index_cdi_questionnaire",
+     "title": "G2: Contradiction Detection Index (CDI) Questionnaire (15 Pairs/30 Items)",
+     "questions": [
+      {
+       "id": "G_cdi_pair_1",
+       "type": "pair",
+       "statementA": "I follow rules in most situations",
+       "statementB": "I often break rules",
+       "text": "I follow rules in most situations  /  I often break rules"
+      },
+      {
+       "id": "G_cdi_pair_2",
+       "type": "pair",
+       "statementA": "I stay calm during difficult situations",
+       "statementB": "I get upset easily",
+       "text": "I stay calm during difficult situations  /  I get upset easily"
+      },
+      {
+       "id": "G_cdi_pair_3",
+       "type": "pair",
+       "statementA": "I trust people around me",
+       "statementB": "I do not trust anyone",
+       "text": "I trust people around me  /  I do not trust anyone"
+      },
+      {
+       "id": "G_cdi_pair_4",
+       "type": "pair",
+       "statementA": "I cooperate with authority",
+       "statementB": "I resist or oppose authority",
+       "text": "I cooperate with authority  /  I resist or oppose authority"
+      },
+      {
+       "id": "G_cdi_pair_5",
+       "type": "pair",
+       "statementA": "I take responsibility for my actions",
+       "statementB": "I blame others for my problems",
+       "text": "I take responsibility for my actions / I blame others for my problems"
+      },
+      {
+       "id": "G_cdi_pair_6",
+       "type": "pair",
+       "statementA": "I can control my impulses",
+       "statementB": "I act without thinking",
+       "text": "I can control my impulses / I act without thinking"
+      },
+      {
+       "id": "G_cdi_pair_7",
+       "type": "pair",
+       "statementA": "I try to resolve conflicts peacefully",
+       "statementB": "I escalate conflicts when provoked",
+       "text": "I try to resolve conflicts peacefully  /  I escalate conflicts when provoked"
+      },
+      {
+       "id": "G_cdi_pair_8",
+       "type": "pair",
+       "statementA": "I respect others’ opinions",
+       "statementB": "I ignore what others think",
+       "text": "I respect others’ opinions  /  I ignore what others think"
+      },
+      {
+       "id": "G_cdi_pair_9",
+       "type": "pair",
+       "statementA": "I follow instructions carefully",
+       "statementB": "I ignore instructions",
+       "text": "I follow instructions carefully  /  I ignore instructions"
+      },
+      {
+       "id": "G_cdi_pair_10",
+       "type": "pair",
+       "statementA": "I behave appropriately in structured settings",
+       "statementB": "I act out in structured environments",
+       "text": "I behave appropriately in structured settings  /  I act out in structured environments"
+      },
+      {
+       "id": "G_cdi_pair_11",
+       "type": "pair",
+       "statementA": "I remain patient in stressful situations",
+       "statementB": "I lose patience easily",
+       "text": "I remain patient in stressful situations  /  I lose patience easily"
+      },
+      {
+       "id": "G_cdi_pair_12",
+       "type": "pair",
+       "statementA": "I try to avoid getting into trouble",
+       "statementB": "I often find myself in trouble",
+       "text": "I try to avoid getting into trouble  /  I often find myself in trouble"
+      },
+      {
+       "id": "G_cdi_pair_13",
+       "type": "pair",
+       "statementA": "I think before making decisions",
+       "statementB": "I take decisions without thinking",
+       "text": "I think before making decisions  /  I take decisions without thinking"
+      },
+      {
+       "id": "G_cdi_pair_14",
+       "type": "pair",
+       "statementA": "I try to solve problems calmly",
+       "statementB": "I react without thinking in difficult situations",
+       "text": "I try to solve problems calmly  /  I react without thinking in difficult situations"
+      },
+      {
+       "id": "G_cdi_pair_15",
+       "type": "pair",
+       "statementA": "My emotions are stable",
+       "statementB": "My emotions change quickly and unpredictably",
+       "text": "My emotions are stable  /  My emotions change quickly and unpredictably"
+      }
+     ]
+    },
+    {
+     "id": "g3_improbable_response_index_iri_questionnaire_12_",
+     "title": "G3: Improbable Response Index (IRI) Questionnaire (12 Items)",
+     "questions": [
+      {
+       "id": "G_a_improbable_virtue_claiming_f_276",
+       "text": "A. Improbable Virtue Claiming (“Faking Good”)",
+       "type": "label"
+      },
+      {
+       "id": "G_i_have_never_lied_in_my_life_277",
+       "text": "I have never lied in my life",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_have_never_felt_angry_at_any_278",
+       "text": "I have never felt angry at anyone",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_always_make_the_right_decisi_279",
+       "text": "I always make the right decisions",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_have_never_broken_any_rule_280",
+       "text": "I have never broken any rule",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_behave_perfectly_in_all_situ_281",
+       "text": "I behave perfectly in all situations",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_always_remain_calm_no_matter_282",
+       "text": "I always remain calm, no matter what happens",
+       "type": "yesno"
+      },
+      {
+       "id": "G_b_improbable_negative_distorti_283",
+       "text": "B. Improbable Negative Distortion (“Faking Bad”)",
+       "type": "label"
+      },
+      {
+       "id": "G_i_am_unable_to_control_any_of__284",
+       "text": "I am unable to control any of my actions",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_feel_extreme_distress_all_th_285",
+       "text": "I feel extreme distress all the time",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_cannot_function_normally_at__286",
+       "text": "I cannot function normally at any time",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_fail_at_everything_i_do_287",
+       "text": "I fail at everything I do",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_feel_completely_helpless_in__288",
+       "text": "I feel completely helpless in all situations",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_am_always_confused_and_unabl_289",
+       "text": "I am always confused and unable to think clearly",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "h4_comprehension_verification_index_cvi_questionna",
+     "title": "H4: Comprehension Verification Index (CVI) Questionnaire (10 Items)",
+     "questions": []
+    },
+    {
+     "id": "a_instruction_based_items_core_validation",
+     "title": "A. Instruction-Based Items (Core Validation)",
+     "questions": [
+      {
+       "id": "G_please_select_yes_for_this_que_290",
+       "text": "Please select “Yes” for this question",
+       "type": "choice",
+       "options": [
+        "Yes",
+        "No",
+        "Unsure"
+       ],
+       "validity": true
+      },
+      {
+       "id": "G_please_select_no_for_this_item_292",
+       "text": "Please select “No” for this item",
+       "type": "choice",
+       "options": [
+        "Yes",
+        "No",
+        "Unsure"
+       ],
+       "validity": true
+      },
+      {
+       "id": "G_please_select_yes_to_show_you__294",
+       "text": "Please select “Yes” to show you are paying attention",
+       "type": "choice",
+       "options": [
+        "No",
+        "Maybe",
+        "Yes"
+       ],
+       "validity": true
+      },
+      {
+       "id": "G_please_choose_no_for_this_ques_296",
+       "text": "Please choose “No” for this question",
+       "type": "choice",
+       "options": [
+        "Yes",
+        "Maybe",
+        "No"
+       ],
+       "validity": true
+      }
+     ]
+    },
+    {
+     "id": "b_self_reported_comprehension_items",
+     "title": "B. Self-Reported Comprehension Items",
+     "questions": [
+      {
+       "id": "G_i_understand_the_questions_cle_298",
+       "text": "I understand the questions clearly",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_find_these_questions_easy_to_299",
+       "text": "I find these questions easy to understand",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_sometimes_get_confused_by_th_300",
+       "text": "I sometimes get confused by the questions (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_need_help_understanding_some_301",
+       "text": "I need help understanding some questions (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_can_follow_instructions_easi_302",
+       "text": "I can follow instructions easily",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_find_it_difficult_to_underst_303",
+       "text": "I find it difficult to understand instructions (reverse)",
+       "type": "yesno",
+       "reverse": true
+      }
+     ]
+    },
+    {
+     "id": "g5_motivation_credibility_index_mci_questionnaire_",
+     "title": "G5: Motivation Credibility Index (MCI) Questionnaire (20 Items)",
+     "questions": []
+    },
+    {
+     "id": "a_effort_and_attention",
+     "title": "A. Effort and Attention",
+     "questions": [
+      {
+       "id": "G_i_am_making_a_genuine_effort_t_304",
+       "text": "I am making a genuine effort to answer this assessment carefully",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_am_reading_each_question_bef_305",
+       "text": "I am reading each question before answering",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_am_focusing_fully_while_answ_306",
+       "text": "I am focusing fully while answering the questions",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_try_to_give_accurate_respons_307",
+       "text": "I try to give accurate responses about myself",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "b_cooperation_and_engagement",
+     "title": "B. Cooperation and Engagement",
+     "questions": [
+      {
+       "id": "G_i_want_this_assessment_to_refl_308",
+       "text": "I want this assessment to reflect my true situation",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_am_willing_to_participate_ho_309",
+       "text": "I am willing to participate honestly in this process",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_understand_the_importance_of_310",
+       "text": "I understand the importance of this assessment",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_am_cooperating_with_the_asse_311",
+       "text": "I am cooperating with the assessment procedures",
+       "type": "yesno"
+      },
+      {
+       "id": "G_i_want_to_improve_through_reha_312",
+       "text": "I want to improve through rehabilitation",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "c_careless_responding_reverse_items",
+     "title": "C. Careless Responding (Reverse Items)",
+     "questions": [
+      {
+       "id": "G_i_answer_questions_without_thi_313",
+       "text": "I answer questions without thinking (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_sometimes_choose_answers_ran_314",
+       "text": "I sometimes choose answers randomly (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_rush_through_the_questionnai_315",
+       "text": "I rush through the questionnaire (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_do_not_pay_attention_to_all__316",
+       "text": "I do not pay attention to all questions (reverse)",
+       "type": "yesno",
+       "reverse": true
+      }
+     ]
+    },
+    {
+     "id": "d_irrelevant_disengaged_responding_reverse_items",
+     "title": "D. Irrelevant / Disengaged Responding (Reverse Items)",
+     "questions": [
+      {
+       "id": "G_this_assessment_is_not_importa_317",
+       "text": "This assessment is not important to me (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_do_not_care_about_the_result_318",
+       "text": "I do not care about the results (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_intentionally_give_inaccurat_319",
+       "text": "I intentionally give inaccurate answers (reverse)",
+       "type": "yesno",
+       "reverse": true
+      }
+     ]
+    },
+    {
+     "id": "e_malingering_distortion",
+     "title": "E. Malingering / Distortion",
+     "questions": [
+      {
+       "id": "G_i_may_exaggerate_my_problems_t_320",
+       "text": "I may exaggerate my problems to get certain outcomes (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_may_present_myself_different_321",
+       "text": "I may present myself differently than I actually am (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_sometimes_hide_the_truth_in__322",
+       "text": "I sometimes hide the truth in my answers (reverse)",
+       "type": "yesno",
+       "reverse": true
+      },
+      {
+       "id": "G_i_may_try_to_show_myself_as_wo_323",
+       "text": "I may try to show myself as worse or better than I really am (reverse)",
+       "type": "yesno",
+       "reverse": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "H",
+   "letter": "H",
+   "title": "Protective Factor Index",
+   "rawTitle": "H: Protective Factor Index — Questionnaire and Scoring logic",
+   "groups": [
+    {
+     "id": "saprof_inspired_17_domain_protective_factor_tool",
+     "title": "SAPROF-Inspired 17-Domain Protective Factor Tool",
+     "questions": []
+    },
+    {
+     "id": "internal_factors",
+     "title": "Internal Factors",
+     "questions": []
+    },
+    {
+     "id": "1_intelligence_cognitive_capacity",
+     "title": "1. Intelligence / Cognitive Capacity",
+     "questions": [
+      {
+       "id": "H_1_do_you_understand_the_possib_324",
+       "text": "1. Do you understand the possible consequences of your actions before you act?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_2_when_you_face_a_problem_with_325",
+       "text": "2. When you face a problem with another person, can you think of more than one way to solve it?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_3_during_discussions_or_interv_326",
+       "text": "3. During discussions or interviews, are you usually able to understand questions and instructions clearly?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_4_when_you_are_upset_or_under__327",
+       "text": "4. When you are upset or under pressure, do you usually use reasoning instead of reacting impulsively?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "2_secure_attachment_in_childhood",
+     "title": "2. Secure Attachment in Childhood",
+     "questions": [
+      {
+       "id": "H_5_did_you_have_at_least_one_st_328",
+       "text": "5. Did you have at least one stable and supportive caregiver during your childhood?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_6_are_you_able_to_form_trustin_329",
+       "text": "6. Are you able to form trusting relationships with others as an adult?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_7_do_you_generally_avoid_feeli_330",
+       "text": "7. Do you generally avoid feeling hostile or distrustful toward most people?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_8_did_you_have_emotionally_mea_331",
+       "text": "8. Did you have emotionally meaningful relationships with family members or caregivers during childhood?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "3_empathy",
+     "title": "3. Empathy",
+     "questions": [
+      {
+       "id": "H_9_can_you_usually_recognize_wh_332",
+       "text": "9. Can you usually recognize when another person is sad, afraid, angry, or upset?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_10_do_you_think_about_how_your_333",
+       "text": "10. Do you think about how your behaviour affects other people?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_11_do_you_feel_genuine_regret__334",
+       "text": "11. Do you feel genuine regret or remorse when your actions harm someone?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_12_do_you_usually_avoid_being__335",
+       "text": "12. Do you usually avoid being cold, indifferent, or uncaring toward others’ suffering?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "4_coping",
+     "title": "4. Coping",
+     "questions": [
+      {
+       "id": "H_13_when_you_are_stressed_do_yo_336",
+       "text": "13. When you are stressed, do you use healthy ways to manage it, such as talking, calming down, problem-solving, or taking space?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_14_when_you_are_under_pressure_337",
+       "text": "14. When you are under pressure, are you usually able to avoid escalating the situation?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_15_can_you_tolerate_frustratio_338",
+       "text": "15. Can you tolerate frustration without breaking down, becoming aggressive, or losing control?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_16_after_emotional_distress_ar_339",
+       "text": "16. After emotional distress, are you usually able to recover within a reasonable time?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "5_self_control",
+     "title": "5. Self-Control",
+     "questions": [
+      {
+       "id": "H_17_can_you_control_your_impuls_340",
+       "text": "17. Can you control your impulses in both supervised and unsupervised situations?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_18_can_you_manage_your_anger_w_341",
+       "text": "18. Can you manage your anger without using verbal or physical aggression?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_19_are_you_able_to_wait_for_so_342",
+       "text": "19. Are you able to wait for something you want instead of acting immediately?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_20_can_you_follow_rules_even_w_343",
+       "text": "20. Can you follow rules even when no one is closely watching you?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "motivational_factors",
+     "title": "Motivational Factors",
+     "questions": []
+    },
+    {
+     "id": "6_work_structured_activity_productivity",
+     "title": "6. Work / Structured Activity / Productivity",
+     "questions": [
+      {
+       "id": "H_21_do_you_actively_participate_344",
+       "text": "21. Do you actively participate in assigned work, duties, training, or programs?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_22_do_you_complete_assigned_ta_345",
+       "text": "22. Do you complete assigned tasks consistently?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_23_do_you_show_interest_in_lea_346",
+       "text": "23. Do you show interest in learning work-related or vocational skills?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_24_do_you_feel_pride_or_satisf_347",
+       "text": "24. Do you feel pride or satisfaction when you complete productive work?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "7_leisure_activities",
+     "title": "7. Leisure Activities",
+     "questions": [
+      {
+       "id": "H_25_do_you_participate_in_struc_348",
+       "text": "25. Do you participate in structured or positive recreational activities?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_26_do_you_use_your_free_time_i_349",
+       "text": "26. Do you use your free time in a constructive way?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_27_do_you_avoid_spending_idle__350",
+       "text": "27. Do you avoid spending idle time in activities linked to antisocial or risky behaviour?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_28_do_you_maintain_interest_in_351",
+       "text": "28. Do you maintain interest in healthy hobbies or positive activities?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "8_financial_management",
+     "title": "8. Financial Management",
+     "questions": [
+      {
+       "id": "H_29_do_you_understand_that_lawf_352",
+       "text": "29. Do you understand that lawful income is important for independence and stability?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_30_do_you_intend_to_avoid_ille_353",
+       "text": "30. Do you intend to avoid illegal ways of earning money?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_31_do_you_have_a_realistic_pla_354",
+       "text": "31. Do you have a realistic plan to manage your financial needs?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_32_do_you_avoid_relying_on_cri_355",
+       "text": "32. Do you avoid relying on criminal or unlawful income sources?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "9_motivation_for_treatment_rehabilitation",
+     "title": "9. Motivation for Treatment / Rehabilitation",
+     "questions": [
+      {
+       "id": "H_33_are_you_willing_to_particip_356",
+       "text": "33. Are you willing to participate in rehabilitation, counselling, or behaviour-change programs?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_34_do_you_accept_personal_resp_357",
+       "text": "34. Do you accept personal responsibility for making positive changes in your life?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_35_do_you_understand_the_perso_358",
+       "text": "35. Do you understand the personal difficulties or behaviour patterns that you need to work on?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_36_do_you_actively_participate_359",
+       "text": "36. Do you actively participate in interventions, counselling, training, or rehabilitation activities?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "10_attitudes_toward_authority",
+     "title": "10. Attitudes Toward Authority",
+     "questions": [
+      {
+       "id": "H_37_do_you_interact_respectfull_360",
+       "text": "37. Do you interact respectfully with staff, officers, and authority figures?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_38_do_you_accept_institutional_361",
+       "text": "38. Do you accept institutional rules without repeated resistance?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_39_do_you_have_reduced_hostili_362",
+       "text": "39. Do you have reduced hostility toward the legal, judicial, or correctional system compared to before?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_40_do_you_cooperate_during_sup_363",
+       "text": "40. Do you cooperate during supervision, monitoring, or official instructions?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "11_life_goals",
+     "title": "11. Life Goals",
+     "questions": [
+      {
+       "id": "H_41_do_you_have_realistic_and_l_364",
+       "text": "41. Do you have realistic and lawful plans for your future?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_42_are_you_committed_to_living_365",
+       "text": "42. Are you committed to living a lawful life after release?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_43_do_you_think_about_your_lon_366",
+       "text": "43. Do you think about your long-term future rather than only your immediate needs?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_44_are_your_future_goals_reali_367",
+       "text": "44. Are your future goals realistic based on your skills, resources, family support, and limitations?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "12_treatment_adherence",
+     "title": "12. Treatment Adherence",
+     "questions": [
+      {
+       "id": "H_45_do_you_follow_prescribed_ps_368",
+       "text": "45. Do you follow prescribed psychological, medical, or rehabilitation interventions?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_46_do_you_attend_treatment_cou_369",
+       "text": "46. Do you attend treatment, counselling, or program sessions regularly without resistance?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_47_have_you_shown_positive_beh_370",
+       "text": "47. Have you shown positive behavioural improvement after treatment or intervention?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_48_have_you_maintained_this_po_371",
+       "text": "48. Have you maintained this positive change consistently over time?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "external_factors",
+     "title": "External Factors",
+     "questions": []
+    },
+    {
+     "id": "13_social_network",
+     "title": "13. Social Network",
+     "questions": [
+      {
+       "id": "H_49_do_you_have_supportive_and__372",
+       "text": "49. Do you have supportive and law-abiding people in your life?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_50_do_you_maintain_regular_con_373",
+       "text": "50. Do you maintain regular contact with supportive family members, friends, or community members?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_51_do_you_receive_emotional_or_374",
+       "text": "51. Do you receive emotional or practical support from positive people?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_52_do_the_people_in_your_suppo_375",
+       "text": "52. Do the people in your support network discourage criminal, violent, or antisocial behaviour?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "14_intimate_relationship",
+     "title": "14. Intimate Relationship",
+     "questions": [
+      {
+       "id": "H_53_have_you_had_a_stable_and_n_376",
+       "text": "53. Have you had a stable and non-abusive intimate relationship?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_54_do_you_behave_with_respect__377",
+       "text": "54. Do you behave with respect, care, and reciprocity in close relationships?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_55_do_you_avoid_coercion_viole_378",
+       "text": "55. Do you avoid coercion, violence, control, or exploitation in intimate relationships?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_56_do_you_value_emotional_clos_379",
+       "text": "56. Do you value emotional closeness, trust, and commitment in relationships?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "15_professional_care",
+     "title": "15. Professional Care",
+     "questions": [
+      {
+       "id": "H_57_do_you_have_access_to_struc_380",
+       "text": "57. Do you have access to structured professional support, such as a psychologist, counsellor, social worker, or case worker?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_58_do_you_engage_meaningfully__381",
+       "text": "58. Do you engage meaningfully with professionals who support your rehabilitation?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_59_do_you_benefit_from_profess_382",
+       "text": "59. Do you benefit from professional guidance, supervision, or counselling?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_60_does_professional_support_h_383",
+       "text": "60. Does professional support help you remain stable and avoid risky behaviour?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "16_living_circumstances",
+     "title": "16. Living Circumstances",
+     "questions": [
+      {
+       "id": "H_61_do_you_have_a_realistic_pla_384",
+       "text": "61. Do you have a realistic plan for stable housing after release?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_62_is_your_expected_living_env_385",
+       "text": "62. Is your expected living environment likely to be low-risk and not crime-prone?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_63_do_you_plan_to_avoid_high_r_386",
+       "text": "63. Do you plan to avoid high-risk peers, places, or environments after release?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_64_are_you_aware_of_environmen_387",
+       "text": "64. Are you aware of environmental triggers that could increase your risk of reoffending?",
+       "type": "yesno"
+      }
+     ]
+    },
+    {
+     "id": "17_external_control_supervision",
+     "title": "17. External Control / Supervision",
+     "questions": [
+      {
+       "id": "H_65_are_you_willing_to_accept_s_388",
+       "text": "65. Are you willing to accept structured supervision, such as parole, probation, or reporting conditions?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_66_do_you_comply_with_institut_389",
+       "text": "66. Do you comply with institutional monitoring, rules, and supervision?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_67_does_your_behaviour_improve_390",
+       "text": "67. Does your behaviour improve when you are under supervision or structured monitoring?",
+       "type": "yesno"
+      },
+      {
+       "id": "H_68_do_external_controls_such_a_391",
+       "text": "68. Do external controls, such as supervision, rules, monitoring, or support systems, help reduce your risky behaviour?",
+       "type": "yesno"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I",
+   "letter": "I",
+   "title": "Rehabilitation Scorecard & Decision",
+   "rawTitle": "I: Individual Rehabilitation Scorecard and decision form",
+   "groups": []
+  }
+ ]
+}

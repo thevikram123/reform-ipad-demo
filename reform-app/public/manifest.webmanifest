@@ -1,0 +1,20 @@
+{
+  "name": "REFORM Assessment & Reintegration Toolkit",
+  "short_name": "REFORM",
+  "description": "Bilingual correctional assessment and rehabilitation toolkit",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#edf2ee",
+  "theme_color": "#0c3512",
+  "orientation": "any",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./reform-app-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
