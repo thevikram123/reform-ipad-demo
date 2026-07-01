@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import questionnaireHi from './data/questionnaire-hi.js'
+import questionnaireTa from './data/questionnaire-ta.js'
 
 const LanguageContext = createContext(null)
 const STORAGE_KEY = 'reform.language'
@@ -16,7 +17,7 @@ const EN = {
   selectState: 'Select state', selectDistrict: 'Select district', selectStateFirst: 'Select state first', assessedBy: 'Assessed By',
   designation: 'Designation', date: 'Date', time: 'Time', createBegin: 'Create & begin', prisoner: 'Prisoner', id: 'ID',
   status: 'Status', updated: 'Updated', noAssessments: 'No assessments yet. Create one to begin.', unnamed: 'Unnamed',
-  submitted: 'Submitted', inProgress: 'In progress', open: 'Open', english: 'English', hindi: 'हिंदी', language: 'Language',
+  submitted: 'Submitted', inProgress: 'In progress', open: 'Open', english: 'English', hindi: 'हिंदी', tamil: 'தமிழ்', language: 'Language',
   startPhoto: 'Start Photo', consent: 'Consent', questionnaire: 'Questionnaire', scorecard: 'Scorecard', endPhoto: 'End Photo', submit: 'Submit',
   sections: 'Sections', done: 'Done', partial: 'In progress', todo: 'To do', locked: 'locked', completePrevious: 'Complete the previous section first',
   auditLog: 'Audit log', exportPdf: 'Export PDF report', backRegistry: 'Back to registry', assessedByInline: 'Assessed by',
@@ -104,6 +105,47 @@ const CONTENT_HI = {
   'Select': 'चुनें', 'Stable': 'स्थिर', 'Unstable': 'अस्थिर',
 }
 
+const TA = {
+  ...EN,
+  toolkit: 'மதிப்பீடு மற்றும் மறுவாழ்வு கருவி', correctionalInstrument: 'சீர்திருத்த மதிப்பீட்டு கருவி · மகாராஷ்டிரா',
+  caseRegistry: 'வழக்கு பதிவேடு', registryDescription: 'குற்றவாளி சீர்திருத்தம் மற்றும் சமூகத்தில் மீண்டும் இணைவதற்கான கட்டமைக்கப்பட்ட மதிப்பீட்டு முறை.',
+  beginAssessment: 'புதிய மதிப்பீட்டைத் தொடங்கவும்', cancel: 'ரத்து செய்', prisonerIdentity: 'கைதி அடையாளம்',
+  name: 'பெயர்', prisonerId: 'கைதி அடையாள எண்', gender: 'பாலினம்', age: 'வயது', male: 'ஆண்', female: 'பெண்', transgender: 'திருநங்கை / திருநம்பி', other: 'மற்றவை',
+  location: 'இடம்', useLocation: 'தற்போதைய இடத்தைப் பயன்படுத்து', locationUnsupported: 'இந்தச் சாதனத்தில் இருப்பிட வசதி இல்லை.',
+  gettingLocation: 'தற்போதைய இடம் பெறப்படுகிறது…', locationSet: 'இட விவரங்கள் தானாக நிரப்பப்பட்டன', coordinatesCaptured: 'இடம் கிடைத்தது. மாநிலம் மற்றும் மாவட்டத்தைச் சரிபார்க்கவும்.',
+  locationDenied: 'இருப்பிட அனுமதி மறுக்கப்பட்டது. முகவரியை கீழே நிரப்பவும்.', locationFailed: 'இருப்பிடத்தைப் பெற முடியவில்லை. முகவரியை கீழே நிரப்பவும்.',
+  state: 'மாநிலம்', district: 'மாவட்டம்', city: 'நகரம் / ஊர்', pin: 'அஞ்சல் குறியீடு', specificPlace: 'சிறை / குறிப்பிட்ட இடம்',
+  selectState: 'மாநிலத்தைத் தேர்ந்தெடு', selectDistrict: 'மாவட்டத்தைத் தேர்ந்தெடு', selectStateFirst: 'முதலில் மாநிலத்தைத் தேர்ந்தெடு', assessedBy: 'மதிப்பீட்டாளர்',
+  designation: 'பதவி', date: 'தேதி', time: 'நேரம்', createBegin: 'உருவாக்கி தொடங்கு', prisoner: 'கைதி', id: 'அடையாள எண்', status: 'நிலை', updated: 'புதுப்பிப்பு',
+  noAssessments: 'இதுவரை மதிப்பீடு இல்லை. தொடங்க புதிய மதிப்பீட்டை உருவாக்கவும்.', unnamed: 'பெயரிடப்படாதவர்', submitted: 'சமர்ப்பிக்கப்பட்டது', inProgress: 'நடைபெறுகிறது', open: 'திற',
+  language: 'மொழி', startPhoto: 'தொடக்கப் படம்', consent: 'ஒப்புதல்', questionnaire: 'கேள்வித்தாள்', scorecard: 'மதிப்பெண் அட்டை', endPhoto: 'இறுதிப் படம்', submit: 'சமர்ப்பி',
+  sections: 'பிரிவுகள்', done: 'முடிந்தது', partial: 'நடைபெறுகிறது', todo: 'செய்ய வேண்டும்', locked: 'பூட்டப்பட்டது', completePrevious: 'முந்தைய பிரிவை முதலில் முடிக்கவும்',
+  auditLog: 'தணிக்கைப் பதிவு', exportPdf: 'PDF அறிக்கையை ஏற்றுமதி செய்', backRegistry: 'பதிவேட்டிற்குத் திரும்பு', assessedByInline: 'மதிப்பீட்டாளர்',
+  reintegrationProgress: 'மீள் இணைவு முன்னேற்றம்', stages: 'நிலைகள்', assessmentSection: 'மதிப்பீட்டுப் பிரிவு', group: 'குழு', of: 'இல்', answered: 'பதிலளிக்கப்பட்டது',
+  previous: 'முந்தையது', next: 'அடுத்தது', reviewAnswers: 'பதில்களைச் சரிபார்', answer: 'பதில்', response: 'பதில்', fromIntake: 'ஆரம்பப் பதிவிலிருந்து',
+  carriedFromIntake: 'ஆரம்பப் பதிவிலிருந்து எடுக்கப்பட்டது — தேவைப்பட்டால் மாற்றவும்.', typeResponse: 'பதிலை எழுதவும்…', rateStatements: 'இரு கூற்றுகளுக்கும் பதிலளிக்கவும்',
+  statementA: 'கூற்று A', statementB: 'கூற்று B', reverseScored: 'எதிர்மறை மதிப்பீடு', select: 'தேர்ந்தெடு', yes: 'ஆம்', no: 'இல்லை', notSure: 'தெரியவில்லை', sometimes: 'சில நேரங்களில்',
+  stable: 'நிலையானது', unstable: 'நிலையற்றது', addNote: 'நேர்காணல் குறிப்பைச் சேர்', noteAdded: 'நேர்காணல் குறிப்பு சேர்க்கப்பட்டது', optionalContext: 'விருப்பக் குறிப்பு', addContext: 'தொடர்புடைய குறிப்பைச் சேர்க்கவும்…',
+  reviewYourAnswers: 'உங்கள் பதில்களைச் சரிபார்க்கவும்', questionsAnswered: 'கேள்விகளுக்கு பதிலளிக்கப்பட்டது', question: 'கேள்வி', note: 'குறிப்பு', notAnswered: 'பதிலளிக்கப்படவில்லை',
+  backEdit: 'திருத்தத்திற்குத் திரும்பு', completeContinue: 'முடித்து தொடரவும்', agreeParticipate: 'பங்கேற்க நான் ஒப்புக்கொள்கிறேன்', declineParticipate: 'பங்கேற்க நான் ஒப்புக்கொள்ளவில்லை',
+  nameId: 'பெயர் / அடையாள எண்', fullNameId: 'முழுப் பெயர் அல்லது கைதி அடையாள எண்', signatureThumb: 'கையொப்பம் / பெருவிரல் ரேகை', signaturePlaceholder: 'கையொப்பம் அல்லது பெருவிரல்',
+  place: 'இடம்', dateTime: 'தேதி மற்றும் நேரம்', consentAgreed: 'ஒப்புதல் பதிவு செய்யப்பட்டது — பங்கேற்பாளர் ஒப்புக்கொண்டார்.', consentDeclined: 'ஒப்புதல் பதிவு செய்யப்பட்டது — பங்கேற்பாளர் ஒப்புக்கொள்ளவில்லை.',
+  continue: 'தொடரவும்', consentMentalHealth: 'தகவலறிந்த ஒப்புதல் — மனநல மதிப்பீடு', consentParticipation: 'பங்கேற்பிற்கான தகவலறிந்த ஒப்புதல்',
+  timestamp: 'தேதி மற்றும் நேரம்', action: 'செயல்', detail: 'விவரம்', section: 'பிரிவு', downloadCsv: 'CSV பதிவிறக்கு', actionsRecorded: 'செயல்கள் பதிவு செய்யப்பட்டன',
+  auditDisclaimer: 'ஒவ்வொரு நேர்காணல் செயலும் தேதி, நேரம் மற்றும் நேர மண்டலத்துடன் பதிவு செய்யப்படும். பதிவுகளை மாற்றவோ நீக்கவோ முடியாது.',
+  noAuditEntries: 'இந்த அமர்விற்கு தணிக்கைப் பதிவுகள் எதுவும் இல்லை.',
+}
+
+const CONTENT_TA = {
+  ...questionnaireTa,
+  'Socio-Demographic & Historic Data': 'சமூக, மக்கள்தொகை மற்றும் வரலாற்றுத் தகவல்',
+  'Offence Severity & Modality': 'குற்றத்தின் தீவிரமும் வகையும்', 'Informed Consent': 'தகவலறிந்த ஒப்புதல்',
+  'Pre-Assessment Mental Health Screening': 'மதிப்பீட்டுக்கு முன் மனநலச் சோதனை', 'Background Information': 'பின்னணித் தகவல்',
+  'Criminal Potential Score': 'குற்ற ஆபத்து மதிப்பெண்', 'Response Reliability Index (RRI)': 'பதில் நம்பகத்தன்மை குறியீடு (RRI)',
+  'Protective Factor Index': 'பாதுகாப்புக் காரணி குறியீடு', 'Rehabilitation Scorecard & Decision': 'மறுவாழ்வு மதிப்பெண் அட்டை மற்றும் முடிவு',
+  'Yes': 'ஆம்', 'No': 'இல்லை', 'Not sure': 'தெரியவில்லை', 'Sometimes': 'சில நேரங்களில்', 'Select': 'தேர்ந்தெடு',
+}
+
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(() => localStorage.getItem(STORAGE_KEY) || 'en')
 
@@ -115,8 +157,8 @@ export function LanguageProvider({ children }) {
   const value = useMemo(() => ({
     language,
     setLanguage,
-    t: (key) => (language === 'hi' ? HI : EN)[key] || EN[key] || key,
-    tr: (text) => language === 'hi' ? (CONTENT_HI[text] || text) : text,
+    t: (key) => (language === 'hi' ? HI : language === 'ta' ? TA : EN)[key] || EN[key] || key,
+    tr: (text) => language === 'hi' ? (CONTENT_HI[text] || text) : language === 'ta' ? (CONTENT_TA[text] || text) : text,
   }), [language])
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
@@ -132,6 +174,7 @@ export function LanguageToggle() {
     <div className="language-toggle" role="group" aria-label={t('language')}>
       <button type="button" className={language === 'en' ? 'is-active' : ''} aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>EN</button>
       <button type="button" className={language === 'hi' ? 'is-active' : ''} aria-pressed={language === 'hi'} onClick={() => setLanguage('hi')}>हिंदी</button>
+      <button type="button" className={language === 'ta' ? 'is-active' : ''} aria-pressed={language === 'ta'} onClick={() => setLanguage('ta')}>தமிழ்</button>
     </div>
   )
 }

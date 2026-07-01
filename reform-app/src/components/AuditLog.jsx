@@ -13,12 +13,13 @@ export default function AuditLog() {
   // Newest first — copy so we don't mutate the original
   const entries = [...raw].reverse()
   const prisonerId = session.profile?.prisonerId || 'unknown'
+  const locale = language === 'hi' ? 'hi-IN' : language === 'ta' ? 'ta-IN' : 'en-IN'
 
   function downloadCsv() {
     const header = ['ISO Timestamp', t('timestamp'), t('action'), t('detail'), t('section'), 'Question ID']
     const rows = [...raw].map((e) => [
       e.ts,
-      formatTs(e.ts, language === 'hi' ? 'hi-IN' : 'en-IN'),
+      formatTs(e.ts, locale),
       e.action || '',
       e.detail || '',
       e.sectionId || '',
@@ -72,7 +73,7 @@ export default function AuditLog() {
             <tbody>
               {entries.map((e, i) => (
                 <tr key={i}>
-                  <td className="ts">{formatTs(e.ts, language === 'hi' ? 'hi-IN' : 'en-IN')}</td>
+                  <td className="ts">{formatTs(e.ts, locale)}</td>
                   <td className="action">{e.action ? tr(e.action) : '—'}</td>
                   <td className="detail">{e.detail || '—'}</td>
                   <td className="section">{e.sectionId || '—'}</td>
