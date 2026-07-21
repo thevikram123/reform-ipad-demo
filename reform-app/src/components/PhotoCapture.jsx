@@ -9,11 +9,10 @@ import './capture.css'
  * onCapture — callback(dataUrl: string | null)
  * label     — heading string, e.g. "Start Photo"
  *
- * Never blocks: if the camera is slow, denied, or absent, the interviewer can
- * always switch to file upload. A timeout auto-offers the fallback so the step
- * can't get stuck on a pending permission prompt.
+ * When allowUpload is true, the interviewer can switch to file upload if the
+ * camera is slow, denied, or absent.
  */
-export default function PhotoCapture({ value, onCapture, label }) {
+export default function PhotoCapture({ value, onCapture, label, allowUpload = true }) {
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const streamRef = useRef(null)
@@ -36,7 +35,10 @@ export default function PhotoCapture({ value, onCapture, label }) {
   const startCamera = useCallback(async () => {
     setCameraError(null)
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      setCameraError('This device/browser has no camera support. Use the file upload below.')
+      setCameraError(allowUpload
+        ? 'This device/browser has no camera support. Use the file upload below.'
+        : 'This device/browser has no camera support. Please use a device with a camera.'
+      )
       return
     }
     try {
@@ -50,14 +52,20 @@ export default function PhotoCapture({ value, onCapture, label }) {
     } catch (err) {
       const msg =
         err.name === 'NotAllowedError'
-          ? 'Camera permission denied. Allow camera access or use the file upload below.'
+          ? (allowUpload
+            ? 'Camera permission denied. Allow camera access or use the file upload below.'
+            : 'Camera permission denied. Allow camera access to continue.')
           : err.name === 'NotFoundError'
-          ? 'No camera found on this device. Use the file upload below.'
-          : `Camera unavailable: ${err.message}. Use the file upload below.`
+          ? (allowUpload
+            ? 'No camera found on this device. Use the file upload below.'
+            : 'No camera found on this device. Please use a device with a camera.')
+          : (allowUpload
+            ? `Camera unavailable: ${err.message}. Use the file upload below.`
+            : `Camera unavailable: ${err.message}. Please try again.`)
       setCameraError(msg)
       setStreaming(false)
     }
-  }, [])
+  }, [allowUpload])
 
   // Start camera on mount (unless we already have a capture or chose upload)
   useEffect(() => {
@@ -70,11 +78,14 @@ export default function PhotoCapture({ value, onCapture, label }) {
     if (captured || useUpload || cameraError) return
     const t = setTimeout(() => {
       if (!streamRef.current) {
-        setCameraError('Camera is taking too long to start. Use the file upload below, or retry.')
+        setCameraError(allowUpload
+          ? 'Camera is taking too long to start. Use the file upload below, or retry.'
+          : 'Camera is taking too long to start. Please allow camera access or try again.'
+        )
       }
     }, 4000)
     return () => clearTimeout(t)
-  }, [captured, useUpload, cameraError, streaming])
+  }, [captured, useUpload, cameraError, streaming, allowUpload])
 
   const capturePhoto = useCallback(() => {
     const video = videoRef.current
@@ -139,7 +150,7 @@ export default function PhotoCapture({ value, onCapture, label }) {
       ) : useUpload || cameraError ? (
         <div className="photo-capture__error">
           {cameraError && <span className="photo-capture__msg">{cameraError}</span>}
-          {FallbackInput}
+          {allowUpload && FallbackInput}
           <div className="photo-capture__actions">
             <button type="button" className="btn-ghost" onClick={retake}><Icon name="rotate" /> Try camera again</button>
           </div>
@@ -154,9 +165,11 @@ export default function PhotoCapture({ value, onCapture, label }) {
             <button type="button" className="btn-primary" onClick={capturePhoto} disabled={!streaming}>
               <Icon name="camera" /> {streaming ? 'Capture photo' : 'Starting camera…'}
             </button>
-            <button type="button" className="btn-ghost" onClick={switchToUpload}>
-              <Icon name="upload" /> No camera? Upload a file instead
-            </button>
+            {allowUpload && (
+              <button type="button" className="btn-ghost" onClick={switchToUpload}>
+                <Icon name="upload" /> No camera? Upload a file instead
+              </button>
+            )}
           </div>
         </>
       )}

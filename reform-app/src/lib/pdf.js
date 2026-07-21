@@ -210,7 +210,6 @@ function drawProfile(doc, y, session) {
 // ─── 3. Identity verification photos ────────────────────────────────────────
 function drawPhotos(doc, y, session) {
   const photos    = session?.photos   || {}
-  const biometric = session?.biometric || {}
 
   const hasStart = !!(photos.start)
   const hasEnd   = !!(photos.end)
@@ -248,13 +247,6 @@ function drawPhotos(doc, y, session) {
 
     y += photoH + labelH + 6
   }
-
-  // Biometric status
-  setFont(doc, 8.5, 'italic', DARK_GREY)
-  const bioStart = biometric.start ? 'Captured' : 'Not captured'
-  const bioEnd   = biometric.end   ? 'Captured' : 'Not captured'
-  doc.text(`Biometric (thumbprint): Start — ${bioStart}  ·  End — ${bioEnd}`, MARGIN_L, y)
-  y += 8
 
   return y
 }

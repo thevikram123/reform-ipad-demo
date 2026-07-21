@@ -9,7 +9,6 @@ import {
 } from '../data/questions'
 import SectionView from '../components/SectionView'
 import PhotoCapture from '../components/PhotoCapture'
-import BiometricCapture from '../components/BiometricCapture'
 import ConsentForm from '../components/ConsentForm'
 import AuditLog from '../components/AuditLog'
 import Scorecard from './Scorecard'
@@ -42,7 +41,6 @@ export default function Assessment({ onExit }) {
   const {
     session,
     setPhoto,
-    setBiometric,
     markReviewed,
     logExport,
     submit,
@@ -198,22 +196,16 @@ export default function Assessment({ onExit }) {
       case STEP.START_PHOTO:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 1 — Start Photo &amp; Biometric</h2>
+            <h2 className="step-panel-title">Step 1 — Start Photo</h2>
             <p className="step-desc">
-              Capture the prisoner's photo and optional biometric at the beginning of the session.
+              Capture the prisoner's photo at the beginning of the session.
             </p>
             <PhotoCapture
               label="Start Photo"
               value={photos.start}
               onCapture={(dataUrl) => setPhoto('start', dataUrl)}
+              allowUpload={false}
             />
-            <div className="biometric-row">
-              <BiometricCapture
-                label="Start Biometric (optional)"
-                value={session.biometric?.start}
-                onCapture={(data) => setBiometric('start', data)}
-              />
-            </div>
             {hasStartPhoto && (
               <div className="step-done-msg">
                 Start photo captured.{' '}
@@ -285,22 +277,15 @@ export default function Assessment({ onExit }) {
       case STEP.END_PHOTO:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 5 — End Photo &amp; Biometric</h2>
+            <h2 className="step-panel-title">Step 5 — End Photo</h2>
             <p className="step-desc">
-              Capture the prisoner's photo and optional biometric at the end of the session.
+              Capture the prisoner's photo at the end of the session.
             </p>
             <PhotoCapture
               label="End Photo"
               value={photos.end}
               onCapture={(dataUrl) => setPhoto('end', dataUrl)}
             />
-            <div className="biometric-row">
-              <BiometricCapture
-                label="End Biometric (optional)"
-                value={session.biometric?.end}
-                onCapture={(data) => setBiometric('end', data)}
-              />
-            </div>
             {hasEndPhoto && (
               <div className="step-done-msg">
                 End photo captured.{' '}
