@@ -12,7 +12,15 @@ import './capture.css'
  * When allowUpload is true, the interviewer can switch to file upload if the
  * camera is slow, denied, or absent.
  */
-export default function PhotoCapture({ value, onCapture, label, allowUpload = true }) {
+export default function PhotoCapture({
+  value,
+  onCapture,
+  label,
+  allowUpload = true,
+  variant = 'photo',
+  hint,
+  captureLabel = 'Capture photo',
+}) {
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const streamRef = useRef(null)
@@ -42,7 +50,11 @@ export default function PhotoCapture({ value, onCapture, label, allowUpload = tr
       return
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: variant === 'document'
+          ? { facingMode: { ideal: 'environment' } }
+          : true,
+      })
       streamRef.current = stream
       if (videoRef.current) {
         videoRef.current.srcObject = stream
@@ -65,7 +77,7 @@ export default function PhotoCapture({ value, onCapture, label, allowUpload = tr
       setCameraError(msg)
       setStreaming(false)
     }
-  }, [allowUpload])
+  }, [allowUpload, variant])
 
   // Start camera on mount (unless we already have a capture or chose upload)
   useEffect(() => {
@@ -135,13 +147,15 @@ export default function PhotoCapture({ value, onCapture, label, allowUpload = tr
   )
 
   return (
-    <div className="photo-capture">
+    <div className={`photo-capture photo-capture--${variant}`}>
       {label && <h3 className="photo-capture__label">{label}</h3>}
+      {hint && <p className="photo-capture__hint">{hint}</p>}
 
       {captured ? (
         <>
           <div className="photo-capture__frame">
             <img src={captured} alt="Captured" className="photo-capture__preview" />
+            {variant === 'document' && <ScannerOverlay />}
           </div>
           <div className="photo-capture__actions">
             <button type="button" className="btn-secondary" onClick={retake}><Icon name="rotate" /> Retake</button>
@@ -159,11 +173,12 @@ export default function PhotoCapture({ value, onCapture, label, allowUpload = tr
         <>
           <div className="photo-capture__frame">
             <video ref={videoRef} className="photo-capture__video" muted playsInline />
+            {variant === 'document' && <ScannerOverlay />}
           </div>
           <canvas ref={canvasRef} className="photo-capture__canvas" />
           <div className="photo-capture__actions">
             <button type="button" className="btn-primary" onClick={capturePhoto} disabled={!streaming}>
-              <Icon name="camera" /> {streaming ? 'Capture photo' : 'Starting camera…'}
+              <Icon name="camera" /> {streaming ? captureLabel : 'Starting camera…'}
             </button>
             {allowUpload && (
               <button type="button" className="btn-ghost" onClick={switchToUpload}>
@@ -173,6 +188,17 @@ export default function PhotoCapture({ value, onCapture, label, allowUpload = tr
           </div>
         </>
       )}
+    </div>
+  )
+}
+
+function ScannerOverlay() {
+  return (
+    <div className="photo-capture__scanner-overlay" aria-hidden="true">
+      <span className="corner corner--tl" />
+      <span className="corner corner--tr" />
+      <span className="corner corner--bl" />
+      <span className="corner corner--br" />
     </div>
   )
 }

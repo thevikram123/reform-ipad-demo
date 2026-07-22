@@ -37,7 +37,7 @@ export function createSession(profile = {}) {
     answers: {}, // questionId -> { choice, note } | { choiceA, choiceB, note }
     consents: {}, // C1 / C2 -> { agreed, name, signature, place, datetime }
     scorecard: {}, // section I free-form decision fields
-    photos: { start: null, end: null }, // dataURL strings
+    photos: { start: null, end: null, consentCopy: null }, // dataURL strings
     biometric: { start: null, end: null }, // placeholder for future thumbprint integration
     reviewedSections: {}, // sectionId -> true once interviewer confirms review
     audit: [], // see audit.js

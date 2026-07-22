@@ -23,6 +23,7 @@ const STEP = {
   QUESTIONNAIRE: 'questionnaire',
   SCORECARD: 'scorecard',
   END_PHOTO: 'end_photo',
+  CONSENT_COPY: 'consent_copy',
   SUBMIT: 'submit',
 }
 
@@ -65,6 +66,7 @@ export default function Assessment({ onExit }) {
   const hasStartPhoto = !!photos.start
   const hasConsents = !!(consents.C1 && consents.C2)
   const hasEndPhoto = !!photos.end
+  const hasConsentCopy = !!photos.consentCopy
 
   // Derive current flow step based on session state
   const allQuestionnaireReviewed = QUESTIONNAIRE_SECTIONS.every((s) => reviewedSections[s.id])
@@ -82,6 +84,7 @@ export default function Assessment({ onExit }) {
     ...QUESTIONNAIRE_SECTIONS.map((s) => !!reviewedSections[s.id]),
     scorecardDone,
     hasEndPhoto,
+    hasConsentCopy,
   ]
   const stagesDone = journey.filter(Boolean).length
   const progressPct = Math.round((stagesDone / journey.length) * 100)
@@ -95,7 +98,8 @@ export default function Assessment({ onExit }) {
       case STEP.SCORECARD: return hasStartPhoto && hasConsents && allQuestionnaireReviewed
       // End photo only after the scorecard is completed
       case STEP.END_PHOTO: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone
-      case STEP.SUBMIT: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto
+      case STEP.CONSENT_COPY: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto
+      case STEP.SUBMIT: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto && hasConsentCopy
       default: return false
     }
   }
@@ -285,10 +289,41 @@ export default function Assessment({ onExit }) {
               label="End Photo"
               value={photos.end}
               onCapture={(dataUrl) => setPhoto('end', dataUrl)}
+              allowUpload={false}
             />
             {hasEndPhoto && (
               <div className="step-done-msg">
                 End photo captured.{' '}
+                <button
+                  className="btn-primary"
+                  onClick={() => setActiveStep(STEP.CONSENT_COPY)}
+                >
+                  Proceed to consent copy <Icon name="arrow-right" />
+                </button>
+              </div>
+            )}
+          </div>
+        )
+
+      case STEP.CONSENT_COPY:
+        return (
+          <div className="step-panel card">
+            <h2 className="step-panel-title">Step 6 — Signed Consent Copy</h2>
+            <p className="step-desc">
+              Photograph the signed consent form, including the signature or thumb impression.
+            </p>
+            <PhotoCapture
+              label="Signed Consent Copy"
+              hint="Place the consent form on a flat surface, keep all four corners inside the guide, and make sure the signature or thumb impression is clearly visible."
+              value={photos.consentCopy}
+              onCapture={(dataUrl) => setPhoto('consentCopy', dataUrl)}
+              allowUpload={false}
+              variant="document"
+              captureLabel="Capture signed copy"
+            />
+            {hasConsentCopy && (
+              <div className="step-done-msg">
+                Signed consent copy captured.{' '}
                 <button
                   className="btn-primary"
                   onClick={() => setActiveStep(STEP.SUBMIT)}
@@ -303,7 +338,7 @@ export default function Assessment({ onExit }) {
       case STEP.SUBMIT:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 6 — Final Submit</h2>
+            <h2 className="step-panel-title">Step 7 — Final Submit</h2>
             <p>Review that all sections are complete before submitting.</p>
             <div className="submit-checklist">
               <CheckItem ok={hasStartPhoto} label="Start photo captured" />
@@ -315,6 +350,7 @@ export default function Assessment({ onExit }) {
               />
               <CheckItem ok={!!reviewedSections[SCORECARD_SECTION_ID]} label="Scorecard completed" warn />
               <CheckItem ok={hasEndPhoto} label="End photo captured" />
+              <CheckItem ok={hasConsentCopy} label="Signed consent copy captured" />
             </div>
             {submitWarning && (
               <p className="submit-warning">{submitWarning}</p>
@@ -322,7 +358,7 @@ export default function Assessment({ onExit }) {
             <div className="submit-actions">
               <button
                 className="btn-accent"
-                disabled={!hasStartPhoto || !hasConsents || !hasEndPhoto}
+                disabled={!hasStartPhoto || !hasConsents || !hasEndPhoto || !hasConsentCopy}
                 onClick={handleSubmit}
               >
                 Submit Assessment
@@ -344,7 +380,8 @@ export default function Assessment({ onExit }) {
       { key: STEP.QUESTIONNAIRE, label: `3. ${t('questionnaire')}` },
       { key: STEP.SCORECARD, label: `4. ${t('scorecard')}` },
       { key: STEP.END_PHOTO, label: `5. ${t('endPhoto')}` },
-      { key: STEP.SUBMIT, label: `6. ${t('submit')}` },
+      { key: STEP.CONSENT_COPY, label: `6. ${t('signedConsentCopy')}` },
+      { key: STEP.SUBMIT, label: `7. ${t('submit')}` },
     ]
     return (
       <div className="step-strip">

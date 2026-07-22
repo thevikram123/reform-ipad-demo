@@ -572,7 +572,7 @@ export default {
   'Participation may support personal development, skill-building, and access to rehabilitation services.': 'भागीदारी से व्यक्तिगत विकास, कौशल सीखने और पुनर्वास सेवाएँ पाने में मदद मिल सकती है।',
   'I confirm that I understand the purpose, nature, and conditions of this program. I have had the opportunity to ask questions and have received satisfactory explanations.': 'मैं पुष्टि करता/करती हूँ कि मैं कार्यक्रम का उद्देश्य, स्वरूप और शर्तें समझता/समझती हूँ। मुझे सवाल पूछने का मौका मिला और संतोषजनक जवाब मिले।',
   'Session created': 'सत्र बनाया गया', 'Profile updated': 'परिचय अपडेट किया गया',
-  'Start photo captured': 'प्रारंभिक फोटो लिया गया', 'End photo captured': 'अंतिम फोटो लिया गया',
+  'Start photo captured': 'प्रारंभिक फोटो लिया गया', 'End photo captured': 'अंतिम फोटो लिया गया', 'Signed consent copy captured': 'हस्ताक्षरित सहमति प्रति की फोटो ली गई',
   'Biometric captured': 'बायोमेट्रिक दर्ज किया गया', 'Answer recorded': 'जवाब दर्ज किया गया',
   'Note recorded': 'टिप्पणी दर्ज की गई', 'Consent recorded': 'सहमति दर्ज की गई',
   'Section opened': 'खंड खोला गया', 'Section review confirmed': 'खंड की जाँच पूरी हुई',

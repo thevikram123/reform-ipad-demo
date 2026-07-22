@@ -307,7 +307,7 @@ export default {
   'Participation may support personal development, skill-building, and access to rehabilitation services.': 'பங்கேற்பு தனிநபர் வளர்ச்சி, திறன் மேம்பாடு மற்றும் மறுவாழ்வு சேவைகள் பெற உதவலாம்.',
   'I confirm that I understand the purpose, nature, and conditions of this program. I have had the opportunity to ask questions and have received satisfactory explanations.': 'இந்தத் திட்டத்தின் நோக்கம், தன்மை மற்றும் நிபந்தனைகளைப் புரிந்துகொண்டேன்; கேள்விகள் கேட்க வாய்ப்பும் திருப்தியான விளக்கமும் கிடைத்தது என உறுதி செய்கிறேன்.',
   'Session created': 'அமர்வு உருவாக்கப்பட்டது', 'Profile updated': 'விவரங்கள் புதுப்பிக்கப்பட்டன', 'Start photo captured': 'தொடக்கப் படம் எடுக்கப்பட்டது',
-  'End photo captured': 'இறுதிப் படம் எடுக்கப்பட்டது', 'Biometric captured': 'உயிர்முறை பதிவு செய்யப்பட்டது', 'Answer recorded': 'பதில் பதிவு செய்யப்பட்டது',
+  'End photo captured': 'இறுதிப் படம் எடுக்கப்பட்டது', 'Signed consent copy captured': 'கையொப்பமிட்ட ஒப்புதல் நகல் படம் எடுக்கப்பட்டது', 'Biometric captured': 'உயிர்முறை பதிவு செய்யப்பட்டது', 'Answer recorded': 'பதில் பதிவு செய்யப்பட்டது',
   'Note recorded': 'குறிப்பு பதிவு செய்யப்பட்டது', 'Consent recorded': 'ஒப்புதல் பதிவு செய்யப்பட்டது', 'Section opened': 'பிரிவு திறக்கப்பட்டது',
   'Section review confirmed': 'பிரிவு சரிபார்ப்பு உறுதி செய்யப்பட்டது', 'PDF report exported': 'PDF அறிக்கை ஏற்றுமதி செய்யப்பட்டது',
   'Assessment submitted': 'மதிப்பீடு சமர்ப்பிக்கப்பட்டது', 'Scorecard updated': 'மதிப்பெண் அட்டை புதுப்பிக்கப்பட்டது',

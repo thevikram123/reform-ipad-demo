@@ -213,8 +213,9 @@ function drawPhotos(doc, y, session) {
 
   const hasStart = !!(photos.start)
   const hasEnd   = !!(photos.end)
+  const hasConsentCopy = !!(photos.consentCopy)
 
-  if (!hasStart && !hasEnd) return y
+  if (!hasStart && !hasEnd && !hasConsentCopy) return y
 
   y = sectionBanner(doc, y, 'B — Identity Verification')
 
@@ -246,6 +247,18 @@ function drawPhotos(doc, y, session) {
     }
 
     y += photoH + labelH + 6
+  }
+
+  if (hasConsentCopy) {
+    const docW = 85
+    const docH = 113
+    y = ensureSpace(doc, y, docH + labelH + 10)
+    try {
+      doc.addImage(photos.consentCopy, 'JPEG', MARGIN_L, y, docW, docH)
+      setFont(doc, 8, 'bold', DARK_GREY)
+      doc.text('Signed Consent Copy', MARGIN_L + docW / 2, y + docH + labelH, { align: 'center' })
+      y += docH + labelH + 6
+    } catch (_) { /* skip broken image */ }
   }
 
   return y

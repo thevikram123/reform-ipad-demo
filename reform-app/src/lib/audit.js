@@ -18,6 +18,7 @@ export const ACTIONS = {
   PROFILE_UPDATED: 'Profile updated',
   PHOTO_START: 'Start photo captured',
   PHOTO_END: 'End photo captured',
+  CONSENT_COPY: 'Signed consent copy captured',
   BIOMETRIC: 'Biometric captured',
   ANSWER_SET: 'Answer recorded',
   NOTE_SET: 'Note recorded',

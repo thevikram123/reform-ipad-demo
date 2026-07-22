@@ -71,7 +71,12 @@ export function SessionProvider({ children }) {
     setSession((prev) => {
       const photos = { ...prev.photos, [which]: dataUrl }
       const s = { ...prev, photos }
-      logAction(s, which === 'start' ? ACTIONS.PHOTO_START : ACTIONS.PHOTO_END)
+      const action = which === 'start'
+        ? ACTIONS.PHOTO_START
+        : which === 'end'
+        ? ACTIONS.PHOTO_END
+        : ACTIONS.CONSENT_COPY
+      logAction(s, action)
       return store.saveSession(s)
     })
   }, [])
