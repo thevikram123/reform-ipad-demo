@@ -148,6 +148,96 @@
   min-height: 120px;
 }
 
+.sc-classification {
+  border-color: rgba(242, 159, 5, .45);
+  background: linear-gradient(145deg, #fffdf4, #fff 62%);
+}
+
+.sc-identity-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  overflow: hidden;
+  margin: 2px 0 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--border);
+}
+
+.sc-identity-strip > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.sc-identity-strip span {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.sc-classification-grid { grid-template-columns: repeat(4, 1fr); }
+
+.classification-result {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: #f7f8f7;
+}
+
+.classification-result span {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.classification-result.has-result {
+  border-style: solid;
+  border-color: #b8ddc4;
+  background: #eaf6ee;
+  color: var(--reform-green);
+}
+
+.classification-reference { margin-top: 14px; }
+.classification-reference summary { cursor: pointer; color: var(--reform-blue); font-size: 13px; font-weight: 700; }
+.classification-table-wrap { overflow-x: auto; margin-top: 12px; }
+.classification-table { width: 100%; min-width: 660px; border-collapse: collapse; font-size: 12px; }
+.classification-table th { padding: 9px 10px; background: var(--reform-green); color: #fff; text-align: left; }
+.classification-table td { padding: 9px 10px; border: 1px solid var(--border); }
+.classification-table tbody tr:nth-child(even) { background: #f7f9f7; }
+
+.signoff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.signoff-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fafbfa;
+}
+
+.signoff-card h3 { margin: 0; color: var(--reform-green); font-size: 14px; }
+
+@media (max-width: 720px) {
+  .sc-classification-grid, .signoff-grid, .sc-identity-strip { grid-template-columns: 1fr; }
+}
+
 /* Save bar */
 .scorecard-save-bar {
   display: flex;

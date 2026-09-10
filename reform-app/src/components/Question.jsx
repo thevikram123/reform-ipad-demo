@@ -2,7 +2,7 @@ import './assessment.css'
 import { SELECT_PLACEHOLDER } from '../data/questions'
 import { useLanguage } from '../i18n.jsx'
 
-export default function Question({ question, answer, options, onChange }) {
+export default function Question({ question, number, answer, options, onChange }) {
   const { t, tr } = useLanguage()
   if (!question) return null
 
@@ -22,7 +22,7 @@ export default function Question({ question, answer, options, onChange }) {
     return (
       <div className="question-card card">
         <div className="question-header">
-          <span className="question-text">{tr(text)}</span>
+          <QuestionTitle number={number} text={tr(text)} />
           {question.prefill && <span className="badge badge-prefill">{t('fromIntake')}</span>}
         </div>
         {guidance && <p className="question-guidance">{guidance}</p>}
@@ -56,7 +56,7 @@ export default function Question({ question, answer, options, onChange }) {
     return (
       <div className="question-card card">
         <div className="question-header">
-          <span className="question-text">{t('rateStatements')}</span>
+          <QuestionTitle number={number} text={t('rateStatements')} />
           {reverse && <span className="badge badge-reverse">{t('reverseScored')}</span>}
         </div>
         {guidance && <p className="question-guidance">{guidance}</p>}
@@ -94,7 +94,7 @@ export default function Question({ question, answer, options, onChange }) {
   return (
     <div className="question-card card">
       <div className="question-header">
-        <span className="question-text">{tr(text)}</span>
+        <QuestionTitle number={number} text={tr(text)} />
         {reverse && <span className="badge badge-reverse">{t('reverseScored')}</span>}
       </div>
       {guidance && <p className="question-guidance">{guidance}</p>}
@@ -112,6 +112,16 @@ export default function Question({ question, answer, options, onChange }) {
 
       <InterviewerNote value={ans.note || ''} onChange={(note) => onChange({ note })} t={t} />
     </div>
+  )
+}
+
+function QuestionTitle({ number, text }) {
+  const cleanText = String(text || '').replace(/^\s*\d+[.)]\s*/, '')
+  return (
+    <span className="question-title-row">
+      {number && <span className="question-number" aria-label={`Question ${number}`}>{number}</span>}
+      <span className="question-text">{cleanText}</span>
+    </span>
   )
 }
 

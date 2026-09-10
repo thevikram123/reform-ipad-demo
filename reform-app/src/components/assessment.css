@@ -725,3 +725,55 @@
 /* data voice in the flow */
 .assessment-prisoner-bar .pid { font-family: var(--font-mono); font-weight: 500; }
 .rail-letter { font-family: var(--font-mono); }
+.question-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.question-number {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 30px;
+  min-height: 30px;
+  border-radius: 9px;
+  background: var(--reform-blue);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 5px 14px rgba(15, 71, 97, .18);
+}
+
+.dual-capture-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.capture-person-card {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fafcf9;
+}
+
+.capture-person-role {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e6f1e9;
+  color: var(--reform-green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .dual-capture-grid { grid-template-columns: 1fr; }
+}

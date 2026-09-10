@@ -18,6 +18,7 @@ export default function ReviewSection({ section, onBack, onConfirm }) {
 
   const answers = session.answers || {}
   const allAnswerable = answerableQuestions(section)
+  const questionNumbers = new Map(allAnswerable.map((q, index) => [q.id, index + 1]))
   const answeredCount = allAnswerable.filter((q) => {
     const a = answers[q.id]
     if (!a) return false
@@ -66,7 +67,7 @@ export default function ReviewSection({ section, onBack, onConfirm }) {
                     return (
                       <tr key={q.id}>
                         <td>
-                          <div className="review-q-text">{t('rateStatements')}</div>
+                          <div className="review-q-text"><strong>{questionNumbers.get(q.id)}.</strong> {t('rateStatements')}</div>
                           {q.statementA && (
                             <div className="review-sub">A: {tr(q.statementA)}</div>
                           )}
@@ -95,7 +96,7 @@ export default function ReviewSection({ section, onBack, onConfirm }) {
 
                   return (
                     <tr key={q.id}>
-                      <td className="review-q-text">{tr(q.text)}</td>
+                      <td className="review-q-text"><strong>{questionNumbers.get(q.id)}.</strong> {String(tr(q.text)).replace(/^\s*\d+[.)]\s*/, '')}</td>
                       <td>
                         {a && a.choice
                           ? tr(a.choice)

@@ -33,6 +33,13 @@ export default function SectionView({ section, onComplete }) {
   if (!session || !section) return null
 
   const groups = section.groups || []
+  const questionNumbers = new Map()
+  let questionNumber = 0
+  groups.forEach((group) => {
+    ;(group.questions || []).forEach((q) => {
+      if (q.type !== 'label') questionNumbers.set(q.id, ++questionNumber)
+    })
+  })
   const totalGroups = groups.length
   const currentGroup = groups[groupIdx] || null
   const currentQuestions = (currentGroup?.questions || []).filter((q) => q.type !== 'label')
@@ -109,6 +116,7 @@ export default function SectionView({ section, onComplete }) {
             <Question
               key={q.id}
               question={q}
+              number={questionNumbers.get(q.id)}
               answer={(session.answers || {})[q.id]}
               options={optionsForQuestion(q)}
               onChange={(patch) => setAnswer(q, patch, section.id)}

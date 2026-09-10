@@ -63,9 +63,9 @@ export default function Assessment({ onExit }) {
   const consents = session.consents || {}
 
   // Gate checks
-  const hasStartPhoto = !!photos.start
+  const hasStartPhoto = !!photos.start && !!photos.startAssessor
   const hasConsents = !!(consents.C1 && consents.C2)
-  const hasEndPhoto = !!photos.end
+  const hasEndPhoto = !!photos.end && !!photos.endAssessor
   const hasConsentCopy = !!photos.consentCopy
 
   // Derive current flow step based on session state
@@ -201,23 +201,25 @@ export default function Assessment({ onExit }) {
         return (
           <div className="step-panel card">
             <h2 className="step-panel-title">Step 1 — Start Photo</h2>
-            <p className="step-desc">
-              Capture the prisoner's photo at the beginning of the session.
-            </p>
-            <PhotoCapture
-              label="Start Photo"
-              value={photos.start}
-              onCapture={(dataUrl) => setPhoto('start', dataUrl)}
-              allowUpload={false}
-            />
+            <p className="step-desc">{t('captureBothStart')}</p>
+            <div className="dual-capture-grid">
+              <div className="capture-person-card">
+                <span className="capture-person-role">{t('prisonerRole')}</span>
+                <PhotoCapture label={t('prisonerStartPhoto')} value={photos.start} onCapture={(dataUrl) => setPhoto('start', dataUrl)} allowUpload={false} />
+              </div>
+              <div className="capture-person-card">
+                <span className="capture-person-role">{t('assessorRole')}</span>
+                <PhotoCapture label={t('assessorStartPhoto')} value={photos.startAssessor} onCapture={(dataUrl) => setPhoto('startAssessor', dataUrl)} allowUpload={false} />
+              </div>
+            </div>
             {hasStartPhoto && (
               <div className="step-done-msg">
-                Start photo captured.{' '}
+                {t('bothStartCaptured')}{' '}
                 <button
                   className="btn-primary"
                   onClick={() => setActiveStep(STEP.CONSENT)}
                 >
-                  Proceed to consent <Icon name="arrow-right" />
+                  {t('proceedConsent')} <Icon name="arrow-right" />
                 </button>
               </div>
             )}
@@ -282,23 +284,25 @@ export default function Assessment({ onExit }) {
         return (
           <div className="step-panel card">
             <h2 className="step-panel-title">Step 5 — End Photo</h2>
-            <p className="step-desc">
-              Capture the prisoner's photo at the end of the session.
-            </p>
-            <PhotoCapture
-              label="End Photo"
-              value={photos.end}
-              onCapture={(dataUrl) => setPhoto('end', dataUrl)}
-              allowUpload={false}
-            />
+            <p className="step-desc">{t('captureBothEnd')}</p>
+            <div className="dual-capture-grid">
+              <div className="capture-person-card">
+                <span className="capture-person-role">{t('prisonerRole')}</span>
+                <PhotoCapture label={t('prisonerEndPhoto')} value={photos.end} onCapture={(dataUrl) => setPhoto('end', dataUrl)} allowUpload={false} />
+              </div>
+              <div className="capture-person-card">
+                <span className="capture-person-role">{t('assessorRole')}</span>
+                <PhotoCapture label={t('assessorEndPhoto')} value={photos.endAssessor} onCapture={(dataUrl) => setPhoto('endAssessor', dataUrl)} allowUpload={false} />
+              </div>
+            </div>
             {hasEndPhoto && (
               <div className="step-done-msg">
-                End photo captured.{' '}
+                {t('bothEndCaptured')}{' '}
                 <button
                   className="btn-primary"
                   onClick={() => setActiveStep(STEP.CONSENT_COPY)}
                 >
-                  Proceed to consent copy <Icon name="arrow-right" />
+                  {t('proceedConsentCopy')} <Icon name="arrow-right" />
                 </button>
               </div>
             )}

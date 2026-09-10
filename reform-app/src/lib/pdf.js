@@ -6,6 +6,7 @@ import autoTable from 'jspdf-autotable'
 import logo from '../assets/reform-logo.png'
 import { sections, answerableQuestions, optionsForQuestion, CONSENT_SECTION_ID, SCORECARD_SECTION_ID } from '../data/questions.js'
 import { formatTs } from './audit.js'
+import { RELEASE_RULES, getReleaseDecision } from './releaseClassification.js'
 
 // ─── Brand colours (RGB) ────────────────────────────────────────────────────
 const GREEN  = [12,  53,  18]   // #0C3512 deep green
@@ -120,7 +121,8 @@ function runTable(doc, y, head, body, colWidths) {
     minCellHeight: 7,
   }
 
-  autoTable(doc, {
+  const renderTable = typeof autoTable === 'function' ? autoTable : autoTable.default
+  renderTable(doc, {
     startY: y,
     margin: { left: MARGIN_L, right: MARGIN_R },
     tableWidth: CONTENT_W,
@@ -212,56 +214,69 @@ function drawPhotos(doc, y, session) {
   const photos    = session?.photos   || {}
 
   const hasStart = !!(photos.start)
+  const hasStartAssessor = !!(photos.startAssessor)
   const hasEnd   = !!(photos.end)
-  const hasConsentCopy = !!(photos.consentCopy)
+  const hasEndAssessor = !!(photos.endAssessor)
 
-  if (!hasStart && !hasEnd && !hasConsentCopy) return y
+  if (!hasStart && !hasStartAssessor && !hasEnd && !hasEndAssessor) return y
 
   y = sectionBanner(doc, y, 'B — Identity Verification')
 
-  const photoW  = 50
-  const photoH  = 60
-  const gap     = 10
+  const photoW  = 39
+  const photoH  = 49
+  const gap     = 6
   const labelH  = 6
 
-  if (hasStart || hasEnd) {
+  if (hasStart || hasStartAssessor || hasEnd || hasEndAssessor) {
     y = ensureSpace(doc, y, photoH + labelH + 10)
 
-    // Start photo
-    if (hasStart) {
+    const identityPhotos = [
+      [photos.start, 'Prisoner - Start'],
+      [photos.startAssessor, 'Assessor - Start'],
+      [photos.end, 'Prisoner - End'],
+      [photos.endAssessor, 'Assessor - End'],
+    ]
+    identityPhotos.forEach(([image, label], index) => {
+      if (!image) return
+      const x = MARGIN_L + index * (photoW + gap)
       try {
-        doc.addImage(photos.start, 'JPEG', MARGIN_L, y, photoW, photoH)
-        setFont(doc, 8, 'bold', DARK_GREY)
-        doc.text('Start Photo', MARGIN_L + photoW / 2, y + photoH + labelH, { align: 'center' })
+        doc.addImage(image, 'JPEG', x, y, photoW, photoH)
+        setFont(doc, 7.5, 'bold', DARK_GREY)
+        doc.text(label, x + photoW / 2, y + photoH + labelH, { align: 'center' })
       } catch (_) { /* skip broken image */ }
-    }
-
-    // End photo
-    if (hasEnd) {
-      const xEnd = MARGIN_L + photoW + gap
-      try {
-        doc.addImage(photos.end, 'JPEG', xEnd, y, photoW, photoH)
-        setFont(doc, 8, 'bold', DARK_GREY)
-        doc.text('End Photo', xEnd + photoW / 2, y + photoH + labelH, { align: 'center' })
-      } catch (_) { /* skip broken image */ }
-    }
+    })
 
     y += photoH + labelH + 6
   }
 
-  if (hasConsentCopy) {
-    const docW = 85
-    const docH = 113
-    y = ensureSpace(doc, y, docH + labelH + 10)
-    try {
-      doc.addImage(photos.consentCopy, 'JPEG', MARGIN_L, y, docW, docH)
-      setFont(doc, 8, 'bold', DARK_GREY)
-      doc.text('Signed Consent Copy', MARGIN_L + docW / 2, y + docH + labelH, { align: 'center' })
-      y += docH + labelH + 6
-    } catch (_) { /* skip broken image */ }
-  }
-
   return y
+}
+
+function drawSignedConsentPage(doc, session) {
+  const image = session?.photos?.consentCopy
+  if (!image) return
+
+  doc.addPage()
+  let y = sectionBanner(doc, MARGIN_T, 'Signed Consent Form - Full-page Scan')
+  setFont(doc, 8, 'normal', DARK_GREY)
+  doc.text(`Prisoner: ${safe(session?.profile?.name)}   |   ID: ${safe(session?.profile?.prisonerId)}`, MARGIN_L, y)
+  y += 5
+
+  const maxW = CONTENT_W
+  const maxH = PAGE_H - y - 18
+  try {
+    const properties = doc.getImageProperties(image)
+    const scale = Math.min(maxW / properties.width, maxH / properties.height)
+    const width = properties.width * scale
+    const height = properties.height * scale
+    const x = MARGIN_L + (maxW - width) / 2
+    doc.setDrawColor(...MID_GREY)
+    doc.rect(x - 1, y - 1, width + 2, height + 2)
+    doc.addImage(image, 'JPEG', x, y, width, height)
+  } catch (_) {
+    setFont(doc, 9, 'italic', DARK_GREY)
+    doc.text('The signed consent scan could not be rendered.', MARGIN_L, y + 8)
+  }
 }
 
 // ─── 4. Consent summary ──────────────────────────────────────────────────────
@@ -359,6 +374,7 @@ function drawQuestionnaire(doc, y, session) {
     const sectionLabel = `${section.letter || section.id} — ${section.title}`
     y = sectionBanner(doc, y, sectionLabel)
 
+    let sectionQuestionNumber = 0
     for (const group of (section.groups || [])) {
       // Collect all answerable questions in this group
       const answerable = (group.questions || []).filter(q => q.type !== 'label')
@@ -379,7 +395,8 @@ function drawQuestionnaire(doc, y, session) {
 
       if (answerable.length === 0) continue
 
-      const body = answerable.map((q, idx) => {
+      const body = answerable.map((q) => {
+        sectionQuestionNumber += 1
         const ans = answers[q.id]
         const response = formatResponse(q, ans)
 
@@ -388,7 +405,7 @@ function drawQuestionnaire(doc, y, session) {
           : (q.text || '')
 
         return [
-          { content: `${idx + 1}. ${questionText}`, styles: { fontSize: 8.5 } },
+          { content: `${sectionQuestionNumber}. ${questionText.replace(/^\s*\d+[.)]\s*/, '')}`, styles: { fontSize: 8.5 } },
           { content: response, styles: { fontSize: 8.5, textColor: ans ? BLACK : MID_GREY } },
         ]
       })
@@ -410,26 +427,53 @@ function drawQuestionnaire(doc, y, session) {
 // ─── 6. Scorecard (Section I) ─────────────────────────────────────────────────
 function drawScorecard(doc, y, session) {
   const sc = session?.scorecard || {}
-  const keys = Object.keys(sc)
+  const p = session?.profile || {}
+  const decision = getReleaseDecision(sc.cpsRange, sc.aspireLevel, sc.pfiStrength)
 
-  y = sectionBanner(doc, y, 'I — Scorecard & Decision')
+  doc.addPage()
+  y = sectionBanner(doc, MARGIN_T, 'Release Suitability Classification (CPS x PFI x RRI x ASPIRE)')
 
-  if (keys.length === 0) {
-    y = ensureSpace(doc, y, 10)
-    setFont(doc, 8.5, 'italic', DARK_GREY)
-    doc.text('Scorecard not yet completed.', MARGIN_L, y)
-    return y + 8
-  }
+  y = runTable(doc, y, [], [[
+    { content: 'Prisoner Name', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.name),
+    { content: 'Prisoner ID', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.prisonerId),
+  ], [
+    { content: 'Assessor', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.assessedBy),
+    { content: 'Assessment Date', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.date),
+  ]], { 0: { cellWidth: 31 }, 1: { cellWidth: 60 }, 2: { cellWidth: 31 }, 3: { cellWidth: 60 } })
 
-  const body = keys.map(k => [
-    { content: k, styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } },
-    { content: safe(sc[k]) },
-  ])
+  y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'RRI concern', 'Classification Decision']], [[
+    safe(sc.cpsRange), safe(sc.aspireLevel), safe(sc.pfiStrength), safe(sc.reliabilityConcern), safe(decision),
+  ]], { 0: { cellWidth: 41 }, 1: { cellWidth: 25 }, 2: { cellWidth: 25 }, 3: { cellWidth: 31 }, 4: { cellWidth: 60 } })
 
-  y = runTable(doc, y, [], body, {
-    0: { cellWidth: 80 },
-    1: { cellWidth: CONTENT_W - 80 },
+  y = groupHeading(doc, y, 'Classification reference matrix')
+  y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'Decision']], RELEASE_RULES.map((rule) => [
+    rule.cps, rule.aspire, rule.pfi, rule.decision,
+  ]), { 0: { cellWidth: 43 }, 1: { cellWidth: 29 }, 2: { cellWidth: 29 }, 3: { cellWidth: 81 } })
+
+  y = groupHeading(doc, y, 'Sign-off and approvals')
+  const signers = [
+    ['Prisoner', sc.prisonerName || p.name, sc.prisonerSignature, sc.prisonerDate],
+    ['Assessor', sc.assessorName || p.assessedBy, sc.assessorSignature, sc.assessorDate || p.date],
+    ['REFORM Project Head', sc.projectHeadName, sc.projectHeadSignature, sc.projectHeadDate],
+    ['REFORM Nodal Officer', sc.nodalOfficerName, sc.nodalOfficerSignature, sc.nodalOfficerDate],
+  ]
+  y = runTable(doc, y, [['Role', 'Name', 'Signature / Thumb Impression', 'Date']], signers.map((row) => row.map(safe)), {
+    0: { cellWidth: 42 }, 1: { cellWidth: 46 }, 2: { cellWidth: 64 }, 3: { cellWidth: 30 },
   })
+
+  const excluded = new Set([
+    'cpsRange', 'aspireLevel', 'pfiStrength', 'reliabilityConcern',
+    ...['prisoner', 'assessor', 'projectHead', 'nodalOfficer'].flatMap((prefix) => [`${prefix}Name`, `${prefix}Signature`, `${prefix}Date`]),
+  ])
+  const supplemental = Object.entries(sc).filter(([key, value]) => !excluded.has(key) && value)
+  if (supplemental.length) {
+    doc.addPage()
+    y = sectionBanner(doc, MARGIN_T, 'Assessment Narrative and Recommendations')
+    y = runTable(doc, y, [], supplemental.map(([key, value]) => [
+      { content: key.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase()), styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } },
+      safe(value),
+    ]), { 0: { cellWidth: 62 }, 1: { cellWidth: CONTENT_W - 62 } })
+  }
 
   return y
 }
@@ -469,7 +513,7 @@ function drawAudit(doc, y, session) {
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
-export function exportPdf(session) {
+export function buildPdf(session) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
 
   // Page 1 header
@@ -484,6 +528,13 @@ export function exportPdf(session) {
   // 4. Consents
   y = drawConsents(doc, y, session)
 
+  // Signed consent scan on a dedicated full-size page
+  drawSignedConsentPage(doc, session)
+  if (session?.photos?.consentCopy) {
+    doc.addPage()
+    y = MARGIN_T
+  }
+
   // 5. Questionnaire (sections A, B, D, E, F, G, H)
   y = drawQuestionnaire(doc, y, session)
 
@@ -496,6 +547,11 @@ export function exportPdf(session) {
   // Add footers to ALL pages in one pass
   addFooters(doc)
 
+  return doc
+}
+
+export function exportPdf(session) {
+  const doc = buildPdf(session)
   // Trigger download
   doc.save(fileName(session))
 }

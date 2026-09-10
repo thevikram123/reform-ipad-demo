@@ -3,6 +3,13 @@ import { sections, sectionStats, CONSENT_SECTION_ID, SCORECARD_SECTION_ID } from
 import Icon from '../components/Icon'
 import '../components/admin.css'
 import { useLanguage } from '../i18n.jsx'
+import {
+  ASPIRE_OPTIONS,
+  CPS_OPTIONS,
+  PFI_OPTIONS,
+  RELEASE_RULES,
+  getReleaseDecision,
+} from '../lib/releaseClassification'
 
 // Sections to include in the coverage summary (skip C and I per spec)
 const SUMMARY_SECTIONS = sections.filter(
@@ -30,6 +37,20 @@ const TAMIL = {
   'Assessor Name': 'மதிப்பீட்டாளர் பெயர்',
   'Date of Assessment': 'மதிப்பீட்டு தேதி',
   'Save & continue': 'சேமித்து தொடரவும்',
+  'Release Suitability Classification': 'விடுதலைத் தகுதி வகைப்பாடு',
+  'Prisoner details': 'கைதி விவரங்கள்', 'Prisoner Name': 'கைதி பெயர்', 'Prisoner ID': 'கைதி அடையாள எண்',
+  'CPS Risk and Range': 'CPS ஆபத்து மற்றும் வரம்பு', 'ASPIRE Level': 'ASPIRE நிலை', 'PFI Strength': 'PFI வலிமை',
+  'RRI / Validity Concern': 'RRI / செல்லுபடியாகும் தன்மை குறித்த கவலை',
+  'Classification decision': 'வகைப்பாட்டு முடிவு', 'Select all three classification values to calculate the decision.': 'முடிவைக் கணக்கிட மூன்று வகைப்பாட்டு மதிப்புகளையும் தேர்ந்தெடுக்கவும்.',
+  'Signature / Thumb Impression': 'கையொப்பம் / பெருவிரல் ரேகை', 'Sign-off and approvals': 'கையொப்பம் மற்றும் ஒப்புதல்கள்',
+  'Prisoner': 'கைதி', 'Assessor': 'மதிப்பீட்டாளர்', 'REFORM Project Head': 'REFORM திட்டத் தலைவர்', 'REFORM Nodal Officer': 'REFORM ஒருங்கிணைப்பு அலுவலர்',
+  'Name': 'பெயர்', 'Date': 'தேதி', 'Type name, signature mark, or thumb impression': 'பெயர், கையொப்பக் குறி அல்லது பெருவிரல் ரேகையை உள்ளிடவும்',
+  'View classification reference table': 'வகைப்பாட்டு குறிப்பு அட்டவணையைப் பார்க்கவும்', 'Decision': 'முடிவு',
+  'Low Risk (0-30)': 'குறைந்த ஆபத்து (0-30)', 'Medium Risk (31-60)': 'நடுத்தர ஆபத்து (31-60)', 'High Risk (61-100)': 'அதிக ஆபத்து (61-100)', Any: 'ஏதேனும்',
+  'Not eligible for release': 'விடுதலைக்குத் தகுதியில்லை', 'Continue rehabilitation': 'மறுவாழ்வைத் தொடரவும்', 'Structured review': 'கட்டமைக்கப்பட்ட மறுஆய்வு',
+  'Conditional release (exceptional cases only)': 'நிபந்தனை விடுதலை (விதிவிலக்கான வழக்குகள் மட்டும்)', 'Not ready for release': 'விடுதலைக்குத் தயாராக இல்லை',
+  'Conditional release': 'நிபந்தனை விடுதலை', 'Supervised release': 'மேற்பார்வையுடன் விடுதலை', 'Release deferred': 'விடுதலை ஒத்திவைக்கப்பட்டது',
+  'Suitable for release': 'விடுதலைக்குத் தகுதியானவர்', 'Combination requires multidisciplinary review': 'இந்தச் சேர்க்கைக்கு பல்துறை மறுஆய்வு தேவை',
   '— Select —': '— தேர்ந்தெடுக்கவும் —', Low: 'குறைவு', Moderate: 'மிதமானது', High: 'அதிகம்', 'Very High': 'மிக அதிகம்',
   Weak: 'குறைவு', Strong: 'வலுவானது', None: 'எதுவுமில்லை', Some: 'சிறிதளவு', Significant: 'குறிப்பிடத்தக்கது',
   'Standard rehabilitation': 'வழக்கமான மறுவாழ்வு', 'Intensive intervention': 'தீவிரத் தலையீடு', 'Mental health referral': 'மனநலப் பரிந்துரை', 'Close supervision': 'நெருக்கமான கண்காணிப்பு',
@@ -38,6 +59,15 @@ const TAMIL = {
   'Summarise key clinical observations and interview findings…': 'முக்கிய மருத்துவக் கவனிப்புகள் மற்றும் நேர்காணல் கண்டறிதல்களைச் சுருக்கவும்…',
   'Specific programmes, referrals, conditions, timelines…': 'குறிப்பிட்ட திட்டங்கள், பரிந்துரைகள், நிபந்தனைகள், காலக்கெடுகள்…',
   'Formal decision and any conditions attached…': 'அதிகாரப்பூர்வ முடிவும் அதனுடன் இணைந்த நிபந்தனைகளும்…',
+}
+
+const HINDI = {
+  'Low Risk (0-30)': 'कम जोखिम (0-30)', 'Medium Risk (31-60)': 'मध्यम जोखिम (31-60)', 'High Risk (61-100)': 'उच्च जोखिम (61-100)',
+  Low: 'कम', Moderate: 'मध्यम', High: 'उच्च', Any: 'कोई भी', None: 'कोई नहीं', Some: 'कुछ', Significant: 'महत्वपूर्ण', Strong: 'मज़बूत',
+  'Not eligible for release': 'रिहाई के योग्य नहीं', 'Continue rehabilitation': 'पुनर्वास जारी रखें', 'Structured review': 'संरचित समीक्षा',
+  'Conditional release (exceptional cases only)': 'सशर्त रिहाई (केवल असाधारण मामलों में)', 'Not ready for release': 'रिहाई के लिए तैयार नहीं',
+  'Conditional release': 'सशर्त रिहाई', 'Supervised release': 'निगरानी में रिहाई', 'Release deferred': 'रिहाई स्थगित',
+  'Suitable for release': 'रिहाई के लिए उपयुक्त', 'Combination requires multidisciplinary review': 'इस संयोजन के लिए बहु-विषयक समीक्षा आवश्यक है',
 }
 
 function CoverageChip({ section, answers }) {
@@ -62,6 +92,8 @@ export default function Scorecard({ onDone }) {
   const sc = session.scorecard || {}
   const answers = session.answers || {}
   const profile = session.profile || {}
+  const releaseDecision = getReleaseDecision(sc.cpsRange, sc.aspireLevel, sc.pfiStrength)
+  const localized = (value) => L(value, HINDI[value] || value)
 
   function handle(field) {
     return (e) => updateScorecard({ [field]: e.target.value })
@@ -82,6 +114,39 @@ export default function Scorecard({ onDone }) {
           <CoverageChip key={sec.id} section={sec} answers={answers} />
         ))}
       </div>
+
+      <fieldset className="sc-fieldset sc-classification">
+        <legend>{L('Release Suitability Classification', 'रिहाई उपयुक्तता वर्गीकरण')}</legend>
+
+        <div className="sc-identity-strip">
+          <div><span>{L('Prisoner Name', 'बंदी का नाम')}</span><strong>{profile.name || '—'}</strong></div>
+          <div><span>{L('Prisoner ID', 'बंदी आईडी')}</span><strong>{profile.prisonerId || '—'}</strong></div>
+        </div>
+
+        <div className="sc-grid sc-classification-grid">
+          <SelectField id="sc-cps-range" label={L('CPS Risk and Range', 'CPS जोखिम और सीमा')} value={sc.cpsRange || ''} options={CPS_OPTIONS} onChange={handle('cpsRange')} selectLabel={L('— Select —', '— चुनें —')} formatOption={localized} />
+          <SelectField id="sc-aspire-level" label={L('ASPIRE Level', 'ASPIRE स्तर')} value={sc.aspireLevel || ''} options={ASPIRE_OPTIONS} onChange={handle('aspireLevel')} selectLabel={L('— Select —', '— चुनें —')} formatOption={localized} />
+          <SelectField id="sc-pfi-strength" label={L('PFI Strength', 'PFI मज़बूती')} value={sc.pfiStrength || ''} options={PFI_OPTIONS} onChange={handle('pfiStrength')} selectLabel={L('— Select —', '— चुनें —')} formatOption={localized} />
+          <SelectField id="sc-rri" label={L('RRI / Validity Concern', 'RRI / वैधता संबंधी चिंता')} value={sc.reliabilityConcern || ''} options={['None', 'Some', 'Significant']} onChange={handle('reliabilityConcern')} selectLabel={L('— Select —', '— चुनें —')} formatOption={localized} />
+        </div>
+
+        <div className={`classification-result${releaseDecision ? ' has-result' : ''}`} aria-live="polite">
+          <span>{L('Classification decision', 'वर्गीकरण निर्णय')}</span>
+          <strong>{releaseDecision ? localized(releaseDecision) : L('Select all three classification values to calculate the decision.', 'निर्णय जानने के लिए तीनों वर्गीकरण मान चुनें।')}</strong>
+        </div>
+
+        <details className="classification-reference">
+          <summary>{L('View classification reference table', 'वर्गीकरण संदर्भ तालिका देखें')}</summary>
+          <div className="classification-table-wrap">
+            <table className="classification-table">
+              <thead><tr><th>CPS</th><th>ASPIRE</th><th>PFI</th><th>{L('Decision', 'निर्णय')}</th></tr></thead>
+              <tbody>{RELEASE_RULES.map((rule) => (
+                <tr key={`${rule.cps}-${rule.aspire}-${rule.pfi}`}><td>{localized(rule.cps)}</td><td>{localized(rule.aspire)}</td><td>{localized(rule.pfi)}</td><td>{localized(rule.decision)}</td></tr>
+              ))}</tbody>
+            </table>
+          </div>
+        </details>
+      </fieldset>
 
       {/* ── Risk &amp; Potential ────────────────────────────────────── */}
       <fieldset className="sc-fieldset">
@@ -133,19 +198,6 @@ export default function Scorecard({ onDone }) {
             </select>
           </div>
 
-          <div className="sc-field">
-            <label htmlFor="sc-reliability">{L('Response Reliability / Validity Concern', 'जवाबों की विश्वसनीयता / चिंता')}</label>
-            <select
-              id="sc-reliability"
-              value={sc.reliabilityConcern || ''}
-              onChange={handle('reliabilityConcern')}
-            >
-              <option value="">{L('— Select —', '— चुनें —')}</option>
-              <option value="None">{L('None', 'कोई नहीं')}</option>
-              <option value="Some">{L('Some', 'कुछ')}</option>
-              <option value="Significant">{L('Significant', 'महत्वपूर्ण')}</option>
-            </select>
-          </div>
         </div>
       </fieldset>
 
@@ -221,29 +273,14 @@ export default function Scorecard({ onDone }) {
         </div>
       </fieldset>
 
-      {/* ── Assessor sign-off ─────────────────────────────────────── */}
+      {/* ── Sign-off ──────────────────────────────────────────────── */}
       <fieldset className="sc-fieldset">
-        <legend>{L('Assessor Sign-off', 'मूल्यांकनकर्ता की पुष्टि')}</legend>
-        <div className="sc-grid">
-          <div className="sc-field">
-            <label htmlFor="sc-assessor-name">{L('Assessor Name', 'मूल्यांकनकर्ता का नाम')}</label>
-            <input
-              id="sc-assessor-name"
-              type="text"
-              value={sc.assessorName ?? (profile.assessedBy || '')}
-              onChange={handle('assessorName')}
-            />
-          </div>
-
-          <div className="sc-field">
-            <label htmlFor="sc-assessor-date">{L('Date of Assessment', 'मूल्यांकन की तारीख')}</label>
-            <input
-              id="sc-assessor-date"
-              type="date"
-              value={sc.assessorDate ?? (profile.date || '')}
-              onChange={handle('assessorDate')}
-            />
-          </div>
+        <legend>{L('Sign-off and approvals', 'हस्ताक्षर और अनुमोदन')}</legend>
+        <div className="signoff-grid">
+          <SignoffCard role={L('Prisoner', 'बंदी')} prefix="prisoner" defaultName={profile.name} sc={sc} handle={handle} L={L} />
+          <SignoffCard role={L('Assessor', 'मूल्यांकनकर्ता')} prefix="assessor" defaultName={profile.assessedBy} defaultDate={profile.date} sc={sc} handle={handle} L={L} />
+          <SignoffCard role={L('REFORM Project Head', 'REFORM परियोजना प्रमुख')} prefix="projectHead" sc={sc} handle={handle} L={L} />
+          <SignoffCard role={L('REFORM Nodal Officer', 'REFORM नोडल अधिकारी')} prefix="nodalOfficer" sc={sc} handle={handle} L={L} />
         </div>
       </fieldset>
 
@@ -254,5 +291,37 @@ export default function Scorecard({ onDone }) {
         </button>
       </div>
     </div>
+  )
+}
+
+function SelectField({ id, label, value, options, onChange, selectLabel, formatOption = (option) => option }) {
+  return (
+    <div className="sc-field">
+      <label htmlFor={id}>{label}</label>
+      <select id={id} value={value} onChange={onChange}>
+        <option value="">{selectLabel}</option>
+        {options.map((option) => <option key={option} value={option}>{formatOption(option)}</option>)}
+      </select>
+    </div>
+  )
+}
+
+function SignoffCard({ role, prefix, defaultName = '', defaultDate = '', sc, handle, L }) {
+  return (
+    <section className="signoff-card">
+      <h3>{role}</h3>
+      <div className="sc-field">
+        <label htmlFor={`${prefix}-name`}>{L('Name', 'नाम')}</label>
+        <input id={`${prefix}-name`} value={sc[`${prefix}Name`] ?? defaultName} onChange={handle(`${prefix}Name`)} />
+      </div>
+      <div className="sc-field">
+        <label htmlFor={`${prefix}-signature`}>{L('Signature / Thumb Impression', 'हस्ताक्षर / अंगूठे का निशान')}</label>
+        <input id={`${prefix}-signature`} value={sc[`${prefix}Signature`] || ''} onChange={handle(`${prefix}Signature`)} placeholder={L('Type name, signature mark, or thumb impression', 'नाम, हस्ताक्षर चिह्न या अंगूठे का निशान लिखें')} />
+      </div>
+      <div className="sc-field">
+        <label htmlFor={`${prefix}-date`}>{L('Date', 'तारीख')}</label>
+        <input id={`${prefix}-date`} type="date" value={sc[`${prefix}Date`] ?? defaultDate} onChange={handle(`${prefix}Date`)} />
+      </div>
+    </section>
   )
 }
