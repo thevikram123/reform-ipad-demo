@@ -252,31 +252,38 @@ function drawPhotos(doc, y, session) {
   return y
 }
 
-function drawSignedConsentPage(doc, session) {
-  const image = session?.photos?.consentCopy
-  if (!image) return
+function drawSignedConsentPages(doc, session) {
+  const photos = session?.photos || {}
+  const scans = [
+    { code: 'C1', image: photos.consentCopyC1 || photos.consentCopy },
+    { code: 'C2', image: photos.consentCopyC2 },
+  ].filter((scan) => scan.image)
 
-  doc.addPage()
-  let y = sectionBanner(doc, MARGIN_T, 'Signed Consent Form - Full-page Scan')
-  setFont(doc, 8, 'normal', DARK_GREY)
-  doc.text(`Prisoner: ${safe(session?.profile?.name)}   |   ID: ${safe(session?.profile?.prisonerId)}`, MARGIN_L, y)
-  y += 5
+  for (const scan of scans) {
+    doc.addPage()
+    let y = sectionBanner(doc, MARGIN_T, `${scan.code} - Signed Consent Form - Full-page Scan`)
+    setFont(doc, 8, 'normal', DARK_GREY)
+    doc.text(`Prisoner: ${safe(session?.profile?.name)}   |   ID: ${safe(session?.profile?.prisonerId)}`, MARGIN_L, y)
+    y += 5
 
-  const maxW = CONTENT_W
-  const maxH = PAGE_H - y - 18
-  try {
-    const properties = doc.getImageProperties(image)
-    const scale = Math.min(maxW / properties.width, maxH / properties.height)
-    const width = properties.width * scale
-    const height = properties.height * scale
-    const x = MARGIN_L + (maxW - width) / 2
-    doc.setDrawColor(...MID_GREY)
-    doc.rect(x - 1, y - 1, width + 2, height + 2)
-    doc.addImage(image, 'JPEG', x, y, width, height)
-  } catch (_) {
-    setFont(doc, 9, 'italic', DARK_GREY)
-    doc.text('The signed consent scan could not be rendered.', MARGIN_L, y + 8)
+    const maxW = CONTENT_W
+    const maxH = PAGE_H - y - 18
+    try {
+      const properties = doc.getImageProperties(scan.image)
+      const scale = Math.min(maxW / properties.width, maxH / properties.height)
+      const width = properties.width * scale
+      const height = properties.height * scale
+      const x = MARGIN_L + (maxW - width) / 2
+      doc.setDrawColor(...MID_GREY)
+      doc.rect(x - 1, y - 1, width + 2, height + 2)
+      doc.addImage(scan.image, properties.fileType || 'JPEG', x, y, width, height)
+    } catch (_) {
+      setFont(doc, 9, 'italic', DARK_GREY)
+      doc.text(`The signed ${scan.code} consent scan could not be rendered.`, MARGIN_L, y + 8)
+    }
   }
+
+  return scans.length
 }
 
 // ─── 4. Consent summary ──────────────────────────────────────────────────────
@@ -528,9 +535,9 @@ export function buildPdf(session) {
   // 4. Consents
   y = drawConsents(doc, y, session)
 
-  // Signed consent scan on a dedicated full-size page
-  drawSignedConsentPage(doc, session)
-  if (session?.photos?.consentCopy) {
+  // Each signed consent scan gets its own dedicated full-size page.
+  const signedConsentPages = drawSignedConsentPages(doc, session)
+  if (signedConsentPages > 0) {
     doc.addPage()
     y = MARGIN_T
   }

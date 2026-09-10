@@ -76,7 +76,13 @@ export function SessionProvider({ children }) {
         : which === 'end' || which === 'endAssessor'
         ? ACTIONS.PHOTO_END
         : ACTIONS.CONSENT_COPY
-      const detail = which.includes('Assessor') ? 'Assessor' : which === 'consentCopy' ? '' : 'Prisoner'
+      const detail = which.includes('Assessor')
+        ? 'Assessor'
+        : which === 'consentCopyC1' || which === 'consentCopy'
+        ? 'C1'
+        : which === 'consentCopyC2'
+        ? 'C2'
+        : 'Prisoner'
       logAction(s, action, detail)
       return store.saveSession(s)
     })

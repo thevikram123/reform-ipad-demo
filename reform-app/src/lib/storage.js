@@ -43,6 +43,8 @@ export function createSession(profile = {}) {
       end: null,
       endAssessor: null,
       consentCopy: null,
+      consentCopyC1: null,
+      consentCopyC2: null,
     }, // dataURL strings; start/end are prisoner photos for backward compatibility
     biometric: { start: null, end: null }, // placeholder for future thumbprint integration
     reviewedSections: {}, // sectionId -> true once interviewer confirms review

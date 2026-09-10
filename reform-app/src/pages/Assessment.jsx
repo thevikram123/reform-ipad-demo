@@ -66,7 +66,11 @@ export default function Assessment({ onExit }) {
   const hasStartPhoto = !!photos.start && !!photos.startAssessor
   const hasConsents = !!(consents.C1 && consents.C2)
   const hasEndPhoto = !!photos.end && !!photos.endAssessor
-  const hasConsentCopy = !!photos.consentCopy
+  // Keep the legacy C1 key readable for assessments created before the
+  // two-document capture step was introduced.
+  const hasC1ConsentCopy = !!(photos.consentCopyC1 || photos.consentCopy)
+  const hasC2ConsentCopy = !!photos.consentCopyC2
+  const hasConsentCopies = hasC1ConsentCopy && hasC2ConsentCopy
 
   // Derive current flow step based on session state
   const allQuestionnaireReviewed = QUESTIONNAIRE_SECTIONS.every((s) => reviewedSections[s.id])
@@ -84,7 +88,7 @@ export default function Assessment({ onExit }) {
     ...QUESTIONNAIRE_SECTIONS.map((s) => !!reviewedSections[s.id]),
     scorecardDone,
     hasEndPhoto,
-    hasConsentCopy,
+    hasConsentCopies,
   ]
   const stagesDone = journey.filter(Boolean).length
   const progressPct = Math.round((stagesDone / journey.length) * 100)
@@ -99,7 +103,7 @@ export default function Assessment({ onExit }) {
       // End photo only after the scorecard is completed
       case STEP.END_PHOTO: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone
       case STEP.CONSENT_COPY: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto
-      case STEP.SUBMIT: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto && hasConsentCopy
+      case STEP.SUBMIT: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto && hasConsentCopies
       default: return false
     }
   }
@@ -312,27 +316,42 @@ export default function Assessment({ onExit }) {
       case STEP.CONSENT_COPY:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 6 — Signed Consent Copy</h2>
-            <p className="step-desc">
-              Photograph the signed consent form, including the signature or thumb impression.
-            </p>
-            <PhotoCapture
-              label="Signed Consent Copy"
-              hint="Place the consent form on a flat surface, keep all four corners inside the guide, and make sure the signature or thumb impression is clearly visible."
-              value={photos.consentCopy}
-              onCapture={(dataUrl) => setPhoto('consentCopy', dataUrl)}
-              allowUpload={false}
-              variant="document"
-              captureLabel="Capture signed copy"
-            />
-            {hasConsentCopy && (
+            <h2 className="step-panel-title">Step 6 — {t('signedConsentCopies')}</h2>
+            <p className="step-desc">{t('captureConsentCopies')}</p>
+            <div className="dual-capture-grid consent-copy-grid">
+              <div className="capture-person-card">
+                <span className="capture-person-role">C1</span>
+                <PhotoCapture
+                  label={t('c1ConsentCopy')}
+                  hint={t('consentCopyHint')}
+                  value={photos.consentCopyC1 || photos.consentCopy}
+                  onCapture={(dataUrl) => setPhoto('consentCopyC1', dataUrl)}
+                  allowUpload={false}
+                  variant="document"
+                  captureLabel={t('captureC1Copy')}
+                />
+              </div>
+              <div className="capture-person-card">
+                <span className="capture-person-role">C2</span>
+                <PhotoCapture
+                  label={t('c2ConsentCopy')}
+                  hint={t('consentCopyHint')}
+                  value={photos.consentCopyC2}
+                  onCapture={(dataUrl) => setPhoto('consentCopyC2', dataUrl)}
+                  allowUpload={false}
+                  variant="document"
+                  captureLabel={t('captureC2Copy')}
+                />
+              </div>
+            </div>
+            {hasConsentCopies && (
               <div className="step-done-msg">
-                Signed consent copy captured.{' '}
+                {t('bothConsentCopiesCaptured')}{' '}
                 <button
                   className="btn-primary"
                   onClick={() => setActiveStep(STEP.SUBMIT)}
                 >
-                  Proceed to submit <Icon name="arrow-right" />
+                  {t('proceedSubmit')} <Icon name="arrow-right" />
                 </button>
               </div>
             )}
@@ -354,7 +373,8 @@ export default function Assessment({ onExit }) {
               />
               <CheckItem ok={!!reviewedSections[SCORECARD_SECTION_ID]} label="Scorecard completed" warn />
               <CheckItem ok={hasEndPhoto} label="End photo captured" />
-              <CheckItem ok={hasConsentCopy} label="Signed consent copy captured" />
+              <CheckItem ok={hasC1ConsentCopy} label="Signed C1 consent copy captured" />
+              <CheckItem ok={hasC2ConsentCopy} label="Signed C2 consent copy captured" />
             </div>
             {submitWarning && (
               <p className="submit-warning">{submitWarning}</p>
@@ -362,7 +382,7 @@ export default function Assessment({ onExit }) {
             <div className="submit-actions">
               <button
                 className="btn-accent"
-                disabled={!hasStartPhoto || !hasConsents || !hasEndPhoto || !hasConsentCopy}
+                disabled={!hasStartPhoto || !hasConsents || !hasEndPhoto || !hasConsentCopies}
                 onClick={handleSubmit}
               >
                 Submit Assessment
@@ -384,7 +404,7 @@ export default function Assessment({ onExit }) {
       { key: STEP.QUESTIONNAIRE, label: `3. ${t('questionnaire')}` },
       { key: STEP.SCORECARD, label: `4. ${t('scorecard')}` },
       { key: STEP.END_PHOTO, label: `5. ${t('endPhoto')}` },
-      { key: STEP.CONSENT_COPY, label: `6. ${t('signedConsentCopy')}` },
+      { key: STEP.CONSENT_COPY, label: `6. ${t('signedConsentCopies')}` },
       { key: STEP.SUBMIT, label: `7. ${t('submit')}` },
     ]
     return (
