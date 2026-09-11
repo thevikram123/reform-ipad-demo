@@ -23,7 +23,6 @@ export default function Question({ question, number, answer, options, onChange }
       <div className="question-card card">
         <div className="question-header">
           <QuestionTitle number={number} text={tr(text)} />
-          {question.prefill && <span className="badge badge-prefill">{t('fromIntake')}</span>}
         </div>
         {guidance && <p className="question-guidance">{guidance}</p>}
         <div className="field">
@@ -42,9 +41,6 @@ export default function Question({ question, number, answer, options, onChange }
               onChange={(e) => onChange({ choice: e.target.value })}
               placeholder={t('typeResponse')}
             />
-          )}
-          {question.prefill && (
-            <span className="prefill-hint">{t('carriedFromIntake')}</span>
           )}
         </div>
       </div>
