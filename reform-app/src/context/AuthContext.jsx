@@ -16,10 +16,15 @@ export function AuthProvider({ children }) {
       setUser(nextUser || null)
       if (!nextUser) { setProfile(null); setLoading(false); return }
       try { setProfile(await getMyProfile(nextUser.id)) }
+      catch (error) { console.error('Unable to load REFORM access profile', error); setProfile(null) }
       finally { if (alive) setLoading(false) }
     }
     supabase.auth.getUser().then(({ data }) => apply(data.user))
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => apply(session?.user))
+    // Run profile I/O after the auth callback returns; awaiting another Supabase
+    // request inside onAuthStateChange can block the client's auth lock.
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setTimeout(() => apply(session?.user), 0)
+    })
     return () => { alive = false; listener.subscription.unsubscribe() }
   }, [])
 
@@ -31,4 +36,3 @@ export function AuthProvider({ children }) {
   }), [user, profile, loading])
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
-

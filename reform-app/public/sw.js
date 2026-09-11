@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reform-demo-v7'
+const CACHE_NAME = 'reform-demo-v8'
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './reform-app-icon.png']
 
 self.addEventListener('install', (event) => {
