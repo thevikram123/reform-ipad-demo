@@ -28,8 +28,8 @@ export default function AccessGate({ children }) {
       <section className="access-brand">
         <img src={logo} alt="REFORM" />
         <span className="access-kicker">Secure assessment workspace</span>
-        <h1>One record.<br />Two levels of review.</h1>
-        <p>Assessors document the interview. Nodal Officers make the final release decision. Every submission is timestamped.</p>
+        <h1>One record.<br />Three accountable stages.</h1>
+        <p>Assessors document the interview. Nodal Officers record the rehabilitation entry. The Home Department makes the final release decision. Every submission is timestamped.</p>
         <div className="access-flow"><span>01 Assess</span><i /><span>02 Review</span><i /><span>03 Finalise</span></div>
       </section>
       <section className="access-panel">

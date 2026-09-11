@@ -98,8 +98,8 @@ export default function Home({ onOpen }) {
   }
   const resume = (item) => { load(item); onOpen() }
   const role = account?.role
-  const statusLabel = (status) => status === 'final_submitted' ? 'Final submitted' : status === 'pending_nodal' ? 'Awaiting Nodal decision' : 'Open'
-  const statusClass = (status) => status === 'final_submitted' ? 'badge-done' : status === 'pending_nodal' ? 'badge-review' : 'badge-partial'
+  const statusLabel = (status) => status === 'final_submitted' ? 'Final submitted' : status === 'pending_home' ? 'Awaiting Home Department' : status === 'pending_nodal' ? 'Awaiting Nodal entry' : 'Open'
+  const statusClass = (status) => status === 'final_submitted' ? 'badge-done' : status === 'pending_nodal' || status === 'pending_home' ? 'badge-review' : 'badge-partial'
 
   return (
     <div className="home">

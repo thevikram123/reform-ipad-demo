@@ -32,11 +32,12 @@ export function createSession(profile = {}) {
     id,
     createdAt: now,
     updatedAt: now,
-    status: 'open', // open | pending_nodal | final_submitted
+    status: 'open', // open | pending_nodal | pending_home | final_submitted
     profile, // office-use fields: name, prisonerId, gender, age, location, district, state, pin, assessedBy, designation, date, time
     answers: {}, // questionId -> { choice, note } | { choiceA, choiceB, note }
     consents: {}, // C1 / C2 -> { agreed, name, signature, place, datetime }
     scorecard: {}, // section I free-form decision fields
+    assessorDeclaration: {},
     photos: {
       start: null,
       startAssessor: null,

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useCallback } from 'react'
 import * as store from '../lib/storage'
 import { logAction, ACTIONS } from '../lib/audit'
 import { prefillAnswers } from '../data/questions'
-import { finalSubmitCloudSession, saveCloudSession, submitCloudSession } from '../lib/supabase'
+import { saveCloudSession, submitCloudSession, submitHomeCloudSession, submitNodalCloudSession } from '../lib/supabase'
 
 const Ctx = createContext(null)
 export const useSession = () => useContext(Ctx)
@@ -139,6 +139,15 @@ export function SessionProvider({ children }) {
     })
   }, [persist])
 
+  const updateAssessorDeclaration = useCallback((patch) => {
+    setSession((prev) => {
+      if (!prev || prev.status !== 'open') return prev
+      const s = { ...prev, assessorDeclaration: { ...prev.assessorDeclaration, ...patch } }
+      logAction(s, 'Assessor declaration updated', Object.keys(patch).join(', '))
+      return persist(s)
+    })
+  }, [persist])
+
   const logExport = useCallback(() => {
     setSession((prev) => {
       const s = { ...prev }
@@ -156,18 +165,26 @@ export function SessionProvider({ children }) {
     store.saveSession(s); setSession({ ...s }); return s
   }, [session])
 
-  const finalSubmit = useCallback(async (finalScorecard) => {
+  const submitNodal = useCallback(async (nodalEntry) => {
     if (!session) return null
-    const remote = await finalSubmitCloudSession(session.id, finalScorecard)
-    const s = { ...session, ...remote, status: 'final_submitted', finalScorecard, finalDecision: remote.finalDecision }
-    logAction(s, 'Final decision submitted', remote.finalDecision, { actorRole: 'nodal_officer' })
+    const remote = await submitNodalCloudSession(session.id, nodalEntry)
+    const s = { ...session, ...remote, status: 'pending_home', nodalEntry }
+    logAction(s, 'Nodal rehabilitation entry submitted', nodalEntry.recommendedPathway, { actorRole: 'nodal_officer' })
+    store.saveSession(s); setSession({ ...s }); return s
+  }, [session])
+
+  const submitHome = useCallback(async (homeEntry) => {
+    if (!session) return null
+    const remote = await submitHomeCloudSession(session.id, homeEntry)
+    const s = { ...session, ...remote, status: 'final_submitted', homeEntry, finalDecision: remote.finalDecision }
+    logAction(s, 'Home Department release decision submitted', remote.finalDecision, { actorRole: 'home_department' })
     store.saveSession(s); setSession({ ...s }); return s
   }, [session])
 
   const value = {
     session, start, load, close, commit,
     updateProfile, setAnswer, setConsent, setPhoto, setBiometric,
-    markReviewed, logOpen, updateScorecard, logExport, submit, finalSubmit,
+    markReviewed, logOpen, updateScorecard, updateAssessorDeclaration, logExport, submit, submitNodal, submitHome,
     syncError, clearSyncError: () => setSyncError(''),
   }
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>

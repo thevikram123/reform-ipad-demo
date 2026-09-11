@@ -6,7 +6,7 @@ import autoTable from 'jspdf-autotable'
 import logo from '../assets/reform-logo.png'
 import { sections, answerableQuestions, optionsForQuestion, CONSENT_SECTION_ID, SCORECARD_SECTION_ID } from '../data/questions.js'
 import { formatTs } from './audit.js'
-import { RELEASE_RULES, getReleaseDecision } from './releaseClassification.js'
+import { getReleaseDecision } from './releaseClassification.js'
 
 // ─── Brand colours (RGB) ────────────────────────────────────────────────────
 const GREEN  = [12,  53,  18]   // #0C3512 deep green
@@ -172,7 +172,9 @@ function drawHeader(doc, session) {
   const status = session?.status === 'final_submitted'
     ? 'FINAL SUBMITTED'
     : session?.status === 'pending_nodal'
-    ? 'AWAITING NODAL DECISION'
+    ? 'AWAITING NODAL OFFICER ENTRY'
+    : session?.status === 'pending_home'
+    ? 'AWAITING HOME DEPARTMENT DECISION'
     : 'OPEN'
   setFont(doc, 8.5, 'italic', DARK_GREY)
   doc.text(`Assessment Status: ${status}  ·  Report ID: ${safe(session?.id)}`, MARGIN_L, y)
@@ -437,13 +439,13 @@ function drawQuestionnaire(doc, y, session) {
 
 // ─── 6. Scorecard (Section I) ─────────────────────────────────────────────────
 function drawScorecard(doc, y, session) {
-  const sc = session?.scorecard || {}
-  const finalSc = session?.finalScorecard || null
   const p = session?.profile || {}
-  const decision = getReleaseDecision(sc.cpsRange, sc.aspireLevel, sc.pfiStrength)
+  const declaration = session?.assessorDeclaration || {}
+  const nodal = session?.nodalEntry || null
+  const home = session?.homeEntry || null
 
   doc.addPage()
-  y = sectionBanner(doc, MARGIN_T, 'Release Suitability Classification (CPS × PFI × RRI × ASPIRE)')
+  y = sectionBanner(doc, MARGIN_T, 'Assessor Declaration')
 
   y = runTable(doc, y, [], [[
     { content: 'Prisoner Name', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.name),
@@ -453,64 +455,48 @@ function drawScorecard(doc, y, session) {
     { content: 'Assessment Date', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.date),
   ]], { 0: { cellWidth: 31 }, 1: { cellWidth: 60 }, 2: { cellWidth: 31 }, 3: { cellWidth: 60 } })
 
-  y = groupHeading(doc, y, 'Assessor Tentative Scorecard and Decision')
-  y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'RRI / Reliability Concern', 'Tentative Decision']], [[
-    safe(sc.cpsRange), safe(sc.aspireLevel), safe(sc.pfiStrength), safe(sc.reliabilityConcern), safe(decision),
-  ]], { 0: { cellWidth: 41 }, 1: { cellWidth: 25 }, 2: { cellWidth: 25 }, 3: { cellWidth: 31 }, 4: { cellWidth: 60 } })
+  y = groupHeading(doc, y, 'Declaration and Signature')
+  setFont(doc, 9, 'normal', DARK_GREY)
+  const statement = 'I declare that I conducted this assessment, recorded the prisoner responses accurately, and captured the required photographs and signed consent documents. Submission freezes the complete assessment record.'
+  const statementLines = doc.splitTextToSize(statement, CONTENT_W)
+  doc.text(statementLines, MARGIN_L, y)
+  y += statementLines.length * 4.5 + 5
+  y = runTable(doc, y, [['Confirmed', 'Assessor Name', 'Signature / Thumb Impression', 'Date']], [[
+    declaration.accepted ? 'Yes' : 'No', safe(declaration.name || p.assessedBy), safe(declaration.signature), safe(declaration.date || p.date),
+  ]], { 0: { cellWidth: 26 }, 1: { cellWidth: 50 }, 2: { cellWidth: 72 }, 3: { cellWidth: 34 } })
 
-  if (finalSc) {
-    y = groupHeading(doc, y, 'Nodal Officer Final Scorecard and Decision')
-    y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'RRI / Reliability Concern', 'Final Decision']], [[
-      safe(finalSc.cpsRange), safe(finalSc.aspireLevel), safe(finalSc.pfiStrength), safe(finalSc.rriConcern), safe(session.finalDecision || finalSc.decision),
-    ]], { 0: { cellWidth: 41 }, 1: { cellWidth: 25 }, 2: { cellWidth: 25 }, 3: { cellWidth: 31 }, 4: { cellWidth: 60 } })
-  }
-
-  y = groupHeading(doc, y, 'Classification reference matrix')
-  y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'Decision']], RELEASE_RULES.map((rule) => [
-    rule.cps, rule.aspire, rule.pfi, rule.decision,
-  ]), { 0: { cellWidth: 43 }, 1: { cellWidth: 29 }, 2: { cellWidth: 29 }, 3: { cellWidth: 81 } })
-
-  y = groupHeading(doc, y, 'Sign-off and approvals')
-  const signers = [
-    ['Prisoner', sc.prisonerName || p.name, sc.prisonerSignature, sc.prisonerDate],
-    ['Assessor', sc.assessorName || p.assessedBy, sc.assessorSignature, sc.assessorDate || p.date],
-    ['REFORM Project Head', sc.projectHeadName, sc.projectHeadSignature, sc.projectHeadDate],
-    ['REFORM Nodal Officer', sc.nodalOfficerName, sc.nodalOfficerSignature, sc.nodalOfficerDate],
-  ]
-  y = runTable(doc, y, [['Role', 'Name', 'Signature / Thumb Impression', 'Date']], signers.map((row) => row.map(safe)), {
-    0: { cellWidth: 42 }, 1: { cellWidth: 46 }, 2: { cellWidth: 64 }, 3: { cellWidth: 30 },
-  })
-
-  const excluded = new Set([
-    'cpsRange', 'aspireLevel', 'pfiStrength', 'reliabilityConcern',
-    ...['prisoner', 'assessor', 'projectHead', 'nodalOfficer'].flatMap((prefix) => [`${prefix}Name`, `${prefix}Signature`, `${prefix}Date`]),
-  ])
-  const scorecardLabels = {
-    riskLevel: 'Risk Level',
-    criminalPotential: 'Criminal Potential Score',
-    protectiveStrength: 'PFI / Protective Factor Strength',
-    recommendedPathway: 'Rehabilitation Pathway',
-    reintegrationReadiness: 'Reintegration Readiness',
-    clinicalSummary: 'Clinical Summary and Observations',
-    recommendations: 'Recommendations and Conditions',
-    decision: 'Assessor Tentative Decision',
-  }
-  const supplemental = Object.entries(sc).filter(([key, value]) => !excluded.has(key) && value && scorecardLabels[key])
-  if (supplemental.length) {
+  if (nodal) {
     doc.addPage()
-    y = sectionBanner(doc, MARGIN_T, 'Assessment Narrative and Recommendations')
-    y = runTable(doc, y, [], supplemental.map(([key, value]) => [
-      { content: scorecardLabels[key], styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } },
-      safe(value),
-    ]), { 0: { cellWidth: 62 }, 1: { cellWidth: CONTENT_W - 62 } })
-    if (finalSc?.observations || finalSc?.recommendations) {
-      y = groupHeading(doc, y, 'Nodal Officer Review')
-      y = runTable(doc, y, [], [
-        [{ content: 'Clinical Summary and Observations', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(finalSc.observations)],
-        [{ content: 'Recommendations and Conditions', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(finalSc.recommendations)],
-        [{ content: 'Final Decision', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(session.finalDecision || finalSc.decision)],
-      ], { 0: { cellWidth: 62 }, 1: { cellWidth: CONTENT_W - 62 } })
-    }
+    y = sectionBanner(doc, MARGIN_T, 'Nodal Officer Rehabilitation Entry')
+    y = runTable(doc, y, [], [
+      [{ content: 'Overall Risk Level', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.riskLevel)],
+      [{ content: 'Criminal Potential', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.criminalPotential)],
+      [{ content: 'RRI / Reliability Concern', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.reliabilityConcern)],
+      [{ content: 'Protective Factor Strength', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.protectiveStrength)],
+      [{ content: 'Recommended Rehabilitation Pathway', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.recommendedPathway)],
+      [{ content: 'Reintegration Readiness', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.reintegrationReadiness)],
+      [{ content: 'Clinical Summary and Observations', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.clinicalSummary)],
+      [{ content: 'Recommendations and Next Steps', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.recommendations)],
+      [{ content: 'Nodal Officer Decision / Disposition', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(nodal.nodalDecision)],
+    ], { 0: { cellWidth: 66 }, 1: { cellWidth: CONTENT_W - 66 } })
+    y = groupHeading(doc, y, 'Nodal Officer Declaration')
+    y = runTable(doc, y, [['Name', 'Signature / Thumb Impression', 'Date']], [[safe(nodal.nodalName), safe(nodal.nodalSignature), safe(nodal.nodalDate)]], { 0: { cellWidth: 52 }, 1: { cellWidth: 88 }, 2: { cellWidth: 42 } })
+  }
+
+  if (home) {
+    doc.addPage()
+    y = sectionBanner(doc, MARGIN_T, 'Home Department Release Decision')
+    const decision = session.finalDecision || getReleaseDecision(home.cpsRange, home.aspireLevel, home.pfiStrength)
+    y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'Final Release Decision']], [[safe(home.cpsRange), safe(home.aspireLevel), safe(home.pfiStrength), safe(decision)]], { 0: { cellWidth: 47 }, 1: { cellWidth: 30 }, 2: { cellWidth: 30 }, 3: { cellWidth: 75 } })
+    y = groupHeading(doc, y, 'Home Department Remarks and Conditions')
+    y = runTable(doc, y, [], [[safe(home.remarks)]], { 0: { cellWidth: CONTENT_W } })
+    y = groupHeading(doc, y, 'Final Departmental Sign-off')
+    const signers = [
+      ['ACS', home.acsName, home.acsSignature, home.acsDate],
+      ['ADG', home.adgName, home.adgSignature, home.adgDate],
+      ['Nodal Officer', home.nodalName, home.nodalSignature, home.nodalDate],
+    ]
+    y = runTable(doc, y, [['Role', 'Name', 'Signature / Thumb Impression', 'Date']], signers.map((row) => row.map(safe)), { 0: { cellWidth: 34 }, 1: { cellWidth: 48 }, 2: { cellWidth: 66 }, 3: { cellWidth: 34 } })
   }
 
   return y

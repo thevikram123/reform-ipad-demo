@@ -11,12 +11,13 @@ import SectionView from '../components/SectionView'
 import PhotoCapture from '../components/PhotoCapture'
 import ConsentForm from '../components/ConsentForm'
 import AuditLog from '../components/AuditLog'
-import Scorecard from './Scorecard'
 import Icon from '../components/Icon'
 import { exportPdf } from '../lib/pdf'
 import { useLanguage } from '../i18n.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import NodalDecision from './NodalDecision.jsx'
+import HomeDecision from './HomeDecision.jsx'
+import AssessorDeclaration from './AssessorDeclaration.jsx'
 
 // Flow steps (ordered)
 const STEP = {
@@ -51,7 +52,7 @@ export default function Assessment({ onExit }) {
   const { t, tr } = useLanguage()
   const { profile: account } = useAuth()
 
-  const [activeStep, setActiveStep] = useState(() => session?.status === 'pending_nodal' ? STEP.SCORECARD : STEP.START_PHOTO)
+  const [activeStep, setActiveStep] = useState(() => session?.status && session.status !== 'open' ? STEP.SCORECARD : STEP.START_PHOTO)
   const [activeSectionId, setActiveSectionId] = useState(null)
   const [showAudit, setShowAudit] = useState(false)
   const [submitWarning, setSubmitWarning] = useState('')
@@ -64,6 +65,7 @@ export default function Assessment({ onExit }) {
   const reviewedSections = session.reviewedSections || {}
   const photos = session.photos || {}
   const consents = session.consents || {}
+  const declaration = session.assessorDeclaration || {}
 
   // Gate checks
   const hasStartPhoto = !!photos.start && !!photos.startAssessor
@@ -77,7 +79,6 @@ export default function Assessment({ onExit }) {
 
   // Derive current flow step based on session state
   const allQuestionnaireReviewed = QUESTIONNAIRE_SECTIONS.every((s) => reviewedSections[s.id])
-  const scorecardDone = !!reviewedSections[SCORECARD_SECTION_ID]
 
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0, behavior: 'auto' })
@@ -89,7 +90,6 @@ export default function Assessment({ onExit }) {
     hasStartPhoto,
     !!(consents.C1 && consents.C2),
     ...QUESTIONNAIRE_SECTIONS.map((s) => !!reviewedSections[s.id]),
-    scorecardDone,
     hasEndPhoto,
     hasConsentCopies,
   ]
@@ -97,23 +97,22 @@ export default function Assessment({ onExit }) {
   const progressPct = Math.round((stagesDone / journey.length) * 100)
 
   function canAccessStep(step) {
+    if (session.status !== 'open') return true
     switch (step) {
       case STEP.START_PHOTO: return true
       case STEP.CONSENT: return hasStartPhoto
       case STEP.QUESTIONNAIRE: return hasStartPhoto && hasConsents
-      // Scorecard only after every questionnaire section is reviewed/submitted
-      case STEP.SCORECARD: return hasStartPhoto && hasConsents && allQuestionnaireReviewed
-      // End photo only after the scorecard is completed
-      case STEP.END_PHOTO: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone
-      case STEP.CONSENT_COPY: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto
-      case STEP.SUBMIT: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && scorecardDone && hasEndPhoto && hasConsentCopies
+      case STEP.SCORECARD: return false
+      case STEP.END_PHOTO: return hasStartPhoto && hasConsents && allQuestionnaireReviewed
+      case STEP.CONSENT_COPY: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && hasEndPhoto
+      case STEP.SUBMIT: return hasStartPhoto && hasConsents && allQuestionnaireReviewed && hasEndPhoto && hasConsentCopies
       default: return false
     }
   }
 
   // ── Sequential progression ──
   // A section cannot be opened until the previous section has been completed
-  // (reviewed/submitted). Order: Consent → A,B,D,E,F,G,H → Scorecard.
+  // (reviewed/submitted). Order: Consent → A,B,D,E,F,G,H → evidence → declaration.
   function isSectionComplete(sec) {
     if (sec.id === CONSENT_SECTION_ID) return hasConsents
     return !!reviewedSections[sec.id] // questionnaire sections + scorecard
@@ -128,10 +127,6 @@ export default function Assessment({ onExit }) {
     if (idx >= 0) {
       // locked until every earlier questionnaire section is reviewed
       return !order.slice(0, idx).every((s) => reviewedSections[s.id])
-    }
-    if (sec.id === SCORECARD_SECTION_ID) {
-      // scorecard unlocks only after all questionnaire sections are reviewed
-      return !order.every((s) => reviewedSections[s.id])
     }
     return false
   }
@@ -160,7 +155,7 @@ export default function Assessment({ onExit }) {
       setActiveSectionId(nextSection.id)
     } else {
       setActiveSectionId(null)
-      setActiveStep(STEP.SCORECARD)
+      setActiveStep(STEP.END_PHOTO)
     }
   }
 
@@ -176,10 +171,10 @@ export default function Assessment({ onExit }) {
     )
     if (unreviewedQuestionnaire.length > 0) {
       const names = unreviewedQuestionnaire.map((s) => `${s.letter}: ${s.title}`).join(', ')
-      setSubmitWarning(`Warning: these sections have not been fully reviewed: ${names}. You may still submit.`)
-    } else {
-      setSubmitWarning('')
+      setSubmitWarning(`Complete and confirm these sections before submission: ${names}.`)
+      return
     }
+    setSubmitWarning('')
     try {
       setSubmitting(true)
       await submit()
@@ -211,22 +206,26 @@ export default function Assessment({ onExit }) {
       )
     }
 
-    if (session.status === 'pending_nodal' && account?.role === 'assessor' && activeStep === STEP.SUBMIT) {
+    if (session.status === 'pending_nodal' && activeStep === STEP.SUBMIT) {
       return (
         <div className="submit-screen card">
           <span className="section-pill">Awaiting review</span>
           <h2 className="submit-title">Submitted to Nodal Officer</h2>
-          <p>Your answers and tentative scorecard are frozen. A Nodal Officer will complete the final classification and decision.</p>
-          <div className="submit-actions"><button className="btn-secondary" onClick={handleExportPdf}><Icon name="download" /> Export current report</button><button className="btn-secondary" onClick={onExit}><Icon name="arrow-left" /> Back to registry</button></div>
+          <p>The assessor’s answers, evidence and declaration are frozen. A Nodal Officer must now add the rehabilitation entry without changing the assessor’s record.</p>
+          <div className="submit-actions">{account?.role === 'nodal_officer' && <button className="btn-accent" onClick={() => setActiveStep(STEP.SCORECARD)}>Open Nodal Officer entry <Icon name="arrow-right" /></button>}<button className="btn-secondary" onClick={handleExportPdf}><Icon name="download" /> Export current report</button><button className="btn-secondary" onClick={onExit}><Icon name="arrow-left" /> Back to registry</button></div>
         </div>
       )
+    }
+
+    if (session.status === 'pending_home' && activeStep === STEP.SUBMIT) {
+      return <div className="submit-screen card"><span className="section-pill">Stage 2 complete</span><h2 className="submit-title">Submitted to Home Department</h2><p>The assessor record and Nodal Officer rehabilitation entry are locked. The Home Department must now record the release decision.</p><div className="submit-actions"><button className="btn-secondary" onClick={handleExportPdf}><Icon name="download" /> Export current report</button><button className="btn-secondary" onClick={onExit}><Icon name="arrow-left" /> Back to registry</button></div></div>
     }
 
     if (session.status === 'pending_nodal' && activeStep === STEP.SCORECARD) {
       return <NodalDecision canSubmit={account?.role === 'nodal_officer'} />
     }
-    if (session.status === 'final_submitted' && activeStep === STEP.SCORECARD) {
-      return <NodalDecision canSubmit={false} />
+    if ((session.status === 'pending_home' || session.status === 'final_submitted') && activeStep === STEP.SCORECARD) {
+      return <HomeDecision canSubmit={session.status === 'pending_home' && account?.role === 'home_department'} />
     }
 
     switch (activeStep) {
@@ -290,13 +289,6 @@ export default function Assessment({ onExit }) {
             </div>
           )
         }
-        if (sec.id === SCORECARD_SECTION_ID) {
-          return (
-            <div className="step-panel">
-              <Scorecard onDone={() => { markReviewed(SCORECARD_SECTION_ID); setActiveSectionId(null) }} />
-            </div>
-          )
-        }
         return (
           <SectionView
             key={sec.id}
@@ -307,16 +299,14 @@ export default function Assessment({ onExit }) {
       }
 
       case STEP.SCORECARD:
-        return (
-          <div className="step-panel">
-            <Scorecard onDone={() => { markReviewed(SCORECARD_SECTION_ID); setActiveStep(STEP.END_PHOTO) }} />
-          </div>
-        )
+        return session.status === 'pending_nodal'
+          ? <NodalDecision canSubmit={account?.role === 'nodal_officer'} />
+          : <HomeDecision canSubmit={session.status === 'pending_home' && account?.role === 'home_department'} />
 
       case STEP.END_PHOTO:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 5 — End Photo</h2>
+            <h2 className="step-panel-title">Step 4 — End Photo</h2>
             <p className="step-desc">{t('captureBothEnd')}</p>
             <div className="dual-capture-grid">
               <div className="capture-person-card">
@@ -345,7 +335,7 @@ export default function Assessment({ onExit }) {
       case STEP.CONSENT_COPY:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 6 — {t('signedConsentCopies')}</h2>
+            <h2 className="step-panel-title">Step 5 — {t('signedConsentCopies')}</h2>
             <p className="step-desc">{t('captureConsentCopies')}</p>
             <div className="dual-capture-grid consent-copy-grid">
               <div className="capture-person-card">
@@ -390,28 +380,27 @@ export default function Assessment({ onExit }) {
       case STEP.SUBMIT:
         return (
           <div className="step-panel card">
-            <h2 className="step-panel-title">Step 7 — Final Submit</h2>
-            <p>Review that all sections are complete before submitting.</p>
+            <h2 className="step-panel-title">Step 6 — Declaration and Submit</h2>
+            <p>Review that all sections are complete, then sign the assessor declaration.</p>
             <div className="submit-checklist">
               <CheckItem ok={hasStartPhoto} label="Start photo captured" />
               <CheckItem ok={hasConsents} label="Consent obtained (C1 &amp; C2)" />
               <CheckItem
                 ok={QUESTIONNAIRE_SECTIONS.every((s) => reviewedSections[s.id])}
                 label="All questionnaire sections reviewed"
-                warn
               />
-              <CheckItem ok={!!reviewedSections[SCORECARD_SECTION_ID]} label="Scorecard completed" warn />
               <CheckItem ok={hasEndPhoto} label="End photo captured" />
               <CheckItem ok={hasC1ConsentCopy} label="Signed C1 consent copy captured" />
               <CheckItem ok={hasC2ConsentCopy} label="Signed C2 consent copy captured" />
             </div>
+            <AssessorDeclaration />
             {submitWarning && (
               <p className="submit-warning">{submitWarning}</p>
             )}
             <div className="submit-actions">
               <button
                 className="btn-accent"
-                disabled={submitting || !hasStartPhoto || !hasConsents || !hasEndPhoto || !hasConsentCopies}
+                disabled={submitting || !hasStartPhoto || !hasConsents || !allQuestionnaireReviewed || !hasEndPhoto || !hasConsentCopies || !declaration.accepted || !declaration.signature}
                 onClick={handleSubmit}
               >
                 {submitting ? 'Submitting…' : 'Submit to Nodal Officer'}
@@ -427,14 +416,21 @@ export default function Assessment({ onExit }) {
 
   // Step strip item
   function StepStrip() {
-    const steps = [
+    const steps = session.status === 'open' ? [
       { key: STEP.START_PHOTO, label: `1. ${t('startPhoto')}` },
       { key: STEP.CONSENT, label: `2. ${t('consent')}` },
       { key: STEP.QUESTIONNAIRE, label: `3. ${t('questionnaire')}` },
-      { key: STEP.SCORECARD, label: `4. ${t('scorecard')}` },
-      { key: STEP.END_PHOTO, label: `5. ${t('endPhoto')}` },
-      { key: STEP.CONSENT_COPY, label: `6. ${t('signedConsentCopies')}` },
-      { key: STEP.SUBMIT, label: `7. ${t('submit')}` },
+      { key: STEP.END_PHOTO, label: `4. ${t('endPhoto')}` },
+      { key: STEP.CONSENT_COPY, label: `5. ${t('signedConsentCopies')}` },
+      { key: STEP.SUBMIT, label: '6. Declaration & Submit' },
+    ] : [
+      { key: STEP.START_PHOTO, label: 'Evidence: Start' },
+      { key: STEP.CONSENT, label: 'Consent' },
+      { key: STEP.QUESTIONNAIRE, label: 'Assessment record' },
+      { key: STEP.END_PHOTO, label: 'Evidence: End' },
+      { key: STEP.CONSENT_COPY, label: 'Signed consent copies' },
+      { key: STEP.SCORECARD, label: session.status === 'pending_nodal' ? 'Nodal Officer Entry' : 'Home Department Decision' },
+      { key: STEP.SUBMIT, label: 'Submission status' },
     ]
     return (
       <div className="step-strip">
@@ -485,9 +481,9 @@ export default function Assessment({ onExit }) {
         <aside className="assessment-rail">
           <div className="rail-head">{t('sections')}</div>
           <ul className="rail-list">
-            {sections.map((sec) => {
+            {sections.filter((sec) => sec.id !== SCORECARD_SECTION_ID).map((sec) => {
               const isSpecial =
-                sec.id === CONSENT_SECTION_ID || sec.id === SCORECARD_SECTION_ID
+                sec.id === CONSENT_SECTION_ID
               const complete = isSectionComplete(sec)
               const status = isSpecial
                 ? (complete ? 'done' : 'todo')
@@ -496,8 +492,7 @@ export default function Assessment({ onExit }) {
 
               const isActive =
                 (activeSectionId === sec.id && activeStep === STEP.QUESTIONNAIRE) ||
-                (sec.id === CONSENT_SECTION_ID && activeStep === STEP.CONSENT) ||
-                (sec.id === SCORECARD_SECTION_ID && activeStep === STEP.SCORECARD)
+                (sec.id === CONSENT_SECTION_ID && activeStep === STEP.CONSENT)
 
               return (
                 <li key={sec.id}>
@@ -507,11 +502,7 @@ export default function Assessment({ onExit }) {
                     title={locked ? t('completePrevious') : ''}
                     onClick={() => {
                       if (locked) return
-                      if (sec.id === SCORECARD_SECTION_ID) {
-                        setActiveStep(STEP.SCORECARD)
-                        setActiveSectionId(null)
-                        setShowAudit(false)
-                      } else if (sec.id === CONSENT_SECTION_ID) {
+                      if (sec.id === CONSENT_SECTION_ID) {
                         setActiveStep(STEP.CONSENT)
                         setActiveSectionId(null)
                         setShowAudit(false)
@@ -561,8 +552,8 @@ export default function Assessment({ onExit }) {
               ID: <span className="pid">{session.profile?.prisonerId || '—'}</span>
               {session.profile?.assessedBy && <> · {t('assessedByInline')} {session.profile.assessedBy}</>}
             </span>
-            <span className={`badge badge-${session.status === 'final_submitted' ? 'done' : session.status === 'pending_nodal' ? 'review' : 'partial'}`}>
-              {session.status === 'final_submitted' ? 'Final submitted' : session.status === 'pending_nodal' ? 'Awaiting Nodal decision' : 'Open'}
+            <span className={`badge badge-${session.status === 'final_submitted' ? 'done' : session.status === 'pending_nodal' || session.status === 'pending_home' ? 'review' : 'partial'}`}>
+              {session.status === 'final_submitted' ? 'Final submitted' : session.status === 'pending_nodal' ? 'Awaiting Nodal entry' : session.status === 'pending_home' ? 'Awaiting Home Department' : 'Open'}
             </span>
           </div>
           {session.status !== 'open' && (

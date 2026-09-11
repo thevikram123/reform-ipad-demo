@@ -39,13 +39,15 @@ function fromRow(row) {
     assessorId: row.assessor_id,
     assessorSubmittedAt: row.assessor_submitted_at ? Date.parse(row.assessor_submitted_at) : null,
     nodalSubmittedAt: row.nodal_submitted_at ? Date.parse(row.nodal_submitted_at) : null,
-    finalScorecard: row.final_scorecard || null,
+    homeSubmittedAt: row.home_submitted_at ? Date.parse(row.home_submitted_at) : null,
+    nodalEntry: row.nodal_entry || row.final_scorecard || null,
+    homeEntry: row.home_entry || null,
     finalDecision: row.final_decision || null,
     updatedAt: Date.parse(row.updated_at),
   }
 }
 
-const SELECT = 'id, assessor_id, status, payload, final_scorecard, final_decision, assessor_submitted_at, nodal_submitted_at, updated_at'
+const SELECT = 'id, assessor_id, status, payload, final_scorecard, nodal_entry, home_entry, final_decision, assessor_submitted_at, nodal_submitted_at, home_submitted_at, updated_at'
 
 export async function listCloudSessions() {
   const { data, error } = await supabase
@@ -89,10 +91,19 @@ export async function submitCloudSession(id) {
   return fromRow(data)
 }
 
-export async function finalSubmitCloudSession(id, finalScorecard) {
-  const { data, error } = await supabase.rpc('reform_final_submit', {
+export async function submitNodalCloudSession(id, nodalEntry) {
+  const { data, error } = await supabase.rpc('reform_submit_nodal', {
     p_assessment_id: id,
-    p_final_scorecard: finalScorecard,
+    p_nodal_entry: nodalEntry,
+  })
+  if (error) throw error
+  return fromRow(data)
+}
+
+export async function submitHomeCloudSession(id, homeEntry) {
+  const { data, error } = await supabase.rpc('reform_submit_home', {
+    p_assessment_id: id,
+    p_home_entry: homeEntry,
   })
   if (error) throw error
   return fromRow(data)
