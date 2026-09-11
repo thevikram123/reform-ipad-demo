@@ -4,10 +4,12 @@ import logo from './assets/reform-logo.png'
 import Home from './pages/Home.jsx'
 import Assessment from './pages/Assessment.jsx'
 import { LanguageToggle, useLanguage } from './i18n.jsx'
+import { useAuth } from './context/AuthContext.jsx'
 
 export default function App() {
   const { session, close } = useSession()
   const { t } = useLanguage()
+  const { profile, signOut } = useAuth()
   const [view, setView] = useState('home') // 'home' | 'assessment'
 
   const openAssessment = () => setView('assessment')
@@ -26,6 +28,10 @@ export default function App() {
           )}
         </div>
         <LanguageToggle />
+        <div className="user-chip">
+          <span><strong>{profile?.display_name || profile?.access_id}</strong><small>{(profile?.role || '').replaceAll('_', ' ')}</small></span>
+          <button className="btn-ghost" onClick={signOut}>Sign out</button>
+        </div>
       </header>
       <main className="app-main">
         {view === 'home'

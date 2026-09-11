@@ -14,7 +14,7 @@ function writeAll(map) {
 }
 
 export function uid() {
-  return 'p_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7)
+  return crypto.randomUUID()
 }
 
 export function listSessions() {
@@ -32,7 +32,7 @@ export function createSession(profile = {}) {
     id,
     createdAt: now,
     updatedAt: now,
-    status: 'in_progress', // in_progress | submitted
+    status: 'open', // open | pending_nodal | final_submitted
     profile, // office-use fields: name, prisonerId, gender, age, location, district, state, pin, assessedBy, designation, date, time
     answers: {}, // questionId -> { choice, note } | { choiceA, choiceB, note }
     consents: {}, // C1 / C2 -> { agreed, name, signature, place, datetime }

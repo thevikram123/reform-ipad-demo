@@ -15,6 +15,8 @@ import Scorecard from './Scorecard'
 import Icon from '../components/Icon'
 import { exportPdf } from '../lib/pdf'
 import { useLanguage } from '../i18n.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import NodalDecision from './NodalDecision.jsx'
 
 // Flow steps (ordered)
 const STEP = {
@@ -47,12 +49,13 @@ export default function Assessment({ onExit }) {
     submit,
   } = useSession()
   const { t, tr } = useLanguage()
+  const { profile: account } = useAuth()
 
-  const [activeStep, setActiveStep] = useState(STEP.START_PHOTO)
+  const [activeStep, setActiveStep] = useState(() => session?.status === 'pending_nodal' ? STEP.SCORECARD : STEP.START_PHOTO)
   const [activeSectionId, setActiveSectionId] = useState(null)
   const [showAudit, setShowAudit] = useState(false)
   const [submitWarning, setSubmitWarning] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const mainRef = useRef(null)
 
   if (!session) return null
@@ -166,7 +169,7 @@ export default function Assessment({ onExit }) {
     exportPdf(session)
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     // Warn if sections not all reviewed
     const unreviewedQuestionnaire = QUESTIONNAIRE_SECTIONS.filter(
       (s) => !reviewedSections[s.id]
@@ -177,17 +180,25 @@ export default function Assessment({ onExit }) {
     } else {
       setSubmitWarning('')
     }
-    submit()
-    setSubmitted(true)
+    try {
+      setSubmitting(true)
+      await submit()
+    } catch (error) {
+      setSubmitWarning(error.message || 'Submission failed. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   // Render the main panel content
   function renderMain() {
-    if (submitted) {
+    if (session.status === 'final_submitted' && activeStep === STEP.SUBMIT) {
       return (
         <div className="submit-screen card">
-          <h2 className="submit-title">Assessment Submitted</h2>
-          <p>The session has been marked as submitted. You may now export the PDF report.</p>
+          <span className="section-pill">Final submitted</span>
+          <h2 className="submit-title">Final Decision Recorded</h2>
+          <p><strong>{session.finalDecision}</strong></p>
+          <p>This assessment is permanently view-only. The complete report remains available below.</p>
           <div className="submit-actions">
             <button className="btn-accent" onClick={handleExportPdf}>
               <Icon name="download" /> Export PDF report
@@ -198,6 +209,24 @@ export default function Assessment({ onExit }) {
           </div>
         </div>
       )
+    }
+
+    if (session.status === 'pending_nodal' && account?.role === 'assessor' && activeStep === STEP.SUBMIT) {
+      return (
+        <div className="submit-screen card">
+          <span className="section-pill">Awaiting review</span>
+          <h2 className="submit-title">Submitted to Nodal Officer</h2>
+          <p>Your answers and tentative scorecard are frozen. A Nodal Officer will complete the final classification and decision.</p>
+          <div className="submit-actions"><button className="btn-secondary" onClick={handleExportPdf}><Icon name="download" /> Export current report</button><button className="btn-secondary" onClick={onExit}><Icon name="arrow-left" /> Back to registry</button></div>
+        </div>
+      )
+    }
+
+    if (session.status === 'pending_nodal' && activeStep === STEP.SCORECARD) {
+      return <NodalDecision canSubmit={account?.role === 'nodal_officer'} />
+    }
+    if (session.status === 'final_submitted' && activeStep === STEP.SCORECARD) {
+      return <NodalDecision canSubmit={false} />
     }
 
     switch (activeStep) {
@@ -382,10 +411,10 @@ export default function Assessment({ onExit }) {
             <div className="submit-actions">
               <button
                 className="btn-accent"
-                disabled={!hasStartPhoto || !hasConsents || !hasEndPhoto || !hasConsentCopies}
+                disabled={submitting || !hasStartPhoto || !hasConsents || !hasEndPhoto || !hasConsentCopies}
                 onClick={handleSubmit}
               >
-                Submit Assessment
+                {submitting ? 'Submitting…' : 'Submit to Nodal Officer'}
               </button>
             </div>
           </div>
@@ -438,7 +467,7 @@ export default function Assessment({ onExit }) {
   }
 
   return (
-    <div className="assessment-shell">
+    <div className={`assessment-shell${session.status !== 'open' ? ' assessment-readonly' : ''}`}>
       {/* Step strip */}
       <StepStrip />
 
@@ -532,10 +561,13 @@ export default function Assessment({ onExit }) {
               ID: <span className="pid">{session.profile?.prisonerId || '—'}</span>
               {session.profile?.assessedBy && <> · {t('assessedByInline')} {session.profile.assessedBy}</>}
             </span>
-            <span className={`badge badge-${session.status === 'submitted' ? 'done' : 'partial'}`}>
-              {session.status === 'submitted' ? t('submitted') : t('inProgress')}
+            <span className={`badge badge-${session.status === 'final_submitted' ? 'done' : session.status === 'pending_nodal' ? 'review' : 'partial'}`}>
+              {session.status === 'final_submitted' ? 'Final submitted' : session.status === 'pending_nodal' ? 'Awaiting Nodal decision' : 'Open'}
             </span>
           </div>
+          {session.status !== 'open' && (
+            <div className="readonly-banner"><Icon name="lock" size={14} /><span><strong>View-only record</strong> — interview answers and evidence are frozen after assessor submission.</span></div>
+          )}
           {renderMain()}
         </main>
       </div>

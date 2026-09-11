@@ -621,6 +621,7 @@
 }
 
 /* ── Collapsible audit-log drawer ── */
+.readonly-banner { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; padding: 9px 13px; border: 1px solid #ead499; border-radius: 9px; background: #fff8e6; color: #654c0a; font-size: 12px; }
 .audit-tab {
   position: fixed;
   right: 0;

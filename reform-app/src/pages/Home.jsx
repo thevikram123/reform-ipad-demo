@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from '../context/SessionContext.jsx'
-import * as store from '../lib/storage'
 import { formatTs } from '../lib/audit'
 import Icon from '../components/Icon'
 import geo from '../data/india-geo.json'
 import { useLanguage } from '../i18n.jsx'
 import { addressFromGeocode } from '../lib/location.js'
+import { useAuth } from '../context/AuthContext.jsx'
+import { listCloudSessions } from '../lib/supabase.js'
 
 const STATES = Object.keys(geo)
 
 export default function Home({ onOpen }) {
   const { start, load } = useSession()
+  const { profile: account } = useAuth()
   const { t } = useLanguage()
   const [showNew, setShowNew] = useState(false)
   const [form, setForm] = useState(() => ({
@@ -19,7 +21,20 @@ export default function Home({ onOpen }) {
     time: new Date().toTimeString().slice(0, 5),
   }))
   const [geoStatus, setGeoStatus] = useState(null)
-  const sessions = store.listSessions()
+  const [sessions, setSessions] = useState([])
+  const [registryState, setRegistryState] = useState({ loading: true, error: '' })
+
+  useEffect(() => {
+    let alive = true
+    listCloudSessions()
+      .then((items) => { if (alive) { setSessions(items); setRegistryState({ loading: false, error: '' }) } })
+      .catch((error) => { if (alive) setRegistryState({ loading: false, error: error.message }) })
+    return () => { alive = false }
+  }, [])
+
+  useEffect(() => {
+    if (account?.display_name) setForm((f) => ({ ...f, assessedBy: f.assessedBy || account.display_name }))
+  }, [account])
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
   const setVal = (k, v) => setForm((f) => ({ ...f, [k]: v }))
@@ -81,7 +96,10 @@ export default function Home({ onOpen }) {
     start(form)
     onOpen()
   }
-  const resume = (id) => { load(id); onOpen() }
+  const resume = (item) => { load(item); onOpen() }
+  const role = account?.role
+  const statusLabel = (status) => status === 'final_submitted' ? 'Final submitted' : status === 'pending_nodal' ? 'Awaiting Nodal decision' : 'Open'
+  const statusClass = (status) => status === 'final_submitted' ? 'badge-done' : status === 'pending_nodal' ? 'badge-review' : 'badge-partial'
 
   return (
     <div className="home">
@@ -91,9 +109,9 @@ export default function Home({ onOpen }) {
           <h1>{t('caseRegistry')}</h1>
           <p className="muted">{t('registryDescription')}</p>
         </div>
-        <button className="btn-primary" onClick={() => setShowNew((v) => !v)}>
+        {role === 'assessor' && <button className="btn-primary" onClick={() => setShowNew((v) => !v)}>
           {showNew ? <><Icon name="x" /> {t('cancel')}</> : <><Icon name="plus" /> {t('beginAssessment')}</>}
-        </button>
+        </button>}
       </div>
 
       {showNew && (
@@ -145,12 +163,18 @@ export default function Home({ onOpen }) {
       )}
 
       <div className="card">
+        <div className="registry-toolbar">
+          <div><span className="eyebrow">Assessment registry</span><strong>{role === 'assessor' ? 'My assessments' : 'All assessments'}</strong></div>
+          <span className="role-badge">{(role || '').replaceAll('_', ' ')}</span>
+        </div>
         <table className="sessions-table">
           <thead>
             <tr><th>{t('prisoner')}</th><th>{t('id')}</th><th>{t('district')}</th><th>{t('status')}</th><th>{t('updated')}</th><th></th></tr>
           </thead>
           <tbody>
-            {sessions.length === 0 && (
+            {registryState.loading && <tr><td colSpan={6} className="empty">Loading secure registry…</td></tr>}
+            {registryState.error && <tr><td colSpan={6} className="empty error-text">{registryState.error}</td></tr>}
+            {!registryState.loading && !registryState.error && sessions.length === 0 && (
               <tr><td colSpan={6} className="empty">{t('noAssessments')}</td></tr>
             )}
             {sessions.map((s) => (
@@ -159,12 +183,12 @@ export default function Home({ onOpen }) {
                 <td className="mono">{s.profile?.prisonerId || '—'}</td>
                 <td className="muted">{s.profile?.district || '—'}</td>
                 <td>
-                  <span className={'badge ' + (s.status === 'submitted' ? 'badge-done' : 'badge-partial')}>
-                    {s.status === 'submitted' ? t('submitted') : t('inProgress')}
+                  <span className={'badge ' + statusClass(s.status)}>
+                    {statusLabel(s.status)}
                   </span>
                 </td>
                 <td className="muted">{formatTs(s.updatedAt)}</td>
-                <td><button className="btn-secondary" onClick={() => resume(s.id)}>{t('open')}</button></td>
+                <td><button className="btn-secondary" onClick={() => resume(s)}>{s.status === 'open' && role === 'assessor' ? 'Continue' : 'View'}</button></td>
               </tr>
             ))}
           </tbody>

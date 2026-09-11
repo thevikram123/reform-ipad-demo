@@ -169,7 +169,11 @@ function drawHeader(doc, session) {
   y += 5
 
   // Subtitle / status
-  const status = session?.status === 'submitted' ? 'SUBMITTED' : 'IN PROGRESS'
+  const status = session?.status === 'final_submitted'
+    ? 'FINAL SUBMITTED'
+    : session?.status === 'pending_nodal'
+    ? 'AWAITING NODAL DECISION'
+    : 'OPEN'
   setFont(doc, 8.5, 'italic', DARK_GREY)
   doc.text(`Assessment Status: ${status}  ·  Report ID: ${safe(session?.id)}`, MARGIN_L, y)
   y += 6
@@ -434,11 +438,12 @@ function drawQuestionnaire(doc, y, session) {
 // ─── 6. Scorecard (Section I) ─────────────────────────────────────────────────
 function drawScorecard(doc, y, session) {
   const sc = session?.scorecard || {}
+  const finalSc = session?.finalScorecard || null
   const p = session?.profile || {}
   const decision = getReleaseDecision(sc.cpsRange, sc.aspireLevel, sc.pfiStrength)
 
   doc.addPage()
-  y = sectionBanner(doc, MARGIN_T, 'Release Suitability Classification (CPS x PFI x RRI x ASPIRE)')
+  y = sectionBanner(doc, MARGIN_T, 'Release Suitability Classification (CPS × PFI × RRI × ASPIRE)')
 
   y = runTable(doc, y, [], [[
     { content: 'Prisoner Name', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.name),
@@ -448,9 +453,17 @@ function drawScorecard(doc, y, session) {
     { content: 'Assessment Date', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(p.date),
   ]], { 0: { cellWidth: 31 }, 1: { cellWidth: 60 }, 2: { cellWidth: 31 }, 3: { cellWidth: 60 } })
 
-  y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'RRI concern', 'Classification Decision']], [[
+  y = groupHeading(doc, y, 'Assessor Tentative Scorecard and Decision')
+  y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'RRI / Reliability Concern', 'Tentative Decision']], [[
     safe(sc.cpsRange), safe(sc.aspireLevel), safe(sc.pfiStrength), safe(sc.reliabilityConcern), safe(decision),
   ]], { 0: { cellWidth: 41 }, 1: { cellWidth: 25 }, 2: { cellWidth: 25 }, 3: { cellWidth: 31 }, 4: { cellWidth: 60 } })
+
+  if (finalSc) {
+    y = groupHeading(doc, y, 'Nodal Officer Final Scorecard and Decision')
+    y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'RRI / Reliability Concern', 'Final Decision']], [[
+      safe(finalSc.cpsRange), safe(finalSc.aspireLevel), safe(finalSc.pfiStrength), safe(finalSc.rriConcern), safe(session.finalDecision || finalSc.decision),
+    ]], { 0: { cellWidth: 41 }, 1: { cellWidth: 25 }, 2: { cellWidth: 25 }, 3: { cellWidth: 31 }, 4: { cellWidth: 60 } })
+  }
 
   y = groupHeading(doc, y, 'Classification reference matrix')
   y = runTable(doc, y, [['CPS Risk and Range', 'ASPIRE', 'PFI', 'Decision']], RELEASE_RULES.map((rule) => [
@@ -472,14 +485,32 @@ function drawScorecard(doc, y, session) {
     'cpsRange', 'aspireLevel', 'pfiStrength', 'reliabilityConcern',
     ...['prisoner', 'assessor', 'projectHead', 'nodalOfficer'].flatMap((prefix) => [`${prefix}Name`, `${prefix}Signature`, `${prefix}Date`]),
   ])
-  const supplemental = Object.entries(sc).filter(([key, value]) => !excluded.has(key) && value)
+  const scorecardLabels = {
+    riskLevel: 'Risk Level',
+    criminalPotential: 'Criminal Potential Score',
+    protectiveStrength: 'PFI / Protective Factor Strength',
+    recommendedPathway: 'Rehabilitation Pathway',
+    reintegrationReadiness: 'Reintegration Readiness',
+    clinicalSummary: 'Clinical Summary and Observations',
+    recommendations: 'Recommendations and Conditions',
+    decision: 'Assessor Tentative Decision',
+  }
+  const supplemental = Object.entries(sc).filter(([key, value]) => !excluded.has(key) && value && scorecardLabels[key])
   if (supplemental.length) {
     doc.addPage()
     y = sectionBanner(doc, MARGIN_T, 'Assessment Narrative and Recommendations')
     y = runTable(doc, y, [], supplemental.map(([key, value]) => [
-      { content: key.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase()), styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } },
+      { content: scorecardLabels[key], styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } },
       safe(value),
     ]), { 0: { cellWidth: 62 }, 1: { cellWidth: CONTENT_W - 62 } })
+    if (finalSc?.observations || finalSc?.recommendations) {
+      y = groupHeading(doc, y, 'Nodal Officer Review')
+      y = runTable(doc, y, [], [
+        [{ content: 'Clinical Summary and Observations', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(finalSc.observations)],
+        [{ content: 'Recommendations and Conditions', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(finalSc.recommendations)],
+        [{ content: 'Final Decision', styles: { fontStyle: 'bold', fillColor: LIGHT_GREY } }, safe(session.finalDecision || finalSc.decision)],
+      ], { 0: { cellWidth: 62 }, 1: { cellWidth: CONTENT_W - 62 } })
+    }
   }
 
   return y

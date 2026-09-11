@@ -103,14 +103,18 @@ export default function PhotoCapture({
     const video = videoRef.current
     const canvas = canvasRef.current
     if (!video || !canvas) return
-    canvas.width = video.videoWidth || 640
-    canvas.height = video.videoHeight || 480
+    const sourceWidth = video.videoWidth || 640
+    const sourceHeight = video.videoHeight || 480
+    const maxWidth = variant === 'document' ? 1600 : 960
+    const scale = Math.min(1, maxWidth / sourceWidth)
+    canvas.width = Math.round(sourceWidth * scale)
+    canvas.height = Math.round(sourceHeight * scale)
     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.9)
+    const dataUrl = canvas.toDataURL('image/jpeg', variant === 'document' ? 0.86 : 0.82)
     stopStream()
     setCaptured(dataUrl)
     onCapture(dataUrl)
-  }, [onCapture, stopStream])
+  }, [onCapture, stopStream, variant])
 
   const retake = useCallback(() => {
     setCaptured(null)
